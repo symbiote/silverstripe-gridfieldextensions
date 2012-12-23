@@ -1,6 +1,10 @@
 SilverStripe Grid Field Extensions Module
 =========================================
 
+This module provides a number of useful grid field components:
+
+* `GridFieldAddExistingSearchButton` - a more advanced search form for adding items.
+
 Maintainer Contacts
 -------------------
 *  Andrew Short (<andrewjshort@gmail.com>)

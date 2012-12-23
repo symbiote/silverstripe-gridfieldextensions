@@ -1,0 +1,55 @@
+/**
+ * GridFieldAddExistingSearchButton
+ */
+
+.add-existing-search-dialog {
+	min-width: inherit !important;
+}
+
+.add-existing-search-dialog .add-existing-search-form .field {
+	border: none;
+	box-shadow: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.add-existing-search-dialog .add-existing-search-form .field label {
+	padding-bottom: 4px;
+}
+
+.add-existing-search-dialog .add-existing-search-form .Actions {
+	margin-top: 10px;
+}
+
+.add-existing-search-dialog .add-existing-search-items li a {
+	background: #FFF;
+	border-bottom-width: 1px;
+	border-color: #CCC;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-style: solid;
+	display: block;
+	padding: 6px;
+}
+
+.add-existing-search-dialog .add-existing-search-items li:first-child a {
+	border-radius: 4px 4px 0 0;
+	border-top-width: 1px;
+}
+
+.add-existing-search-dialog .add-existing-search-items li:last-child a {
+	border-radius: 0 0 4px 4px;
+}
+
+.add-existing-search-dialog .add-existing-search-items li a:hover {
+	background: #F4F4F4;
+}
+
+.add-existing-search-dialog .add-existing-search-pagination li {
+	background: #FFF;
+	display: block;
+	float: left;
+	margin-right: 2px;
+	margin-top: 12px;
+	padding: 6px;
+}
