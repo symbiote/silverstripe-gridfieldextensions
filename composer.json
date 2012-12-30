@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe/gridfieldextensions",
+	"name": "ajshort/silverstripe-gridfieldextensions",
 	"description": "A collection of useful grid field components",
 	"type": "silverstripe-module",
 	"keywords": ["silverstripe", "gridfield"],
