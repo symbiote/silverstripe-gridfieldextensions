@@ -153,7 +153,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 		}
 
 		// Populate each object we are sorting with a sort value.
-		$this->populateSortValues($items);
+		$this->populateSortValues(clone $items);
 
 		// Generate the current sort values.
 		$current = $items->map('ID', $field)->toArray();
