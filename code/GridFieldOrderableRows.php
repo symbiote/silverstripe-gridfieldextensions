@@ -244,6 +244,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	}
 
 	protected function populateSortValues(DataList $list) {
+		$list   = clone $list;
 		$field  = $this->getSortField();
 		$table  = $this->getSortTable($list);
 		$clause = $this->getSortTableClauseForIds($list, 0);
