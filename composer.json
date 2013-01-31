@@ -12,5 +12,8 @@
 	],
 	"require": {
 		"silverstripe/framework": "3.*"
+	},
+	"extra": {
+		"installer-name": "gridfieldextensions"
 	}
 }
