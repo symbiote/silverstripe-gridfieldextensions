@@ -4,6 +4,7 @@ SilverStripe Grid Field Extensions Module
 This module provides a number of useful grid field components:
 
 * `GridFieldAddExistingSearchButton` - a more advanced search form for adding items.
+* `GridFieldAddNewMultiClass` - lets the user select from a list of classes to create a new record from.
 * `GridFieldOrderableRows` - drag and drop re-ordering of rows.
 
 Maintainer Contacts

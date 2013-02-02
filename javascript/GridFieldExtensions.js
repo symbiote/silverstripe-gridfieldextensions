@@ -73,6 +73,41 @@
 		});
 
 		/**
+		 * GridFieldAddNewMultiClass
+		 */
+
+		$(".ss-gridfield-add-new-multi-class .ss-ui-button").entwine({
+			onclick: function() {
+				var link = this.prop("href");
+				var cls  = this.parents(".ss-gridfield-add-new-multi-class").find("select").val();
+
+				if(cls && cls.length) {
+					this.getGridField().showDetailView(link + "/" + cls);
+				}
+
+				return false;
+			}
+		});
+
+		$(".ss-gridfield-add-new-multi-class select").entwine({
+			onadd: function() {
+				this.update();
+			},
+			onchange: function() {
+				this.update();
+			},
+			update: function() {
+				var btn = this.parents(".ss-gridfield-add-new-multi-class").find(".ss-ui-button");
+
+				if(this.val() && this.val().length) {
+					btn.button("enable");
+				} else {
+					btn.button("disable");
+				}
+			}
+		});
+
+		/**
 		 * GridFieldOrderableRows
 		 */
 
