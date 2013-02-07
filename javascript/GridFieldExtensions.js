@@ -108,6 +108,16 @@
 		});
 
 		/**
+		 * GridFieldEditableColumns
+		 */
+
+		$('.ss-gridfield.ss-gridfield-editable .ss-gridfield-item').entwine({
+			onclick: function() {
+				// Stop the default click action when fields are clicked on.
+			}
+		});
+
+		/**
 		 * GridFieldOrderableRows
 		 */
 

@@ -71,6 +71,22 @@
 }
 
 /**
+ * GridFieldEditableColumns
+ */
+
+.ss-gridfield-editable .readonly {
+	padding-top: 0 !important;
+}
+
+.ss-gridfield-editable input.text,
+.ss-gridfield-editable textarea,
+.ss-gridfield-editable select,
+.ss-gridfield-editable .TreeDropdownField {
+	margin: 0 !important;
+	max-width: none !important;
+}
+
+/**
  * GridFieldOrderableRows
  */
 
