@@ -2,6 +2,7 @@
 	"name": "ajshort/silverstripe-gridfieldextensions",
 	"description": "A collection of useful grid field components",
 	"type": "silverstripe-module",
+	"homepage": "http://github.com/ajshort/silverstripe-gridfieldextensions",
 	"keywords": ["silverstripe", "gridfield"],
 	"license": "BSD-3-Clause",
 	"authors": [
@@ -10,6 +11,9 @@
 			"email": "andrewjshort@gmail.com"
 		}
 	],
+	"support": {
+		"issues": "http://github.com/ajshort/silverstripe-gridfieldextensions/issues"
+	},
 	"require": {
 		"silverstripe/framework": ">=3.1"
 	},
