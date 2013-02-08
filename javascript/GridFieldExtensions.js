@@ -118,6 +118,30 @@
 		});
 
 		/**
+		 * GridFieldEditableAddNewButton
+		 */
+
+		$('.ss-gridfield .ss-gridfield-editable-add-new-button a').entwine({
+			onclick: function() {
+				var list = this.getGridField().getItems()
+				$.ajax({
+					type: 'GET',
+					url: this.attr('href'),
+					success: function(data) {
+						list.removeClass('last').parent().append(data)
+					},
+					error: function(e) {
+						alert(ss.i18n._t(
+							'GRIDFIELDEXTENSIONS.ERRORONADDING',
+							'An error occurred while adding a new record.'
+						));
+					}
+				});
+				return false
+			}
+		});
+
+		/**
 		 * GridFieldOrderableRows
 		 */
 
