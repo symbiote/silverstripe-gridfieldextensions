@@ -8,6 +8,7 @@ class GridFieldEditableAddNewButton extends GridFieldAddNewButton implements Gri
 	}
 
 	public function addNew(GridField $g, SS_HTTPRequest $r) {
+		$count = $g->getList()->count();
 		$record = Object::create($g->getModelClass());
 		$g->getList()->add($record);
 		if (!$record->canView()) {
@@ -24,11 +25,11 @@ class GridFieldEditableAddNewButton extends GridFieldAddNewButton implements Gri
 			$rowContent .= FormField::create_tag('td', $colAttributes, $colContent);
 		}
 		$classes = array('ss-gridfield-item', 'last');
-		$count = $g->getList()->count();
+
 		if ($count == 0) {
 			$classes[] = 'first';
 		}
-		$classes[] = (++$count % 2) ? 'even' : 'odd';
+		$classes[] = ($count % 2) ? 'even' : 'odd';
 		$row = FormField::create_tag(
 			'tr',
 			array(
