@@ -73,6 +73,39 @@
 		});
 
 		/**
+		 * GridFieldAddNewInlineButton
+		 */
+
+		$(".ss-gridfield-add-new-inline").entwine({
+			onclick: function() {
+				var tmpl = window.tmpl;
+				var grid = this.getGridField();
+				var row  = grid.find(".ss-gridfield-add-inline-template");
+				var num   = grid.data("add-inline-num") || 1;
+
+				tmpl.cache["ss-gridfield-add-inline-template"] = tmpl(row.html());
+
+				grid.find("tbody").append(tmpl("ss-gridfield-add-inline-template", { num: num }));
+				grid.find(".ss-gridfield-no-items").hide();
+				grid.data("add-inline-num", num + 1);
+
+				return false;
+			}
+		});
+
+		$(".ss-gridfield-delete-inline").entwine({
+			onclick: function() {
+				var msg = ss.i18n._t("GridFieldExtensions.CONFIRMDEL", "Are you sure you want to delete this?");
+
+				if(confirm(msg)) {
+					this.parents("tr").remove();
+				}
+
+				return false;
+			}
+		});
+
+		/**
 		 * GridFieldAddNewMultiClass
 		 */
 

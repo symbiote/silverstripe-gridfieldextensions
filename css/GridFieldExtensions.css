@@ -86,6 +86,14 @@
 	max-width: none !important;
 }
 
+.ss-gridfield-add-new-inline span.readonly {
+	color: #FFF !important;
+}
+
+.ss-gridfield-add-new-inline .col-buttons {
+	text-align: right;
+}
+
 /**
  * GridFieldOrderableRows
  */

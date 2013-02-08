@@ -110,7 +110,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 	 * @param DataObjectInterface $record
 	 * @return FieldList
 	 */
-	protected function getFields(GridField $grid, DataObjectInterface $record) {
+	public function getFields(GridField $grid, DataObjectInterface $record) {
 		$cols   = $this->getDisplayFields($grid);
 		$fields = new FieldList();
 		$class  = $grid->getList()->dataClass();
@@ -162,7 +162,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 	 * @param DataObjectInterface $record
 	 * @return Form
 	 */
-	protected function getForm(GridField $grid, DataObjectInterface $record) {
+	public function getForm(GridField $grid, DataObjectInterface $record) {
 		$fields = $this->getFields($grid, $record);
 
 		$form = new Form($this, null, $fields, new FieldList());
