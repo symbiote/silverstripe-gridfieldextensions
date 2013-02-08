@@ -129,6 +129,7 @@
 					url: this.attr('href'),
 					success: function(data) {
 						list.removeClass('last').parent().append(data)
+						list.filter('.ss-gridfield-no-items').remove()
 					},
 					error: function(e) {
 						alert(ss.i18n._t(
