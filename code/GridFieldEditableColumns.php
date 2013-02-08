@@ -45,6 +45,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 	}
 
 	public function getHTMLFragments($grid) {
+		GridFieldExtensions::include_requirements();
 		$grid->addExtraClass('ss-gridfield-editable');
 	}
 

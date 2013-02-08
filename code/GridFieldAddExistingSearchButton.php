@@ -17,8 +17,7 @@ class GridFieldAddExistingSearchButton implements
 	}
 
 	public function getHTMLFragments($grid) {
-		Requirements::css('gridfieldextensions/css/GridFieldExtensions.css');
-		Requirements::javascript('gridfieldextensions/javascript/GridFieldExtensions.js');
+		GridFieldExtensions::include_requirements();
 
 		$data = new ArrayData(array(
 			'Link'  => $grid->Link('add-existing-search')

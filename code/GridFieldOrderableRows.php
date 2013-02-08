@@ -86,9 +86,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	}
 
 	public function getHTMLFragments($field) {
-		Requirements::css('gridfieldextensions/css/GridFieldExtensions.css');
-		Requirements::javascript('gridfieldextensions/javascript/GridFieldExtensions.js');
-
+		GridFieldExtensions::include_requirements();
 		$field->addExtraClass('ss-gridfield-orderable');
 	}
 
