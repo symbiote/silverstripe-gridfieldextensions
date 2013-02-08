@@ -1,6 +1,50 @@
 <?php
 
 class GridFieldEditableAddNewButton extends GridFieldAddNewButton implements GridField_URLHandler {
+	protected $extraClasses = array();
+
+	/**
+	 * Add a CSS-class to the form-container. If needed, multiple classes can
+	 * be added by delimiting a string with spaces.
+	 *
+	 * @param string $class A string containing a classname or several class
+	 *                names delimited by a single space.
+	 * @return GridFieldEditableAddNewButton $this
+	 */
+	public function addExtraClass($class) {
+		$classes = explode(' ', $class);
+
+		foreach ($classes as $class) {
+			$value = trim($class);
+
+			$this->extraClasses[] = $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Compiles all CSS-classes.
+	 *
+	 * @return string
+	 */
+	public function extraClass() {
+		return implode(array_unique($this->extraClasses), ' ');
+	}
+
+	/**
+	 * Remove a CSS-class from the form-container. Multiple class names can
+	 * be passed through as a space delimited string
+	 *
+	 * @param string $class
+	 * @return GridFieldEditableAddNewButton $this
+	 */
+	public function removeExtraClass($class) {
+		$classes = explode(' ', $class);
+		$this->extraClasses = array_diff($this->extraClasses, $classes);
+		return $this;
+	}
+
 	public function getURLHandlers($gridField) {
 		return array(
 			'item/new' => 'addNew',
@@ -47,7 +91,7 @@ class GridFieldEditableAddNewButton extends GridFieldAddNewButton implements Gri
 		$return = parent::getHTMLFragments($gridField);
 		$return[$this->targetFragment] = FormField::create_tag(
 			'span',
-			array('class' => 'ss-gridfield-editable-add-new-button'),
+			array('class' => $this->addExtraClass('ss-gridfield-editable-add-new-button')->extraClass()),
 			$return[$this->targetFragment]
 		);
 		return $return;
