@@ -53,14 +53,8 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$field = $this->getSortField();
 
 		if($list instanceof ManyManyList) {
-			// @todo These should be publically accesible.
-			$reflector = new ReflectionObject($list);
-
-			$extra = $reflector->getProperty('extraFields');
-			$extra->setAccessible(true);
-
-			$table = $reflector->getProperty('joinTable');
-			$table->setAccessible(true);
+			$extra = $list->getExtraFields();
+			$table = $list->getJoinTable();
 
 			if(array_key_exists($field, $extra->getValue($list))) {
 				return $table->getValue($list);
@@ -269,13 +263,8 @@ class GridFieldOrderableRows extends RequestHandler implements
 		}
 
 		if($list instanceof ManyManyList) {
-			$reflector = new ReflectionObject($list);
-
-			$extra = $reflector->getProperty('extraFields');
-			$extra->setAccessible(true);
-
-			$key = $reflector->getProperty('localKey');
-			$key->setAccessible(true);
+			$extra = $list->getExtraFields();
+			$key   = $list->getLocalKey();
 
 			if(array_key_exists($this->getSortField(), $extra->getValue($list))) {
 				return sprintf('"%s" %s', $key->getValue($list), $value);
