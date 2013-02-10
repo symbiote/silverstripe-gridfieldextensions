@@ -115,6 +115,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 	}
 
 	public function handleSave(GridField $grid, DataObjectInterface $record) {
+		$list  = $grid->getList();
 		$value = $grid->Value();
 
 		if(!isset($value[__CLASS__]) || !is_array($value[__CLASS__])) {
@@ -130,12 +131,18 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 		}
 
 		foreach($value[__CLASS__] as $fields) {
-			$item = new $class();
+			$item  = new $class();
+			$extra = array();
+
+			if($list instanceof ManyManyList) {
+				$extra = array_intersect_key($fields, $list->getExtraFields());
+			}
 
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
 			$form->saveInto($item);
 
-			$grid->getList()->add($item);
+			$item->write();
+			$list->add($item, $extra);
 		}
 	}
 

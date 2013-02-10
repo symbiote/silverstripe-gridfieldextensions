@@ -50,6 +50,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 	}
 
 	public function handleSave(GridField $grid, DataObjectInterface $record) {
+		$list  = $grid->getList();
 		$value = $grid->Value();
 
 		if(!isset($value[__CLASS__]) || !is_array($value[__CLASS__])) {
@@ -63,16 +64,23 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 				continue;
 			}
 
-			$item = $grid->getList()->byID($id);
+			$item = $list->byID($id);
 
 			if(!$item || !$item->canEdit()) {
 				continue;
+			}
+
+			$extra = array();
+
+			if($list instanceof ManyManyList) {
+				$extra = array_intersect_key($fields, $list->getExtraFields());
 			}
 
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
 			$form->saveInto($item);
 
 			$item->write();
+			$list->add($item, $extra);
 		}
 	}
 
@@ -113,7 +121,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 	public function getFields(GridField $grid, DataObjectInterface $record) {
 		$cols   = $this->getDisplayFields($grid);
 		$fields = new FieldList();
-		$class  = $grid->getList()->dataClass();
+
+		$list   = $grid->getList();
+		$class  = $list->dataClass();
 
 		foreach($cols as $col => $info) {
 			$field = null;
@@ -132,6 +142,14 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 						'The field for column "%s" is not a valid form field',
 						$col
 					));
+				}
+			}
+
+			if(!$field && $list instanceof ManyManyList) {
+				$extra = $list->getExtraFields();
+
+				if(array_key_exists($col, $extra)) {
+					$field = Object::create_from_string($extra[$col], $col)->scaffoldFormField();
 				}
 			}
 

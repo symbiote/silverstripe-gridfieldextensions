@@ -46,6 +46,9 @@ $grid->getConfig()->getComponentsByType('GridFieldEditableColumns')->setDisplayF
 ));
 ```
 
+Editing data contained in `many_many_extraFields` is supported - just treat it as you would any
+other field.
+
 Multi Class Adding
 ------------------
 
