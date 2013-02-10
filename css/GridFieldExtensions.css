@@ -56,6 +56,18 @@
 }
 
 /**
+ * GridFieldAddNewInlineButton
+ */
+
+.ss-gridfield-inline-new {
+	background: #EFE;
+}
+
+.ss-gridfield-inline-new:nth-child(2n) {
+	background: #DFD;
+}
+
+/**
  * GridFieldAddNewMultiClass
  */
 
