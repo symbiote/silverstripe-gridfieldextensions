@@ -56,8 +56,8 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$extra = $list->getExtraFields();
 			$table = $list->getJoinTable();
 
-			if(array_key_exists($field, $extra->getValue($list))) {
-				return $table->getValue($list);
+			if(array_key_exists($field, $extra)) {
+				return $table;
 			}
 		}
 
@@ -266,8 +266,8 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$extra = $list->getExtraFields();
 			$key   = $list->getLocalKey();
 
-			if(array_key_exists($this->getSortField(), $extra->getValue($list))) {
-				return sprintf('"%s" %s', $key->getValue($list), $value);
+			if(array_key_exists($this->getSortField(), $extra)) {
+				return sprintf('"%s" %s', $key, $value);
 			}
 		}
 
