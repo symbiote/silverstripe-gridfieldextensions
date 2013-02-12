@@ -76,6 +76,22 @@
 		 * GridFieldAddNewInlineButton
 		 */
 
+		$(".ss-gridfield.ss-gridfield-editable").entwine({
+			reload: function(opts, success) {
+				var grid  = this;
+				var added = grid.find(".ss-gridfield-inline-new").detach();
+
+				this._super(opts, function() {
+					if(added.length) {
+						added.appendTo(grid.find("tbody"));
+						grid.find(".ss-gridfield-no-items").hide();
+					}
+
+					if(success) success.apply(grid, arguments);
+				});
+			}
+		})
+
 		$(".ss-gridfield-add-new-inline").entwine({
 			onclick: function() {
 				var tmpl = window.tmpl;
