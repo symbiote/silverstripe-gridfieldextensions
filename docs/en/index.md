@@ -23,11 +23,12 @@ $grid = new GridField(
 	'ExampleGrid',
 	'Example Grid',
 	$this->Items(),
-		GridFieldConfig_RecordEditor::create()
-			->removeComponentsByType('GridFieldAddNewButton')
-			->removeComponentsByType('GridFieldDataColumns')
-			->addComponent(new GridFieldEditableColumns(), 'GridFieldEditButton')
-			->addComponent(new GridFieldAddNewInlineButton())
+	GridFieldConfig::create()
+		->addComponent(new GridFieldButtonRow('before'))
+		->addComponent(new GridFieldToolbarHeader())
+		->addComponent(new GridFieldEditableColumns())
+		->addComponent(new GridFieldDeleteAction())
+		->addComponent(new GridFieldAddNewInlineButton())
 );
 ```
 
