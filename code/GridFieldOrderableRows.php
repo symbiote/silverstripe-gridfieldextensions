@@ -239,7 +239,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$list   = clone $list;
 		$field  = $this->getSortField();
 		$table  = $this->getSortTable($list);
-		$clause = $this->getSortTableClauseForIds($list, 0);
+		$clause = sprintf('"%s"."%s" = 0', $table, $this->getSortField());
 
 		foreach($list->where($clause)->column('ID') as $id) {
 			$max = DB::query(sprintf('SELECT MAX("%s") + 1 FROM "%s"', $field, $table));
