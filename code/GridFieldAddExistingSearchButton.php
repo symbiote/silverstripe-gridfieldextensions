@@ -7,6 +7,7 @@ class GridFieldAddExistingSearchButton implements
 	GridField_HTMLProvider,
 	GridField_URLHandler {
 
+	protected $title;
 	protected $fragment;
 
 	/**
@@ -14,12 +15,42 @@ class GridFieldAddExistingSearchButton implements
 	 */
 	public function __construct($fragment = 'buttons-before-left') {
 		$this->fragment = $fragment;
+		$this->title    = _t('GridFieldExtensions.ADDEXISTING', 'Add Existing');
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFragment() {
+		return $this->fragment;
+	}
+
+	/**
+	 * @param string $fragment
+	 */
+	public function setFragment($fragment) {
+		$this->fragment = $fragment;
 	}
 
 	public function getHTMLFragments($grid) {
 		GridFieldExtensions::include_requirements();
 
 		$data = new ArrayData(array(
+			'Title' => $this->getTitle(),
 			'Link'  => $grid->Link('add-existing-search')
 		));
 
