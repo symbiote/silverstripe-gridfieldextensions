@@ -12,7 +12,7 @@ class GridFieldAddExistingSearchButton implements
 	/**
 	 * @param string $fragment
 	 */
-	public function __construct($fragment = 'before') {
+	public function __construct($fragment = 'buttons-before-left') {
 		$this->fragment = $fragment;
 	}
 
