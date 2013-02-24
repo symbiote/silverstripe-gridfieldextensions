@@ -26,6 +26,7 @@ $grid = new GridField(
 	GridFieldConfig::create()
 		->addComponent(new GridFieldButtonRow('before'))
 		->addComponent(new GridFieldToolbarHeader())
+		->addComponent(new GridFieldTitleHeader())
 		->addComponent(new GridFieldEditableColumns())
 		->addComponent(new GridFieldDeleteAction())
 		->addComponent(new GridFieldAddNewInlineButton())

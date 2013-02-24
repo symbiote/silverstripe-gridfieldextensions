@@ -8,5 +8,6 @@ This module provides a number of useful grid field components:
 * `GridFieldAddNewMultiClass` - lets the user select from a list of classes to create a new record from.
 * `GridFieldEditableColumns` - allows inline editing of records.
 * `GridFieldOrderableRows` - drag and drop re-ordering of rows.
+* `GridFieldTitleHeader` - a simple header which displays column titles.
 
 See [docs/en/index.md](docs/en/index.md) for documentation and examples.
