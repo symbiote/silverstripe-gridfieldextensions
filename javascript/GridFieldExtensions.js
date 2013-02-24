@@ -191,7 +191,7 @@
 					});
 
 					grid.reload({
-						url: grid.data("url") + "/reorder",
+						url: grid.data("url").indexOf("?") ? grid.data("url").replace("?", "/reorder?") : grid.data("url") + "/reorder",
 						data: data.get()
 					});
 				};
@@ -227,7 +227,7 @@
 
 					grid.find("tbody").sortable("cancel");
 					grid.reload({
-						url: grid.data("url") + "/movetopage",
+						url: grid.data("url").indexOf("?") ? grid.data("url").replace("?", "/movetopage?") : grid.data("url") + "/movetopage",
 						data: [
 							{ name: "move[id]", value: ui.draggable.data("id") },
 							{ name: "move[page]", value: page }

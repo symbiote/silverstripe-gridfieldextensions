@@ -25,8 +25,14 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 		}
 
 		$fields = $this->getForm($grid, $record)->Fields();
-		$value  = $grid->getDataFieldValue($record, $col);
 		$field  = clone $fields->fieldByName($col);
+		$list  = $grid->getList();
+		$extraData = array();
+		if($list instanceof ManyManyList) {
+			$extraData = $list->getExtraData($grid->getName(), $record->ID);
+		}
+		
+		$value  = isset($extraData[$col]) ? $extraData[$col] : $grid->getDataFieldValue($record, $col);
 
 		if(!$field) {
 			throw new Exception("Could not find the field '$col'");
@@ -71,16 +77,16 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 			}
 
 			$extra = array();
-
-			if($list instanceof ManyManyList) {
-				$extra = array_intersect_key($fields, $list->getExtraFields());
-			}
-
+			
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
 			$form->saveInto($item);
-
-			$item->write();
-			$list->add($item, $extra);
+			
+			if($list instanceof ManyManyList) {
+				$extra = array_intersect_key($fields, $list->getExtraFields());
+				$list->add($item, $extra);
+			} else {
+				$item->write();
+			}
 		}
 	}
 
