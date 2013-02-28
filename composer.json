@@ -18,6 +18,10 @@
 		"silverstripe/framework": ">=3.1"
 	},
 	"extra": {
-		"installer-name": "gridfieldextensions"
+		"installer-name": "gridfieldextensions",
+		"screenshots": [
+			"docs/en/_images/editable-rows.png",
+			"docs/en/_images/add-existing-search.png"
+		]
 	}
 }
