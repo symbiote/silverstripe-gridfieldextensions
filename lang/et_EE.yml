@@ -1,0 +1,9 @@
+et_EE:
+  GridFieldAddExistingSearchHandler.ss:
+    NOITEMS: 'Kirjed puuduvad.'
+    RESULTS: 'Tulemused'
+  GridFieldExtensions:
+    ADD: Lisa
+    ADDEXISTING: 'Lisa olemasolev'
+    SEARCH: Otsi
+    SELECTTYPETOCREATE: '(Valige lisamiseks tüüp)'
