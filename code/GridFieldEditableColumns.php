@@ -73,7 +73,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 			$extra = array();
 
 			if($list instanceof ManyManyList) {
-				$extra = array_intersect_key($fields, $list->getExtraFields());
+				$extra = array_intersect_key($fields, (array) $list->getExtraFields());
 			}
 
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
@@ -148,7 +148,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 			if(!$field && $list instanceof ManyManyList) {
 				$extra = $list->getExtraFields();
 
-				if(array_key_exists($col, $extra)) {
+				if($extra && array_key_exists($col, $extra)) {
 					$field = Object::create_from_string($extra[$col], $col)->scaffoldFormField();
 				}
 			}

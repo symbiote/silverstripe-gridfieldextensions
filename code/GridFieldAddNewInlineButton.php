@@ -135,7 +135,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 			$extra = array();
 
 			if($list instanceof ManyManyList) {
-				$extra = array_intersect_key($fields, $list->getExtraFields());
+				$extra = array_intersect_key($fields, (array) $list->getExtraFields());
 			}
 
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
