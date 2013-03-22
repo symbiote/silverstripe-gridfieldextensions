@@ -9,6 +9,8 @@ class GridFieldAddExistingSearchButton implements
 
 	protected $title;
 	protected $fragment;
+	protected $searchFilters	= null;
+	protected $searchExcludes	= null;
 
 	/**
 	 * @param string $fragment
@@ -67,6 +69,22 @@ class GridFieldAddExistingSearchButton implements
 
 	public function handleSearch($grid, $request) {
 		return new GridFieldAddExistingSearchHandler($grid, $this);
+	}
+	
+	public function setSearchFilters($filters) {
+		$this->searchFilters = $filters;
+	}
+	
+	public function setSearchExcludes($excludes) {
+		$this->searchExcludes = $excludes;
+	}
+	
+	public function getSearchFilters() {
+		return $this->searchFilters;
+	}
+	
+	public function getSearchExcludes() {
+		return $this->searchExcludes;
 	}
 
 }
