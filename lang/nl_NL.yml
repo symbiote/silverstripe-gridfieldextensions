@@ -1,0 +1,9 @@
+nl_NL:
+  GridFieldAddExistingSearchHandler.ss:
+    NOITEMS: 'Geen resultaten gevonden.'
+    RESULTS: 'Resultaten'
+  GridFieldExtensions:
+    ADD: 'Toevoegen'
+    ADDEXISTING: 'Bestaande toevoegen'
+    SEARCH: 'Zoeken'
+    SELECTTYPETOCREATE: '(Selecteer type om te creeën)'
