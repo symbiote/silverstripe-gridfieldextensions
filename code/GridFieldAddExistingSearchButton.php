@@ -9,6 +9,7 @@ class GridFieldAddExistingSearchButton implements
 
 	protected $title;
 	protected $fragment;
+	protected $searchList;
 
 	/**
 	 * @param string $fragment
@@ -44,6 +45,22 @@ class GridFieldAddExistingSearchButton implements
 	 */
 	public function setFragment($fragment) {
 		$this->fragment = $fragment;
+	}
+
+	/**
+	 * Sets a custom list to use to provide the searchable items.
+	 *
+	 * @param SS_List $list
+	 */
+	public function setSearchList(SS_List $list) {
+		$this->searchList = $list;
+	}
+
+	/**
+	 * @return SS_List|null
+	 */
+	public function getSearchList() {
+		return $this->searchList;
 	}
 
 	public function getHTMLFragments($grid) {
