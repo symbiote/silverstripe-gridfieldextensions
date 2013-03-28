@@ -77,6 +77,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler {
 
 	public function doSearch($data, $form) {
 		$list = $this->context->getResults($data);
+		$list = $this->applySearchFilters($list);
 		$list = $list->subtract($this->grid->getList());
 		$list = new PaginatedList($list, $this->request);
 
@@ -89,6 +90,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler {
 
 	public function Items() {
 		$list = DataList::create($this->grid->getList()->dataClass());
+		$list = $this->applySearchFilters($list);
 		$list = $list->subtract($this->grid->getList());
 		$list = new PaginatedList($list, $this->request);
 
@@ -97,6 +99,15 @@ class GridFieldAddExistingSearchHandler extends RequestHandler {
 
 	public function Link($action = null) {
 		return Controller::join_links($this->grid->Link(), 'add-existing-search', $action);
+	}
+	
+	public function applySearchFilters($list){
+		$component	= $this->grid->getConfig()->getComponentByType('GridFieldAddExistingSearchButton');
+	
+		if($filters = $component->getSearchFilters())	{ $list = $list->filter($filters); }
+		if($excludes = $component->getSearchExcludes())	{ $list = $list->exclude($excludes); }
+	
+		return $list;
 	}
 
 }

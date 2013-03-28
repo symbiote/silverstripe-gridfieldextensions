@@ -51,6 +51,29 @@ $grid->getConfig()->getComponentsByType('GridFieldEditableColumns')->setDisplayF
 Editing data contained in `many_many_extraFields` is supported - just treat it as you would any
 other field.
 
+
+You can also apply filters and excludes to limit selection to a desired subset. For example;
+
+```php
+$grid = new GridField(
+	'ExampleGrid',
+	'Example Grid',
+	$this->Items(),
+	GridFieldConfig::create()
+		->addComponent(new GridFieldButtonRow('before'))
+		->addComponent(new GridFieldToolbarHeader())
+		->addComponent(new GridFieldDeleteAction(true))
+		->addComponent($component = new GridFieldAddExistingSearchButton())
+);
+
+// add filters to the GridFieldAddExistingSearchButton component
+$component->setSearchFilters(array('Status' => 'active));
+
+// add excludes
+$component->setSearchExcludes(array('ID' => 45));
+```
+
+
 Multi Class Adding
 ------------------
 
