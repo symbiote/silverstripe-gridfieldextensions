@@ -29,9 +29,11 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 	 * Sets the fragment name this button is rendered into.
 	 *
 	 * @param string $fragment
+	 * @return GridFieldAddNewInlineButton $this
 	 */
 	public function setFragment($fragment) {
 		$this->fragment = $fragment;
+		return $this;
 	}
 
 	/**
@@ -47,9 +49,11 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 	 * Sets the button title text.
 	 *
 	 * @param string $title
+	 * @return GridFieldAddNewInlineButton $this
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
+		return $this;
 	}
 
 	public function getHTMLFragments($grid) {

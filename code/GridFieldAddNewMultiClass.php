@@ -34,9 +34,11 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	 * Sets the fragment name this button is rendered into.
 	 *
 	 * @param string $fragment
+	 * @return GridFieldAddNewMultiClass $this
 	 */
 	public function setFragment($fragment) {
 		$this->fragment = $fragment;
+		return $this;
 	}
 
 	/**
@@ -52,9 +54,11 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	 * Sets the button title text.
 	 *
 	 * @param string $title
+	 * @return GridFieldAddNewMultiClass $this
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
+		return $this;
 	}
 
 	/**
@@ -93,9 +97,11 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	 * Sets the classes that can be created using this button.
 	 *
 	 * @param array $classes a set of class names, optionally mapped to titles
+	 * @return GridFieldAddNewMultiClass $this
 	 */
 	public function setClasses(array $classes) {
 		$this->classes = $classes;
+		return $this;
 	}
 
 	/**
