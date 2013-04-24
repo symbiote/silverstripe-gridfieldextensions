@@ -28,9 +28,11 @@ class GridFieldAddExistingSearchButton implements
 
 	/**
 	 * @param string $title
+	 * @return GridFieldAddExistingSearchButton $this
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
+		return $this;
 	}
 
 	/**
@@ -42,18 +44,22 @@ class GridFieldAddExistingSearchButton implements
 
 	/**
 	 * @param string $fragment
+	 * @return GridFieldAddExistingSearchButton $this
 	 */
 	public function setFragment($fragment) {
 		$this->fragment = $fragment;
+		return $this;
 	}
 
 	/**
 	 * Sets a custom list to use to provide the searchable items.
 	 *
 	 * @param SS_List $list
+	 * @return GridFieldAddExistingSearchButton $this
 	 */
 	public function setSearchList(SS_List $list) {
 		$this->searchList = $list;
+		return $this;
 	}
 
 	/**
