@@ -38,9 +38,11 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 * Sets the field used to specify the sort.
 	 *
 	 * @param string $sortField
+	 * @return GridFieldOrderableRows $this
 	 */
 	public function setSortField($field) {
 		$this->sortField = $field;
+		return $this;
 	}
 
 	/**
