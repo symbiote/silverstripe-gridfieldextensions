@@ -57,15 +57,14 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 	}
 
 	public function getHTMLFragments($grid) {
-		$class    = $grid->getModelClass();
+		if($grid->getList() && !singleton($grid->getModelClass())->canCreate()) {
+			return array();
+		}
+
 		$fragment = $this->getFragment();
 
 		if(!$editable = $grid->getConfig()->getComponentByType('GridFieldEditableColumns')) {
 			throw new Exception('Inline adding requires the editable columns component');
-		}
-
-		if(!singleton($class)->canCreate()) {
-			return false;
 		}
 
 		Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
@@ -82,12 +81,15 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 	}
 
 	private function getRowTemplate(GridField $grid, GridFieldEditableColumns $editable) {
-		$class = $grid->getModelClass();
-
 		$columns = new ArrayList();
 		$handled = array_keys($editable->getDisplayFields($grid));
 
-		$record = new $class();
+		if($grid->getList()) {
+			$record = Object::create($grid->getModelClass());
+		} else {
+			$record = null;
+		}
+
 		$fields = $editable->getFields($grid, $record);
 
 		foreach($grid->getColumns() as $column) {

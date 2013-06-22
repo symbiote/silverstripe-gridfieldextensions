@@ -123,7 +123,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 		$fields = new FieldList();
 
 		$list   = $grid->getList();
-		$class  = $list->dataClass();
+		$class  = $list ? $list->dataClass() : null;
 
 		foreach($cols as $col => $info) {
 			$field = null;
@@ -154,7 +154,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 			}
 
 			if(!$field) {
-				if($obj = singleton($class)->dbObject($col)) {
+				if($class && $obj = singleton($class)->dbObject($col)) {
 					$field = $obj->scaffoldFormField();
 				} else {
 					$field = new ReadonlyField($col);
