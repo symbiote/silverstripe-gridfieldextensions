@@ -89,22 +89,23 @@
 
 					if(success) success.apply(grid, arguments);
 				});
-			}
-		})
-
-		$(".ss-gridfield-add-new-inline").entwine({
-			onclick: function() {
+			},
+			onaddnewinline: function() {
 				var tmpl = window.tmpl;
-				var grid = this.getGridField();
-				var row  = grid.find(".ss-gridfield-add-inline-template");
-				var num   = grid.data("add-inline-num") || 1;
+				var row = this.find(".ss-gridfield-add-inline-template");
+				var num = this.data("add-inline-num") || 1;
 
 				tmpl.cache["ss-gridfield-add-inline-template"] = tmpl(row.html());
 
-				grid.find("tbody").append(tmpl("ss-gridfield-add-inline-template", { num: num }));
-				grid.find(".ss-gridfield-no-items").hide();
-				grid.data("add-inline-num", num + 1);
+				this.find("tbody").append(tmpl("ss-gridfield-add-inline-template", { num: num }));
+				this.find(".ss-gridfield-no-items").hide();
+				this.data("add-inline-num", num + 1);
+			}
+		});
 
+		$(".ss-gridfield-add-new-inline").entwine({
+			onclick: function() {
+				this.getGridField().trigger("addnewinline");
 				return false;
 			}
 		});
