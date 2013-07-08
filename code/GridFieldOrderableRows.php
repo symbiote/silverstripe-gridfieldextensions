@@ -12,6 +12,9 @@ class GridFieldOrderableRows extends RequestHandler implements
 	GridField_HTMLProvider,
 	GridField_URLHandler {
 
+	/**
+	 * @var array
+	 */
 	private static $allowed_actions = array(
 		'handleReorder',
 		'handleMoveToPage'
@@ -26,10 +29,18 @@ class GridFieldOrderableRows extends RequestHandler implements
 	protected $sortField;
 
 	/**
-	 * @param string $sortField
+	 * When set to true, sortField will be updated in *_Live tables
+	 * @var bool
 	 */
-	public function __construct($sortField = 'Sort') {
+	protected $versioning;
+
+	/**
+	 * @param string $sortField
+	 * @param bool   $versioning
+	 */
+	public function __construct($sortField = 'Sort', $versioning = false) {
 		$this->sortField = $sortField;
+		$this->versioning = $versioning;
 	}
 
 	/**
@@ -47,6 +58,24 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 */
 	public function setSortField($field) {
 		$this->sortField = $field;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getVersioning()
+	{
+		return $this->versioning;
+	}
+
+	/**
+	 * @param boolean $versioning
+	 * @return GridFieldOrderableRows $this
+	 */
+	public function setVersioning($versioning)
+	{
+		$this->versioning = $versioning;
 		return $this;
 	}
 
@@ -227,17 +256,31 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$pool = array_values($values);
 		sort($pool);
 
+		$table = $this->getSortTable($list);
+		$sortField = $this->getSortField();
+
 		// Loop through each item, and update the sort values which do not
 		// match to order the objects.
 		foreach(array_values($order) as $pos => $id) {
 			if($values[$id] != $pool[$pos]) {
+				$where = $this->getSortTableClauseForIds($list, $id);
 				DB::query(sprintf(
 					'UPDATE "%s" SET "%s" = %d WHERE %s',
-					$this->getSortTable($list),
-					$this->getSortField(),
+					$table,
+					$sortField,
 					$pool[$pos],
-					$this->getSortTableClauseForIds($list, $id)
+					$where
 				));
+
+				if ($this->versioning) {
+					DB::query(sprintf(
+						'UPDATE "%s_Live" SET "%s" = %d WHERE %s',
+						$table,
+						$sortField,
+						$pool[$pos],
+						$where
+					));
+				}
 			}
 		}
 	}
@@ -259,6 +302,16 @@ class GridFieldOrderableRows extends RequestHandler implements
 				$max,
 				$this->getSortTableClauseForIds($list, $id)
 			));
+
+			if ($this->versioning) {
+				DB::query(sprintf(
+					'UPDATE "%s_Live" SET "%s" = %d WHERE %s',
+					$table,
+					$field,
+					$max,
+					$this->getSortTableClauseForIds($list, $id)
+				));
+			}
 		}
 	}
 
