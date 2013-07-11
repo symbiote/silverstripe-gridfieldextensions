@@ -7,6 +7,10 @@
  */
 class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URLHandler {
 
+	private static $allowed_actions = array(
+		'handleAdd'
+	);
+
 	private $fragment;
 
 	private $title;

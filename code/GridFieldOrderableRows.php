@@ -12,6 +12,11 @@ class GridFieldOrderableRows extends RequestHandler implements
 	GridField_HTMLProvider,
 	GridField_URLHandler {
 
+	private static $allowed_actions = array(
+		'handleReorder',
+		'handleMoveToPage'
+	);
+
 	/**
 	 * The database field which specifies the sort, defaults to "Sort".
 	 *
