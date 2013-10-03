@@ -14,10 +14,6 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 	GridField_SaveHandler,
 	GridField_URLHandler {
 
-	private static $allowed_actions = array(
-		'handleForm'
-	);
-
 	/**
 	 * @var Form[]
 	 */

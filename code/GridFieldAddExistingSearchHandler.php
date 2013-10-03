@@ -5,7 +5,7 @@
  */
 class GridFieldAddExistingSearchHandler extends RequestHandler {
 
-	private static $allowed_actions = array(
+	public static $allowed_actions = array(
 		'index',
 		'add',
 		'SearchForm'

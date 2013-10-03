@@ -11,11 +11,11 @@ class GridFieldOrderableRows extends RequestHandler implements
 	GridField_DataManipulator,
 	GridField_HTMLProvider,
 	GridField_URLHandler {
-
-	private static $allowed_actions = array(
-		'handleReorder',
-		'handleMoveToPage'
-	);
+        
+        private static $allowed_actions = array(
+            'handleReorder',
+            'handleMoveToPage'
+        );
 
 	/**
 	 * The database field which specifies the sort, defaults to "Sort".
@@ -139,6 +139,14 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$ids   = $request->postVar('order');
 		$list  = $grid->getList();
 		$field = $this->getSortField();
+                
+                if($list instanceof ManyManyList){
+                    $owner = $grid->Form->getRecord();
+                    list($parentClass, $componentClass, $parentField, $componentField, $table) = $owner->many_many($grid->getName());
+                    $many_many = ' AND "' . $parentField . '" = ' . $owner->ID;
+                }else{
+                    $many_many = '';
+                }
 
 		if(!is_array($ids)) {
 			$this->httpError(400);
@@ -152,13 +160,13 @@ class GridFieldOrderableRows extends RequestHandler implements
 		}
 
 		// Populate each object we are sorting with a sort value.
-		$this->populateSortValues($items);
+		$this->populateSortValues($items, $many_many);
 
 		// Generate the current sort values.
 		$current = $items->map('ID', $field)->toArray();
 
 		// Perform the actual re-ordering.
-		$this->reorderItems($list, $current, $ids);
+		$this->reorderItems($list, $current, $ids, $many_many);
 
 		return $grid->FieldHolder();
 	}
@@ -176,6 +184,14 @@ class GridFieldOrderableRows extends RequestHandler implements
 
 		$list  = $grid->getList();
 		$manip = $grid->getManipulatedList();
+                
+                if($list instanceof ManyManyList){
+                    $owner = $grid->Form->getRecord();
+                    list($parentClass, $componentClass, $parentField, $componentField, $table) = $owner->many_many($grid->getName());
+                    $many_many = ' AND "' . $parentField . '" = ' . $owner->ID;
+                }else{
+                    $many_many = '';
+                }
 
 		$existing = $manip->map('ID', $field)->toArray();
 		$values   = $existing;
@@ -188,7 +204,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$this->httpError(400, 'Invalid item ID');
 		}
 
-		$this->populateSortValues($list);
+		$this->populateSortValues($list, $many_many);
 
 		$page = ((int) $grid->getState()->GridFieldPaginator->currentPage) ?: 1;
 		$per  = $paginator->getItemsPerPage();
@@ -217,12 +233,12 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$this->httpError(400, 'Invalid page target');
 		}
 
-		$this->reorderItems($list, $values, $order);
+		$this->reorderItems($list, $values, $order, $many_many);
 
 		return $grid->FieldHolder();
 	}
 
-	protected function reorderItems($list, array $values, array $order) {
+	protected function reorderItems($list, array $values, array $order, $many_many) {
 		// Get a list of sort values that can be used.
 		$pool = array_values($values);
 		sort($pool);
@@ -236,13 +252,13 @@ class GridFieldOrderableRows extends RequestHandler implements
 					$this->getSortTable($list),
 					$this->getSortField(),
 					$pool[$pos],
-					$this->getSortTableClauseForIds($list, $id)
+					$this->getSortTableClauseForIds($list, $id).$many_many
 				));
 			}
 		}
 	}
 
-	protected function populateSortValues(DataList $list) {
+	protected function populateSortValues(DataList $list, $many_many) {
 		$list   = clone $list;
 		$field  = $this->getSortField();
 		$table  = $this->getSortTable($list);
@@ -257,7 +273,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 				$table,
 				$field,
 				$max,
-				$this->getSortTableClauseForIds($list, $id)
+				$this->getSortTableClauseForIds($list, $id).$many_many
 			));
 		}
 	}
