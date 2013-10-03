@@ -7,10 +7,6 @@ class GridFieldAddExistingSearchButton implements
 	GridField_HTMLProvider,
 	GridField_URLHandler {
 
-	private static $allowed_actions = array(
-		'handleSearch'
-	);
-
 	protected $title;
 	protected $fragment;
 	protected $searchList;
