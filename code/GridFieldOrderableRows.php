@@ -86,9 +86,15 @@ class GridFieldOrderableRows extends RequestHandler implements
 		);
 	}
 
+	/**
+	 * @param GridField $field
+	 */
 	public function getHTMLFragments($field) {
 		GridFieldExtensions::include_requirements();
+
 		$field->addExtraClass('ss-gridfield-orderable');
+		$field->setAttribute('data-url-reorder', $field->Link('reorder'));
+		$field->setAttribute('data-url-movetopage', $field->Link('movetopage'));
 	}
 
 	public function augmentColumns($grid, &$cols) {

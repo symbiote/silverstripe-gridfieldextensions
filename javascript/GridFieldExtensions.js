@@ -192,7 +192,7 @@
 					});
 
 					grid.reload({
-						url: grid.data("url") + "/reorder",
+						url: grid.data("url-reorder"),
 						data: data.get()
 					});
 				};
@@ -228,7 +228,7 @@
 
 					grid.find("tbody").sortable("cancel");
 					grid.reload({
-						url: grid.data("url") + "/movetopage",
+						url: grid.data("url-movetopage"),
 						data: [
 							{ name: "move[id]", value: ui.draggable.data("id") },
 							{ name: "move[page]", value: page }
