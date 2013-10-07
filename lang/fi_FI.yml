@@ -1,0 +1,9 @@
+fi_FI:
+  GridFieldAddExistingSearchHandler.ss:
+    NOITEMS: 'Ei kohteita'
+    RESULTS: 'Tulokset'
+  GridFieldExtensions:
+    ADD: 'Lisää'
+    ADDEXISTING: 'Lisää olemassa oleva'
+    SEARCH: 'Etsi'
+    SELECTTYPETOCREATE: 'Valitse lisättävä tyyppi'
