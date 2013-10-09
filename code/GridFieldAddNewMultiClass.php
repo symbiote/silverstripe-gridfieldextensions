@@ -153,7 +153,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 
 		$data = new ArrayData(array(
 			'Title'      => $this->getTitle(),
-			'Link'       => Controller::join_links($grid->Link(), 'add-multi-class'),
+			'Link'       => Controller::join_links($grid->Link(), 'add-multi-class', '{class}'),
 			'ClassField' => $field
 		));
 

@@ -128,11 +128,11 @@
 
 		$(".ss-gridfield-add-new-multi-class .ss-ui-button").entwine({
 			onclick: function() {
-				var link = this.prop("href");
+				var link = this.data("href");
 				var cls  = this.parents(".ss-gridfield-add-new-multi-class").find("select").val();
 
 				if(cls && cls.length) {
-					this.getGridField().showDetailView(link + "/" + cls);
+					this.getGridField().showDetailView(link.replace("{class}", cls));
 				}
 
 				return false;
