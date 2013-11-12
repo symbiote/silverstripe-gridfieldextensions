@@ -93,6 +93,8 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 
 			$result[$class] = $title;
 		}
+		
+		asort($result);
 
 		return $result;
 	}
