@@ -77,6 +77,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 
 		if(is_null($this->classes)) {
 			$classes = array_values(ClassInfo::subclassesFor($grid->getModelClass()));
+			sort($classes);
 		} else {
 			$classes = $this->classes;
 		}
