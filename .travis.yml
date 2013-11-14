@@ -14,4 +14,4 @@ before_script:
   - cd ~/builds/ss
 
 script:
-  - phpunit gridfieldextensions/tests/
+  - phpunit gridfieldextensions/tests
