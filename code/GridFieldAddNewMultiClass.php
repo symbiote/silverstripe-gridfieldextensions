@@ -113,6 +113,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	 *
 	 * @param GridField $grid
 	 * @param SS_HTTPRequest $request
+	 * @return GridFieldAddNewMultiClassHandler
 	 */
 	public function handleAdd($grid, $request) {
 		$class     = $request->param('ClassName');
