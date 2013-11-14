@@ -72,7 +72,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	 * @param GridField $grid
 	 * @return array a map of class name to title
 	 */
-	protected function getClasses($grid) {
+	public function getClasses(GridField $grid) {
 		$result = array();
 
 		if(is_null($this->classes)) {
