@@ -137,7 +137,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 		}
 
 		foreach($value[__CLASS__] as $fields) {
-			$item  = new $class();
+			$item  = $class::create();
 			$extra = array();
 
 			if($list instanceof ManyManyList) {
