@@ -129,8 +129,15 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 			throw new SS_HTTPResponse_Exception(400);
 		}
 
+		$record = new $class();
+		$List = $grid->getList();
+		if ($List && $List->is_a('HasManyList')) {
+			$fk = $List->getForeignKey();
+			$record->$fk = $List->getForeignID();
+		}
+		
 		$handler = new GridFieldAddNewMultiClassHandler(
-			$grid, $component, new $class(), $grid->getForm()->getController(), 'add-multi-class'
+			$grid, $component, $record, $grid->getForm()->getController(), 'add-multi-class'
 		);
 		$handler->setTemplate($component->getTemplate());
 
