@@ -79,3 +79,21 @@ $grid->getConfig()->addComponent(new GridFieldOrderableRows());
 // Specifying the sort field.
 $grid->getConfig()->addComponent(new GridFieldOrderableRows('SortField'));
 ```
+
+By default, when you create a new item, it is created with a sort order of "0" - that is, it is added
+to the start of the list. The sort order is only set for the first time when the user reorders the items.
+If you wish to append newly created items to the end of the list, use an `onBeforeWrite` hook like:
+
+```php
+class Item extends DataObject {
+	private static $db = array('Sort' => 'Int');
+	
+	protected function onBeforeWrite() {
+		if (!$this->Sort) {
+			$this->Sort = Item::get()->max('Sort') + 1;
+		}
+		
+		parent::onBeforeWrite();
+	}
+}
+```
