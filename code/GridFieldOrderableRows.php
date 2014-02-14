@@ -62,9 +62,11 @@ class GridFieldOrderableRows extends RequestHandler implements
 		if($list instanceof ManyManyList) {
 			$extra = $list->getExtraFields();
 			$table = $list->getJoinTable();
-
-			if(array_key_exists($field, $extra)) {
-				return $table;
+			
+			if(isset($extra)) {
+				if(array_key_exists($field, $extra)) {
+					return $table;
+				}	
 			}
 		}
 
@@ -279,8 +281,10 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$extra = $list->getExtraFields();
 			$key   = $list->getLocalKey();
 
-			if(array_key_exists($this->getSortField(), $extra)) {
-				return sprintf('"%s" %s', $key, $value);
+			if(isset($extra)) {
+				if(array_key_exists($this->getSortField(), $extra)) {
+					return sprintf('"%s" %s', $key, $value);
+				}
 			}
 		}
 
