@@ -63,7 +63,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$extra = $list->getExtraFields();
 			$table = $list->getJoinTable();
 
-			if(array_key_exists($field, $extra)) {
+			if($extra && array_key_exists($field, $extra)) {
 				return $table;
 			}
 		}
