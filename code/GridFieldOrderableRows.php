@@ -138,7 +138,9 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 * Handles requests to reorder a set of IDs in a specific order.
 	 */
 	public function handleReorder($grid, $request) {
-		if(!singleton($grid->getModelClass())->canEdit()) {
+		if (is_a($grid->getList(), 'ManyManyList') && !singleton($grid->getModelClass())->canView()) {
+			$this->httpError(403);
+		} else if(!is_a($grid->getList(), 'ManyManyList') && !singleton($grid->getModelClass())->canEdit()) {
 			$this->httpError(403);
 		}
 
