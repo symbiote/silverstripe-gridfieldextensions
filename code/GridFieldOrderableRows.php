@@ -278,9 +278,17 @@ class GridFieldOrderableRows extends RequestHandler implements
 		if($list instanceof ManyManyList) {
 			$extra = $list->getExtraFields();
 			$key   = $list->getLocalKey();
+			$foreignKey = $list->getForeignKey();
+			$foreignID  = $list->getForeignID();
 
 			if(array_key_exists($this->getSortField(), $extra)) {
-				return sprintf('"%s" %s', $key, $value);
+				return sprintf(
+					'"%s" %s AND "%s" = %d',
+					$key,
+					$value,
+					$foreignKey,
+					$foreignID
+				);
 			}
 		}
 
