@@ -281,7 +281,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$foreignKey = $list->getForeignKey();
 			$foreignID  = $list->getForeignID();
 
-			if(array_key_exists($this->getSortField(), $extra)) {
+			if($extra && array_key_exists($this->getSortField(), $extra)) {
 				return sprintf(
 					'"%s" %s AND "%s" = %d',
 					$key,
