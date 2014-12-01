@@ -9,7 +9,11 @@
 		{
 			"name": "Andrew Short",
 			"email": "andrewjshort@gmail.com"
-		}
+		},
+		{
+                        "name": "Marcus Nyeholt",
+                        "email": "marcus@silverstripe.com.au"
+                }
 	],
 	"support": {
 		"issues": "http://github.com/ajshort/silverstripe-gridfieldextensions/issues"
