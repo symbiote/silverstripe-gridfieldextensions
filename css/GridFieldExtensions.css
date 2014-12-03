@@ -117,17 +117,29 @@
 }
 
 .ss-gridfield-orderable .col-reorder {
+	position: relative;
 	padding: 0 !important;
 	width: 16px !important;
 }
 
 .ss-gridfield-orderable .col-reorder .handle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	cursor: move;
-	display: none;
 }
 
-.ss-gridfield-orderable tbody tr:hover .col-reorder .handle {
-	display: block;
+.ss-gridfield-orderable .col-reorder .handle .icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 5px;
+	height: 11px;
+	margin: -5px 0 0 -2px;
+	background-image: url('../../framework/thirdparty/jquery-ui-themes/smoothness/images/ui-icons_222222_256x240.png');
+	background-position: -5px -227px;
 }
 
 .ss-gridfield-orderhelper {
