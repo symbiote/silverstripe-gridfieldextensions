@@ -138,7 +138,11 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 				if(isset($info['callback'])) {
 					$field = call_user_func($info['callback'], $record, $col, $grid);
 				} elseif(isset($info['field'])) {
-					$field = new $info['field']($col);
+					if ($info['field'] == 'LiteralField') {
+						$field = new $info['field']($col, null);
+					}else{
+						$field = new $info['field']($col);
+					}
 				}
 
 				if(!$field instanceof FormField) {
