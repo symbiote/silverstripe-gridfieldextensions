@@ -1,5 +1,5 @@
 {
-	"name": "ajshort/silverstripe-gridfieldextensions",
+	"name": "silverstripe-australia/gridfieldextensions",
 	"description": "A collection of useful grid field components",
 	"type": "silverstripe-module",
 	"homepage": "http://github.com/ajshort/silverstripe-gridfieldextensions",
@@ -9,7 +9,11 @@
 		{
 			"name": "Andrew Short",
 			"email": "andrewjshort@gmail.com"
-		}
+		},
+		{
+                        "name": "Marcus Nyeholt",
+                        "email": "marcus@silverstripe.com.au"
+                }
 	],
 	"support": {
 		"issues": "http://github.com/ajshort/silverstripe-gridfieldextensions/issues"
@@ -23,5 +27,8 @@
 			"docs/en/_images/editable-rows.png",
 			"docs/en/_images/add-existing-search.png"
 		]
+	},
+	"replace": {
+		"ajshort/silverstripe-gridfieldextensions": "self.version"
 	}
 }
