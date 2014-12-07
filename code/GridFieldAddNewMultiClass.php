@@ -18,6 +18,11 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	private $classes;
 
 	/**
+	 * @var String
+	 */
+	protected $itemRequestClass = 'GridFieldAddNewMultiClassHandler';
+
+	/**
 	 * @param string $fragment the fragment to render the button in
 	 */
 	public function __construct($fragment = 'before') {
@@ -129,7 +134,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 			throw new SS_HTTPResponse_Exception(400);
 		}
 
-		$handler = new GridFieldAddNewMultiClassHandler(
+		$handler = Object::create($this->itemRequestClass,
 			$grid, $component, new $class(), $grid->getForm()->getController(), 'add-multi-class'
 		);
 		$handler->setTemplate($component->getTemplate());
@@ -173,4 +178,8 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 		);
 	}
 
+	public function setItemRequestClass($class) {
+	  $this->itemRequestClass = $class;
+	  return $this;
+	}
 }
