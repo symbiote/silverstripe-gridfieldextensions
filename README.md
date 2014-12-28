@@ -1,7 +1,7 @@
 SilverStripe Grid Field Extensions Module
 =========================================
 
-[![Build Status](https://secure.travis-ci.org/ajshort/silverstripe-gridfieldextensions.png?branch=master)](https://travis-ci.org/ajshort/silverstripe-gridfieldextensions)
+[![Build Status](https://secure.travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions.png?branch=master)](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions)
 
 This module provides a number of useful grid field components:
 
