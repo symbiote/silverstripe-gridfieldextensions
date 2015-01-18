@@ -26,6 +26,14 @@ class GridFieldOrderableRows extends RequestHandler implements
 	protected $sortField;
 
 	/**
+	 * Extra sort fields to apply before the sort field.
+	 *
+	 * @see setExtraSortFields()
+	 * @var string|array
+	 */
+	protected $extraSortFields = null;
+
+	/**
 	 * @param string $sortField
 	 */
 	public function __construct($sortField = 'Sort') {
@@ -47,6 +55,24 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 */
 	public function setSortField($field) {
 		$this->sortField = $field;
+		return $this;
+	}
+
+	/**
+	 * @return string|array
+	 */
+	public function getExtraSortFields() {
+		return $this->extraSortFields;
+	}
+
+	/**
+	 * Sets extra sort fields to apply before the sort field.
+	 *
+	 * @param string|array $fields
+	 * @return GridFieldOrderableRows $this
+	 */
+	public function setExtraSortFields($fields) {
+		$this->extraSortFields = $fields;
 		return $this;
 	}
 
@@ -128,7 +154,18 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$state->GridFieldOrderableRows->enabled = !$sorted;
 
 		if(!$sorted) {
-			return $list->sort($this->getSortTable($list).'.'.$this->getSortField());
+			$sortterm = '';
+			if ($this->extraSortFields) {
+				if (is_array($this->extraSortFields)) {
+					foreach($this->extraSortFields as $col => $dir) {
+						$sortterm .= "$col $dir, ";
+					}
+				} else {
+					$sortterm = $this->extraSortFields.', ';
+				}
+			}
+			$sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
+			return $list->sort($sortterm);
 		} else {
 			return $list;
 		}
@@ -150,7 +187,18 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$this->httpError(400);
 		}
 
-		$items = $list->byIDs($ids)->sort($this->getSortTable($list).'.'.$field);
+		$sortterm = '';
+		if ($this->extraSortFields) {
+			if (is_array($this->extraSortFields)) {
+				foreach($this->extraSortFields as $col => $dir) {
+					$sortterm .= "$col $dir, ";
+				}
+			} else {
+				$sortterm = $this->extraSortFields.', ';
+			}
+		}
+		$sortterm .= $this->getSortTable($list).'.'.$field;
+		$items = $list->byIDs($ids)->sort($sortterm);
 
 		// Ensure that each provided ID corresponded to an actual object.
 		if(count($items) != count($ids)) {
