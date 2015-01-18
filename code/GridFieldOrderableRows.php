@@ -34,6 +34,14 @@ class GridFieldOrderableRows extends RequestHandler implements
 	protected $extraSortFields = null;
 
 	/**
+	 * The number of the column containing the reorder handles
+	 *
+	 * @see setReorderColumnNumber()
+	 * @var integer
+	 */
+	protected $reorderColumnNumber = 0;
+
+	/**
 	 * @param string $sortField
 	 */
 	public function __construct($sortField = 'Sort') {
@@ -73,6 +81,24 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 */
 	public function setExtraSortFields($fields) {
 		$this->extraSortFields = $fields;
+		return $this;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getReorderColumnNumber() {
+		return $this->reorderColumnNumber;
+	}
+
+	/**
+	 * Sets the number of the column containing the reorder handles.
+	 *
+	 * @param integer $colno
+	 * @return GridFieldOrderableRows $this
+	 */
+	public function setReorderColumnNumber($colno) {
+		$this->reorderColumnNumber = $colno;
 		return $this;
 	}
 
@@ -125,7 +151,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 
 	public function augmentColumns($grid, &$cols) {
 		if(!in_array('Reorder', $cols) && $grid->getState()->GridFieldOrderableRows->enabled) {
-			array_unshift($cols, 'Reorder');
+			array_splice($cols, $this->reorderColumnNumber, 0, 'Reorder');
 		}
 	}
 
