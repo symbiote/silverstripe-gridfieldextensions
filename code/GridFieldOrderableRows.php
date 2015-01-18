@@ -128,7 +128,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$state->GridFieldOrderableRows->enabled = !$sorted;
 
 		if(!$sorted) {
-			return $list->sort($this->getSortField());
+			return $list->sort($this->getSortTable($list).'.'.$this->getSortField());
 		} else {
 			return $list;
 		}
@@ -150,7 +150,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 			$this->httpError(400);
 		}
 
-		$items = $list->byIDs($ids)->sort($field);
+		$items = $list->byIDs($ids)->sort($this->getSortTable($list).'.'.$field);
 
 		// Ensure that each provided ID corresponded to an actual object.
 		if(count($items) != count($ids)) {
