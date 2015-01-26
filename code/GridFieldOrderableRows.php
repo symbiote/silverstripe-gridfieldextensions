@@ -224,7 +224,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 			}
 		}
 		$sortterm .= $field;
-		$items = $list->byIDs($ids)->sort($sortterm);
+		$items = $list->filter('ID', $ids)->sort($sortterm);
 
 		// Ensure that each provided ID corresponded to an actual object.
 		if(count($items) != count($ids)) {
