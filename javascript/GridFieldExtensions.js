@@ -90,7 +90,10 @@
 					if(success) success.apply(grid, arguments);
 				});
 			},
-			onaddnewinline: function() {
+			onaddnewinline: function(e) {
+				if(e.target != this[0])
+                    			return;
+                    			
 				var tmpl = window.tmpl;
 				var row = this.find(".ss-gridfield-add-inline-template");
 				var num = this.data("add-inline-num") || 1;
