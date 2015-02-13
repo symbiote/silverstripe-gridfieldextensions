@@ -79,12 +79,12 @@
 		$(".ss-gridfield.ss-gridfield-editable").entwine({
 			reload: function(opts, success) {
 				var grid  = this;
-				var added = grid.find(".ss-gridfield-inline-new").detach();
+				var added = grid.find("tbody:first").find(".ss-gridfield-inline-new").detach();
 
 				this._super(opts, function() {
 					if(added.length) {
-						added.appendTo(grid.find("tbody"));
-						grid.find(".ss-gridfield-no-items").hide();
+						added.appendTo(grid.find("tbody:first"));
+						grid.find("tbody:first").children(".ss-gridfield-no-items").hide();
 					}
 
 					if(success) success.apply(grid, arguments);
@@ -118,7 +118,7 @@
 				var msg = ss.i18n._t("GridFieldExtensions.CONFIRMDEL", "Are you sure you want to delete this?");
 
 				if(confirm(msg)) {
-					this.parents("tr").remove();
+					this.parents(".ss-gridfield-inline-new:first").remove();
 				}
 
 				return false;
