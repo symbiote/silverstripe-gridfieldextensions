@@ -91,8 +91,9 @@
 				});
 			},
 			onaddnewinline: function(e) {
-				if(e.target != this[0])
-                    			return;
+				if(e.target != this[0]) {
+                    return;
+                }
                     			
 				var tmpl = window.tmpl;
 				var row = this.find(".ss-gridfield-add-inline-template");
