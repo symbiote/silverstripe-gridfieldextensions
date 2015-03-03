@@ -205,8 +205,9 @@
 				});
 			},
 			onremove: function() {
-                if(this.data('sortable'))
+                if(this.data('sortable')) {
 				    this.sortable("destroy");
+                }
 			}
 		});
 
