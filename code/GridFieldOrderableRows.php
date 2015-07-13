@@ -190,7 +190,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 					$sortterm = $this->extraSortFields.', ';
 				}
 			}
-			$sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
+			$sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
 			return $list->sort($sortterm);
 		} else {
 			return $list;
@@ -226,7 +226,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 				$sortterm = $this->extraSortFields.', ';
 			}
 		}
-		$sortterm .= $this->getSortTable($list).'.'.$field;
+		$sortterm .= '"'.$this->getSortTable($list).'"."'.$field.'"';
 		$items = $list->filter('ID', $ids)->sort($sortterm);
 
 		// Ensure that each provided ID corresponded to an actual object.
