@@ -79,26 +79,30 @@
 		$(".ss-gridfield.ss-gridfield-editable").entwine({
 			reload: function(opts, success) {
 				var grid  = this;
-				var added = grid.find(".ss-gridfield-inline-new").detach();
+				var added = grid.find("tbody:first").find(".ss-gridfield-inline-new").detach();
 
 				this._super(opts, function() {
 					if(added.length) {
-						added.appendTo(grid.find("tbody"));
-						grid.find(".ss-gridfield-no-items").hide();
+                        added.appendTo(grid.find("tbody:first"));
+                        grid.find("tbody:first").children(".ss-gridfield-no-items").hide();
 					}
 
 					if(success) success.apply(grid, arguments);
 				});
 			},
-			onaddnewinline: function() {
+			onaddnewinline: function(e) {
+                if(e.target != this[0]) {
+                    return;
+                }
+
 				var tmpl = window.tmpl;
-				var row = this.find(".ss-gridfield-add-inline-template");
+				var row = this.find(".ss-gridfield-add-inline-template:last");
 				var num = this.data("add-inline-num") || 1;
 
-				tmpl.cache["ss-gridfield-add-inline-template"] = tmpl(row.html());
+				tmpl.cache[this[0].id + "ss-gridfield-add-inline-template"] = tmpl(row.html());
 
-				this.find("tbody").append(tmpl("ss-gridfield-add-inline-template", { num: num }));
-				this.find(".ss-gridfield-no-items").hide();
+				this.find("tbody:first").append(tmpl(this[0].id + "ss-gridfield-add-inline-template", { num: num }));
+                this.find("tbody:first").children(".ss-gridfield-no-items").hide();
 				this.data("add-inline-num", num + 1);
 			}
 		});
@@ -115,7 +119,7 @@
 				var msg = ss.i18n._t("GridFieldExtensions.CONFIRMDEL", "Are you sure you want to delete this?");
 
 				if(confirm(msg)) {
-					this.parents("tr").remove();
+                    this.parents("tr.ss-gridfield-inline-new:first").remove();
 				}
 
 				return false;
