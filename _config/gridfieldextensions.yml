@@ -1,0 +1,5 @@
+---
+name: gridfieldextensions
+---
+GridFieldAddNewMultiClass:
+  showEmptyString: true

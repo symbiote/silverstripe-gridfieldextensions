@@ -10,6 +10,9 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	private static $allowed_actions = array(
 		'handleAdd'
 	);
+	
+	// Should we add an empty string to the add class dropdown?
+	private static $showEmptyString = true;
 
 	private $fragment;
 
@@ -155,7 +158,9 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 		GridFieldExtensions::include_requirements();
 
 		$field = new DropdownField(sprintf('%s[ClassName]', __CLASS__), '', $classes);
-		$field->setEmptyString(_t('GridFieldExtensions.SELECTTYPETOCREATE', '(Select type to create)'));
+		if (Config::inst()->get('GridFieldAddNewMultiClass', 'showEmptyString')) {
+			$field->setEmptyString(_t('GridFieldExtensions.SELECTTYPETOCREATE', '(Select type to create)'));
+		}
 		$field->addExtraClass('no-change-track');
 
 		$data = new ArrayData(array(
