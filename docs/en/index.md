@@ -9,7 +9,7 @@ existing records than a basic autocomplete. It uses the search context construct
 class to provide the search form.
 
 ```php
-$grid->getConfig()->addComponent(new GridFieldAddExistingSearchButton()));
+$grid->getConfig()->addComponent(new GridFieldAddExistingSearchButton());
 ```
 
 Inline Editing
