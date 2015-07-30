@@ -238,7 +238,25 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$this->populateSortValues($items);
 
 		// Generate the current sort values.
-		$current = $items->map('ID', $field)->toArray();
+		if ($items instanceof ManyManyList) 
+		{
+			$current = array();
+			foreach ($items->toArray() as $record)
+			{
+				// NOTE: _SortColumn0 is the first ->sort() field
+				//		 used by SS when functions are detected in a SELECT
+				//	     or CASE WHEN.
+				if (isset($record->_SortColumn0)) {
+					$current[$record->ID] = $record->_SortColumn0;
+				} else {
+					$current[$record->ID] = $record->$field;
+				}
+			}
+		}
+		else
+		{
+			$current = $items->map('ID', $field)->toArray();
+		}
 
 		// Perform the actual re-ordering.
 		$this->reorderItems($list, $current, $ids);
