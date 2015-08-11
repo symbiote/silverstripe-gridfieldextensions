@@ -93,8 +93,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 		$fields = $editable->getFields($grid, $record);
 
 		foreach($grid->getColumns() as $column) {
-			if(in_array($column, $handled)) {
-				$field = $fields->dataFieldByName($column);
+			if(in_array($column, $handled) && $field = $fields->fieldByName($column)) {
 				$field->setName(sprintf(
 					'%s[%s][{%%=o.num%%}][%s]', $grid->getName(), __CLASS__, $field->getName()
 				));
