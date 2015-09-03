@@ -272,10 +272,9 @@ class GridFieldOrderableRows extends RequestHandler implements
 	protected function sortTerm($list) {
 		// need to handle ANSI escaping for DBs differently from other list types
 		if ($list instanceof DataList) {
-			$sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
-		} else {
-			$sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
-		}
+			return '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+		} 
+		return $this->getSortTable($list).'.'.$this->getSortField();
 	}
 
 
