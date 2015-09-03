@@ -190,7 +190,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 					$sortterm = $this->extraSortFields.', ';
 				}
 			}
-			$sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+			$sortterm .= $this->sortTerm($list);
 			return $list->sort($sortterm);
 		} else {
 			return $list;
@@ -226,7 +226,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 				$sortterm = $this->extraSortFields.', ';
 			}
 		}
-		$sortterm .= '"'.$this->getSortTable($list).'"."'.$field.'"';
+		$sortterm .= $this->sortTerm($list);
 		$items = $list->filter('ID', $ids)->sort($sortterm);
 
 		// Ensure that each provided ID corresponded to an actual object.
@@ -263,6 +263,21 @@ class GridFieldOrderableRows extends RequestHandler implements
 
 		return $grid->FieldHolder();
 	}
+
+	/**
+	 * Get a compatible sort term, taking into account DBs and their ANSI ness
+	 * 
+	 * @see https://github.com/silverstripe-australia/silverstripe-gridfieldextensions/issues/98
+	 */
+	protected function sortTerm($list) {
+		// need to handle ANSI escaping for DBs differently from other list types
+		if ($list instanceof DataList) {
+			$sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+		} else {
+			$sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
+		}
+	}
+
 
 	/**
 	 * Handles requests to move an item to the previous or next page.
