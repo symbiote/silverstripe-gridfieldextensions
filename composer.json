@@ -2,7 +2,7 @@
 	"name": "silverstripe-australia/gridfieldextensions",
 	"description": "A collection of useful grid field components",
 	"type": "silverstripe-module",
-	"homepage": "http://github.com/ajshort/silverstripe-gridfieldextensions",
+	"homepage": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions",
 	"keywords": ["silverstripe", "gridfield"],
 	"license": "BSD-3-Clause",
 	"authors": [
@@ -16,7 +16,7 @@
                 }
 	],
 	"support": {
-		"issues": "http://github.com/ajshort/silverstripe-gridfieldextensions/issues"
+		"issues": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions/issues"
 	},
 	"require": {
 		"silverstripe/framework": "~3.1"
