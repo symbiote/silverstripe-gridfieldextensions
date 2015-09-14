@@ -199,6 +199,10 @@ class GridFieldOrderableRows extends RequestHandler implements
 
 	/**
 	 * Handles requests to reorder a set of IDs in a specific order.
+	 *
+	 * @param GridField $grid
+	 * @param SS_HTTPRequest $request
+	 * @return SS_HTTPResponse
 	 */
 	public function handleReorder($grid, $request) {
 		$list = $grid->getList();
@@ -232,6 +236,12 @@ class GridFieldOrderableRows extends RequestHandler implements
 		// Ensure that each provided ID corresponded to an actual object.
 		if(count($items) != count($ids)) {
 			$this->httpError(404);
+		}
+
+		// Save any un-comitted changes to the gridfield
+		if(($form = $grid->getForm()) && ($record = $form->getRecord()) ) {
+			$form->loadDataFrom($request->requestVars(), true);
+			$grid->saveInto($record);
 		}
 
 		// Populate each object we are sorting with a sort value.
