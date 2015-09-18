@@ -45,6 +45,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 * @param string $sortField
 	 */
 	public function __construct($sortField = 'Sort') {
+		parent::__construct();
 		$this->sortField = $sortField;
 	}
 
@@ -351,6 +352,8 @@ class GridFieldOrderableRows extends RequestHandler implements
 				));
 			}
 		}
+
+		$this->extend('onAfterReorderItems', $list);
 	}
 
 	protected function populateSortValues(DataList $list) {
