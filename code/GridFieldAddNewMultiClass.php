@@ -19,6 +19,8 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	private $title;
 
 	private $classes;
+	
+	private $defaultClass;
 
 	/**
 	 * @var String
@@ -112,9 +114,21 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	 * @param array $classes a set of class names, optionally mapped to titles
 	 * @return GridFieldAddNewMultiClass $this
 	 */
-	public function setClasses(array $classes) {
+	public function setClasses(array $classes, $default = null) {
 		$this->classes = $classes;
+		if($default) $this->defaultClass = $default;
 		return $this;
+	}
+
+	/**
+	 * Sets the default class that is selected automatically.
+	 *
+	 * @param string $default the class name to use as default
+	 * @return GridFieldAddNewMultiClass $this
+	 */
+	public function setDefaultClass($default) {
+		$this->defaultClass = $default;
+		return $this;	
 	}
 
 	/**
@@ -157,7 +171,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 
 		GridFieldExtensions::include_requirements();
 
-		$field = new DropdownField(sprintf('%s[ClassName]', __CLASS__), '', $classes);
+		$field = new DropdownField(sprintf('%s[ClassName]', __CLASS__), '', $classes, $this->defaultClass);
 		if (Config::inst()->get('GridFieldAddNewMultiClass', 'showEmptyString')) {
 			$field->setEmptyString(_t('GridFieldExtensions.SELECTTYPETOCREATE', '(Select type to create)'));
 		}
