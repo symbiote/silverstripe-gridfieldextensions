@@ -10,7 +10,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	private static $allowed_actions = array(
 		'handleAdd'
 	);
-	
+
 	// Should we add an empty string to the add class dropdown?
 	private static $showEmptyString = true;
 
@@ -19,7 +19,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	private $title;
 
 	private $classes;
-	
+
 	private $defaultClass;
 
 	/**
@@ -128,7 +128,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	 */
 	public function setDefaultClass($default) {
 		$this->defaultClass = $default;
-		return $this;	
+		return $this;
 	}
 
 	/**
