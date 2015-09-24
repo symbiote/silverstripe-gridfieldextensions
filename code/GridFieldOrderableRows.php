@@ -248,7 +248,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$this->populateSortValues($items);
 
 		// Generate the current sort values.
-		if ($items instanceof ManyManyList) 
+		if ($items instanceof ManyManyList)
 		{
 			$current = array();
 			foreach ($items->toArray() as $record)
