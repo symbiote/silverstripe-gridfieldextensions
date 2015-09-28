@@ -23,7 +23,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	private $defaultClass;
 
 	/**
-	 * @var String
+	 * @var string
 	 */
 	protected $itemRequestClass = 'GridFieldAddNewMultiClassHandler';
 
