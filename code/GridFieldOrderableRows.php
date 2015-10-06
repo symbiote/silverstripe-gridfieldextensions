@@ -37,7 +37,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 * The number of the column containing the reorder handles
 	 *
 	 * @see setReorderColumnNumber()
-	 * @var integer
+	 * @var int
 	 */
 	protected $reorderColumnNumber = 0;
 
@@ -85,7 +85,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	}
 
 	/**
-	 * @return integer
+	 * @return int
 	 */
 	public function getReorderColumnNumber() {
 		return $this->reorderColumnNumber;
@@ -94,7 +94,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	/**
 	 * Sets the number of the column containing the reorder handles.
 	 *
-	 * @param integer $colno
+	 * @param int $colno
 	 * @return GridFieldOrderableRows $this
 	 */
 	public function setReorderColumnNumber($colno) {
