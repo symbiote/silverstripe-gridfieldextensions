@@ -141,7 +141,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 				} elseif(isset($info['field'])) {
 					if ($info['field'] == 'LiteralField') {
 						$field = new $info['field']($col, null);
-					}else{
+					} else {
 						$field = new $info['field']($col);
 					}
 				}
