@@ -5,7 +5,7 @@ php:
 
 env:
   - DB=MYSQL CORE_RELEASE=3.1
-  - DB=MYSQL CORE_RELEASE=master
+  - DB=MYSQL CORE_RELEASE=3.2
 
 before_script:
   - phpenv rehash
