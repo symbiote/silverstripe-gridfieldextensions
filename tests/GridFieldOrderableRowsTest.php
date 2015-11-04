@@ -17,22 +17,22 @@ class GridFieldOrderableRowsTest extends SapphireTest {
 
 		$this->assertEquals(
 			'GridFieldOrderableRowsTest_Ordered',
-			$orderable->getSortTable($parent->HasMany())
+			$orderable->getSortTable($parent->MyHasMany())
 		);
 
 		$this->assertEquals(
 			'GridFieldOrderableRowsTest_Ordered',
-			$orderable->getSortTable($parent->HasManySubclass())
+			$orderable->getSortTable($parent->MyHasManySubclass())
 		);
 
 		$this->assertEquals(
 			'GridFieldOrderableRowsTest_Ordered',
-			$orderable->getSortTable($parent->ManyMany())
+			$orderable->getSortTable($parent->MyManyMany())
 		);
 
 		$this->assertEquals(
-			'GridFieldOrderableRowsTest_Parent_ManyMany',
-			$orderable->setSortField('ManyManySort')->getSortTable($parent->ManyMany())
+			'GridFieldOrderableRowsTest_Parent_MyManyMany',
+			$orderable->setSortField('ManyManySort')->getSortTable($parent->MyManyMany())
 		);
 	}
 
@@ -45,16 +45,16 @@ class GridFieldOrderableRowsTest extends SapphireTest {
 class GridFieldOrderableRowsTest_Parent extends DataObject {
 
 	private static $has_many = array(
-		'HasMany' => 'GridFieldOrderableRowsTest_Ordered',
-		'HasManySubclass' => 'GridFieldOrderableRowsTest_Subclass'
+		'MyHasMany' => 'GridFieldOrderableRowsTest_Ordered',
+		'MyHasManySubclass' => 'GridFieldOrderableRowsTest_Subclass'
 	);
 
 	private static $many_many = array(
-		'ManyMany' => 'GridFieldOrderableRowsTest_Ordered'
+		'MyManyMany' => 'GridFieldOrderableRowsTest_Ordered'
 	);
 
 	private static $many_many_extraFields = array(
-		'ManyMany' => array('ManyManySort' => 'Int')
+		'MyManyMany' => array('ManyManySort' => 'Int')
 	);
 
 }
