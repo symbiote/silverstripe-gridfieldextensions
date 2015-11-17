@@ -1,0 +1,9 @@
+sk:
+  GridFieldAddExistingSearchHandler.ss:
+    NOITEMS: 'Nie sú tu žiadne položky.'
+    RESULTS: 'Výsledky'
+  GridFieldExtensions:
+    ADD: Pridať
+    ADDEXISTING: Pridať existujúci
+    SEARCH: Hľadať
+    SELECTTYPETOCREATE: '(Prosím, vyberte typ)'
