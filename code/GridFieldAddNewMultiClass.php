@@ -95,7 +95,12 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 		foreach($classes as $class => $title) {
 			if(!is_string($class)) {
 				$class = $title;
+				if (($reflection = new ReflectionClass($class)) && $reflection->isAbstract()) {
+					continue;
+				}
 				$title = singleton($class)->i18n_singular_name();
+			} else if (($reflection = new ReflectionClass($class)) && $reflection->isAbstract()) {
+				continue;
 			}
 
 			if(!singleton($class)->canCreate()) {
