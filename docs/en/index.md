@@ -97,3 +97,6 @@ class Item extends DataObject {
 	}
 }
 ```
+
+**Please NOTE:** There is a limitation when using `GridFieldOrderableRows` on unsaved data objects; namely, that it doesn't work as without data being saved, the list of related objects has no context. Please check `$this->ID` before adding the `GridFieldOrderableRows` component to the grid field config (or even, before adding the gridfield at all). 
+
