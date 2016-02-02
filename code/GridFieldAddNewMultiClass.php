@@ -92,22 +92,33 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 			$classes = $this->classes;
 		}
 
+		$kill_ancestors = array();
 		foreach($classes as $class => $title) {
 			if(!is_string($class)) {
 				$class = $title;
-				if (($reflection = new ReflectionClass($class)) && $reflection->isAbstract()) {
-					continue;
+				$is_abstract = (($reflection = new ReflectionClass($class)) && $reflection->isAbstract());
+				if (!$is_abstract) {
+					$title = singleton($class)->i18n_singular_name();
 				}
-				$title = singleton($class)->i18n_singular_name();
-			} else if (($reflection = new ReflectionClass($class)) && $reflection->isAbstract()) {
-				continue;
+			} else {
+				$is_abstract = (($reflection = new ReflectionClass($class)) && $reflection->isAbstract());
 			}
 
-			if(!singleton($class)->canCreate()) {
+			if ($ancestor_to_hide = Config::inst()->get($class, 'hide_ancestor', Config::FIRST_SET)) {
+				$kill_ancestors[$ancestor_to_hide] = true;
+			}
+
+			if($is_abstract || !singleton($class)->canCreate()) {
 				continue;
 			}
 
 			$result[$class] = $title;
+		}
+
+		if($kill_ancestors) {
+			foreach($kill_ancestors as $class => $bool) {
+				unset($result[$class]);
+			}
 		}
 
 		return $result;
