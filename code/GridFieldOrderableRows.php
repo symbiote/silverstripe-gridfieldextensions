@@ -339,17 +339,39 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$pool = array_values($values);
 		sort($pool);
 
+		// If not a ManyManyList and using versioning, detect it.
+		$isVersioned = false;
+		$class = $list->dataClass();
+		if ($class == $this->getSortTable($list)) {
+			$isVersioned = $class::has_extension('Versioned');
+		}
+
 		// Loop through each item, and update the sort values which do not
 		// match to order the objects.
-		foreach(array_values($order) as $pos => $id) {
-			if($values[$id] != $pool[$pos]) {
-				DB::query(sprintf(
-					'UPDATE "%s" SET "%s" = %d WHERE %s',
-					$this->getSortTable($list),
-					$this->getSortField(),
-					$pool[$pos],
-					$this->getSortTableClauseForIds($list, $id)
-				));
+		if (!$isVersioned) {
+			foreach(array_values($order) as $pos => $id) {
+				if($values[$id] != $pool[$pos]) {
+					DB::query(sprintf(
+						'UPDATE "%s" SET "%s" = %d WHERE %s',
+						$this->getSortTable($list),
+						$this->getSortField(),
+						$pool[$pos],
+						$this->getSortTableClauseForIds($list, $id)
+					));
+				}
+			}
+		} else {
+			// For versioned objects, modify them with the ORM so that the
+			// *_versions table is updated. This ensures re-ordering works
+			// similar to the SiteTree where you change the position, and then
+			// you go into the record and publish it.
+			$sortField = $this->getSortField();
+			foreach(array_values($order) as $pos => $id) {
+				if($values[$id] != $pool[$pos]) {
+					$record = $class::get()->byID($id);
+					$record->$sortField = $pool[$pos];
+					$record->write();
+				}
 			}
 		}
 
