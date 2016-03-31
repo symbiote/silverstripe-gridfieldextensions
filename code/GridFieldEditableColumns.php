@@ -218,6 +218,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 				));
 			}
 
+			// Add CSS class for interactive fields
+			if (!($field->isReadOnly() || $field instanceof LiteralField)) $field->addExtraClass('editable-column-field');
+
 			$fields->push($field);
 		}
 

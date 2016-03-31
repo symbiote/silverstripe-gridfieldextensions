@@ -165,9 +165,12 @@
 		 * GridFieldEditableColumns
 		 */
 
-		$('.ss-gridfield.ss-gridfield-editable .ss-gridfield-item').entwine({
-			onclick: function() {
-				// Stop the default click action when fields are clicked on.
+		$('.ss-gridfield.ss-gridfield-editable .ss-gridfield-item td').entwine({
+			onclick: function(e) {
+				// Prevent the default row click action when clicking a cell that contains a field
+				if (this.find('.editable-column-field').length) {
+					e.stopPropagation();
+				}
 			}
 		});
 
