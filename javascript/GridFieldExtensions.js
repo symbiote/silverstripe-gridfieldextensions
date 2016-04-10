@@ -198,10 +198,21 @@
 						return { name: "order[]", value: $(this).data("id") };
 					});
 
-					grid.reload({
-						url: grid.data("url-reorder"),
-						data: data.get()
-					});
+					if (grid.data("immediate-update"))
+					{
+						grid.reload({
+							url: grid.data("url-reorder"),
+							data: data.get()
+						});
+					}
+					else
+					{
+						// Tells the user they have unsaved changes when they
+						// try and leave the page after sorting, also updates the 
+						// save buttons to show the user they've made a change.
+						var form = $('.cms-edit-form');
+						form.addClass('changed');
+					}
 				};
 
 				this.sortable({
