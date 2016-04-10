@@ -100,6 +100,16 @@
 	max-width: none !important;
 }
 
+.ss-gridfield-editable select.dropdown {
+	border: 1px solid #b3b3b3;
+	padding: 7px 7px;
+	padding-left: 4px;
+	line-height: 16px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
 .ss-gridfield-add-new-inline {
 	margin-bottom: 12px;
 }
