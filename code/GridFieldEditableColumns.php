@@ -70,6 +70,10 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
 		$field->setName($this->getFieldName($field->getName(), $grid, $record));
 		$field->setValue($value);
+        
+        if ($field instanceof HtmlEditorField) {
+            return $field->FieldHolder(); 
+        }
 
 		return $field->forTemplate();
 	}
