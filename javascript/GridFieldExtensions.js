@@ -90,6 +90,61 @@
 					if(success) success.apply(grid, arguments);
 				});
 			},
+			onpaste: function(e) {
+				// The following was used as a basis for clipboard data access:
+				// http://stackoverflow.com/questions/2176861/javascript-get-clipboard-data-on-paste-event-cross-browser
+				var clipboardData = typeof e.originalEvent.clipboardData !== "undefined" ? e.originalEvent.clipboardData : null;
+				if (clipboardData) {
+					// Get current input wrapper div class (ie. 'col-Title')
+					var input = $(e.target);
+					var inputType = input.attr('type');
+					if (inputType === 'text' || inputType === 'email')
+					{
+						var lastInput = this.find(".ss-gridfield-inline-new:last").find("input");
+						if (input.attr('type') === 'text' && input.is(lastInput) && input.val() === '')
+						{
+							var inputWrapperDivClass = input.parent().attr('class');
+							// Split clipboard data into lines
+							var lines = clipboardData.getData("text/plain").match(/[^\r\n]+/g);
+							var linesLength = lines.length;
+							// If there are multiple newlines detected, split the data into new rows automatically
+							if (linesLength > 1)
+							{
+								var elementsChanged = [];
+								for (var i = 1; i < linesLength; ++i)
+								{
+									this.trigger("addnewinline");
+									var row = this.find(".ss-gridfield-inline-new:last");
+									var rowInput = row.find("."+inputWrapperDivClass).find("input");
+									rowInput.val(lines[i]);
+									elementsChanged.push(rowInput);
+								}
+								// Store the rows added via this method so they can be undo'd.
+								input.data('pasteManipulatedElements', elementsChanged);
+								// To set the current row to not just be all the clipboard data, must wait a frame
+								setTimeout(function() {
+									input.val(lines[0]);
+								}, 0);
+							}
+						}
+					}
+				}
+			},
+			onkeyup: function(e) {
+				if (e.keyCode == 90 && e.ctrlKey) 
+				{
+					var target = $(e.target);
+					var elementsChanged = target.data("pasteManipulatedElements");
+					if (typeof elementsChanged !== "undefined" && elementsChanged && elementsChanged.length)
+					{
+						for (var i = 0; i < elementsChanged.length; ++i)
+						{
+							elementsChanged[i].closest('tr').remove();
+						}
+						target.data("pasteManipulatedElements", []);
+					}
+				}
+			},
 			onaddnewinline: function(e) {
                 if(e.target != this[0]) {
                     return;
