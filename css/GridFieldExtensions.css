@@ -102,6 +102,7 @@
 
 .ss-gridfield-editable select.dropdown {
 	border: 1px solid #b3b3b3;
+	background-color: #fff;
 	padding: 7px 7px;
 	padding-left: 4px;
 	line-height: 16px;
