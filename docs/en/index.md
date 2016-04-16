@@ -44,6 +44,12 @@ $grid->getConfig()->getComponentByType('GridFieldEditableColumns')->setDisplayFi
 	'SecondField' => array(
 		'title' => 'Custom Title',
 		'field' => 'ReadonlyField'
+	),
+	'ThirdField' => array(
+		'title' => 'Custom Title Two',
+        'callback' => function($record, $column, $grid) {
+            return TextField::create($column);
+        }
 	)
 ));
 ```
