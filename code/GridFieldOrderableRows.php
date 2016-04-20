@@ -349,13 +349,15 @@ class GridFieldOrderableRows extends RequestHandler implements
 		// Loop through each item, and update the sort values which do not
 		// match to order the objects.
 		if (!$isVersioned) {
+			$additionalSQL = (!$list instanceof ManyManyList) ? ', "LastEdited" = NOW()' : '';
 			foreach(array_values($order) as $pos => $id) {
 				if($values[$id] != $pool[$pos]) {
 					DB::query(sprintf(
-						'UPDATE "%s" SET "%s" = %d WHERE %s',
+						'UPDATE "%s" SET "%s" = %d%s WHERE %s',
 						$this->getSortTable($list),
 						$this->getSortField(),
 						$pool[$pos],
+						$additionalSQL,
 						$this->getSortTableClauseForIds($list, $id)
 					));
 				}
@@ -383,16 +385,18 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$field  = $this->getSortField();
 		$table  = $this->getSortTable($list);
 		$clause = sprintf('"%s"."%s" = 0', $table, $this->getSortField());
+		$additionalSQL = (!$list instanceof ManyManyList) ? ', "LastEdited" = NOW()' : '';
 
 		foreach($list->where($clause)->column('ID') as $id) {
 			$max = DB::query(sprintf('SELECT MAX("%s") + 1 FROM "%s"', $field, $table));
 			$max = $max->value();
 
 			DB::query(sprintf(
-				'UPDATE "%s" SET "%s" = %d WHERE %s',
+				'UPDATE "%s" SET "%s" = %d%s WHERE %s',
 				$table,
 				$field,
 				$max,
+				$additionalSQL,
 				$this->getSortTableClauseForIds($list, $id)
 			));
 		}
