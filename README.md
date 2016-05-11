@@ -1,7 +1,7 @@
 SilverStripe Grid Field Extensions Module
 =========================================
 
-[![Build Status](https://secure.travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions.png?branch=master)](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions)
+[![Build Status](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions.svg?branch=master)](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions)
 [![Latest Stable Version](https://poser.pugx.org/silverstripe-australia/gridfieldextensions/version.svg)](https://github.com/silverstripe-australia/silverstripe-gridfieldextensions/releases)
 [![Latest Unstable Version](https://poser.pugx.org/silverstripe-australia/gridfieldextensions/v/unstable.svg)](https://packagist.org/packages/silverstripe-australia/gridfieldextensions)
 [![Total Downloads](https://poser.pugx.org/silverstripe-australia/gridfieldextensions/downloads.svg)](https://packagist.org/packages/silverstripe-australia/gridfieldextensions)
