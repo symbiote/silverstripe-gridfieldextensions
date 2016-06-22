@@ -226,7 +226,12 @@ class GridFieldOrderableRows extends RequestHandler implements
 					$sortterm = $this->extraSortFields.', ';
 				}
 			}
-			$sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+			if ($list instanceof ArrayList) {
+				// Fix bug in 3.1.3+ where ArrayList doesn't account for quotes
+				$sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
+			} else {
+				$sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+			}
 			return $list->sort($sortterm);
 		} else {
 			return $list;
