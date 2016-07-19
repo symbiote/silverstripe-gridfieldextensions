@@ -204,6 +204,10 @@ class GridFieldOrderableRows extends RequestHandler implements
 	}
 
 	public function getColumnMetadata($grid, $col) {
+		if ($fieldLabels = singleton($grid->list->dataClass)->fieldLabels()) {
+			return array('title' => isset($fieldLabels['Reorder']) ? $fieldLabels['Reorder'] : '');
+		}
+
 		return array('title' => '');
 	}
 
