@@ -41,7 +41,7 @@ class GridFieldAddNewMultiClassTest extends SapphireTest {
  * @ignore
  */
 
-class GridFieldAddNewMultiClassTest_A {
+class GridFieldAddNewMultiClassTest_A implements TestOnly {
 	public function i18n_singular_name() {
 		$class = get_class($this);
 		return substr($class, strpos($class, '_') + 1);
@@ -52,7 +52,7 @@ class GridFieldAddNewMultiClassTest_A {
 	}
 }
 
-class GridFieldAddNewMultiClassTest_B extends GridFieldAddNewMultiClassTest_A {}
-class GridFieldAddNewMultiClassTest_C extends GridFieldAddNewMultiClassTest_A {}
+class GridFieldAddNewMultiClassTest_B extends GridFieldAddNewMultiClassTest_A implements TestOnly {}
+class GridFieldAddNewMultiClassTest_C extends GridFieldAddNewMultiClassTest_A implements TestOnly {}
 
 /**#@-*/

@@ -6,6 +6,12 @@ class GridFieldOrderableRowsTest extends SapphireTest {
 
 	protected $usesDatabase = true;
 
+	protected $extraDataObjects = array(
+		'GridFieldOrderableRowsTest_Parent',
+		'GridFieldOrderableRowsTest_Ordered',
+		'GridFieldOrderableRowsTest_Subclass',
+	);
+
 	/**
 	 * @covers GridFieldOrderableRows::getSortTable
 	 */
@@ -42,7 +48,7 @@ class GridFieldOrderableRowsTest extends SapphireTest {
  * @ignore
  */
 
-class GridFieldOrderableRowsTest_Parent extends DataObject {
+class GridFieldOrderableRowsTest_Parent extends DataObject implements TestOnly {
 
 	private static $has_many = array(
 		'MyHasMany' => 'GridFieldOrderableRowsTest_Ordered',
@@ -59,7 +65,7 @@ class GridFieldOrderableRowsTest_Parent extends DataObject {
 
 }
 
-class GridFieldOrderableRowsTest_Ordered extends DataObject {
+class GridFieldOrderableRowsTest_Ordered extends DataObject implements TestOnly {
 
 	private static $db = array(
 		'Sort' => 'Int'
@@ -69,9 +75,13 @@ class GridFieldOrderableRowsTest_Ordered extends DataObject {
 		'Parent' => 'GridFieldOrderableRowsTest_Parent'
 	);
 
+	private static $belongs_many_many =array(
+		'MyManyMany' => 'GridFieldOrderableRowsTest_Parent',
+	);
+
 }
 
-class GridFieldOrderableRowsTest_Subclass extends GridFieldOrderableRowsTest_Ordered {
+class GridFieldOrderableRowsTest_Subclass extends GridFieldOrderableRowsTest_Ordered implements TestOnly {
 }
 
 /**#@-*/
