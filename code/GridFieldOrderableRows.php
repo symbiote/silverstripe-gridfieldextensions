@@ -413,9 +413,13 @@ class GridFieldOrderableRows extends RequestHandler implements
 	}
 
 	protected function reorderItems($list, array $values, array $order) {
-		// Get a list of sort values that can be used.
-		$pool = array_values($values);
-		sort($pool);
+		$sortField = $this->getSortField();
+		/** @var SS_List $map */
+		$map = $list->map('ID', $sortField);
+		//fix for versions of SS that return inconsistent types for `map` function
+		if ($map instanceof SS_Map) {
+			$map = $map->toArray();
+		}
 
 		// If not a ManyManyList and using versioning, detect it.
 		$isVersioned = false;
@@ -427,14 +431,15 @@ class GridFieldOrderableRows extends RequestHandler implements
 		// Loop through each item, and update the sort values which do not
 		// match to order the objects.
 		if (!$isVersioned) {
+			$sortTable = $this->getSortTable($list);
 			$additionalSQL = (!$list instanceof ManyManyList) ? ', "LastEdited" = NOW()' : '';
 			foreach(array_values($order) as $pos => $id) {
-				if($values[$id] != $pool[$pos]) {
+				if($map[$id] != $pos) {
 					DB::query(sprintf(
 						'UPDATE "%s" SET "%s" = %d%s WHERE %s',
-						$this->getSortTable($list),
-						$this->getSortField(),
-						$pool[$pos],
+						$sortTable,
+						$sortField,
+						$pos,
 						$additionalSQL,
 						$this->getSortTableClauseForIds($list, $id)
 					));
@@ -445,11 +450,10 @@ class GridFieldOrderableRows extends RequestHandler implements
 			// *_versions table is updated. This ensures re-ordering works
 			// similar to the SiteTree where you change the position, and then
 			// you go into the record and publish it.
-			$sortField = $this->getSortField();
 			foreach(array_values($order) as $pos => $id) {
-				if($values[$id] != $pool[$pos]) {
+				if($map[$id] != $pos) {
 					$record = $class::get()->byID($id);
-					$record->$sortField = $pool[$pos];
+					$record->$sortField = $pos;
 					$record->write();
 				}
 			}

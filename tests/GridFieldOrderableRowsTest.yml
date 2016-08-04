@@ -1,0 +1,22 @@
+GridFieldOrderableRowsTest_Ordered:
+  item1:
+  item2:
+  item3:
+  item4:
+  item5:
+  item6:
+GridFieldOrderableRowsTest_Parent:
+  parent:
+    MyManyMany:
+      - 0: =>GridFieldOrderableRowsTest_Ordered.item1
+        ManyManySort: 1
+      - 1: =>GridFieldOrderableRowsTest_Ordered.item2
+        ManyManySort: 1
+      - 2: =>GridFieldOrderableRowsTest_Ordered.item3
+        ManyManySort: 2
+      - 3: =>GridFieldOrderableRowsTest_Ordered.item4
+        ManyManySort: 2
+      - 4: =>GridFieldOrderableRowsTest_Ordered.item5
+        ManyManySort: 108
+      - 5: =>GridFieldOrderableRowsTest_Ordered.item6
+        ManyManySort: 108
