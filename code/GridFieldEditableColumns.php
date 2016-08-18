@@ -45,7 +45,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 			// (ie. Maybe its readonly due to certain circumstances, or removed and not editable)
 			$cmsFields = $record->getCMSFields();
 			$cmsField = $cmsFields->dataFieldByName($colRelation[0]);
-			if (!$cmsField || $cmsField->isReadonly() || $cmsField->isDisabled()) 
+			if (!$cmsField || $cmsField->isReadonly() || $cmsField->isDisabled())
 			{
 				return parent::getColumnContent($grid, $record, $col);
 			}
@@ -70,9 +70,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
 		$field->setName($this->getFieldName($field->getName(), $grid, $record));
 		$field->setValue($value);
-        
+
         if ($field instanceof HtmlEditorField) {
-            return $field->FieldHolder(); 
+            return $field->FieldHolder();
         }
 
 		return $field->forTemplate();
@@ -91,6 +91,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 			return;
 		}
 
+		/** @var GridFieldOrderableRows $sortable */
+		$sortable = $grid->getConfig()->getComponentByType('GridFieldOrderableRows');
+
 		$form = $this->getForm($grid, $record);
 
 		foreach($value[__CLASS__] as $id => $fields) {
@@ -108,6 +111,12 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
 			$form->saveInto($item);
+
+			// Check if we are also sorting these records
+			if ($sortable) {
+				$sortField = $sortable->getSortField();
+				$item->setField($sortField, $fields[$sortField]);
+			}
 
 			if($list instanceof ManyManyList) {
 				$extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
@@ -199,7 +208,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 					//
 					// Allows use of 'MyBool.Nice' and 'MyHTML.NoHTML' so that
 					// GridFields not using inline editing still look good or
-					// revert to looking good in cases where the field isn't 
+					// revert to looking good in cases where the field isn't
 					// available or is readonly
 					//
 					$colRelation = explode('.', $col);

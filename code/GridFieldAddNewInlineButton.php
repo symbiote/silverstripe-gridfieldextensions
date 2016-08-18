@@ -101,7 +101,14 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
 				$content = $field->Field();
 			} else {
-				$content = null;
+				$content = $grid->getColumnContent($record, $column);
+
+				// Convert GridFieldEditableColumns to the template format
+				$content = str_replace(
+					'[GridFieldEditableColumns][0]',
+					'[GridFieldAddNewInlineButton][{%=o.num%}]',
+					$content
+				);
 			}
 
 			$attrs = '';
@@ -129,7 +136,10 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 		}
 
 		$class    = $grid->getModelClass();
+		/** @var GridFieldEditableColumns $editable */
 		$editable = $grid->getConfig()->getComponentByType('GridFieldEditableColumns');
+		/** @var GridFieldOrderableRows $sortable */
+		$sortable = $grid->getConfig()->getComponentByType('GridFieldOrderableRows');
 		$form     = $editable->getForm($grid, $record);
 
 		if(!singleton($class)->canCreate()) {
@@ -142,6 +152,12 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
 			$form->saveInto($item);
+
+			// Check if we are also sorting these records
+			if ($sortable) {
+				$sortField = $sortable->getSortField();
+				$item->setField($sortField, $fields[$sortField]);
+			}
 
 			if($list instanceof ManyManyList) {
 				$extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
