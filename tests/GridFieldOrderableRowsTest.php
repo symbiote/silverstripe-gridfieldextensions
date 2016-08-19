@@ -32,13 +32,18 @@ class GridFieldOrderableRowsTest extends SapphireTest {
 		);
 
 		$originalOrder = $parent->MyManyMany()->sort('ManyManySort')->column('ID');
-		$desiredOrder = array_reverse($originalOrder);
+		$desiredOrder = array();
+
+		// Make order non-contiguous, and 1-based
+		foreach(array_reverse($originalOrder) as $index => $id) {
+			$desiredOrder[$index * 2 + 1] = $id;
+		}
 
 		$this->assertNotEquals($originalOrder, $desiredOrder);
 
 		$reflection->invoke($orderable, $grid, $desiredOrder);
 
-		$newOrder = $parent->MyManyMany()->sort('ManyManySort')->column('ID');
+		$newOrder = $parent->MyManyMany()->sort('ManyManySort')->map('ManyManySort', 'ID')->toArray();
 
 		$this->assertEquals($desiredOrder, $newOrder);
 

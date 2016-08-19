@@ -1,5 +1,5 @@
 <script type="text/x-tmpl" class="ss-gridfield-add-inline-template">
-	<tr class="ss-gridfield-inline-new">
+	<tr class="ss-gridfield-item ss-gridfield-inline-new">
 		<% loop $Me %>
 			<% if $IsActions %>
 				<td$Attributes>

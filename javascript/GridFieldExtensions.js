@@ -50,9 +50,9 @@
 				var id   = this.data("id");
 
 				var dialog = this.closest(".add-existing-search-dialog")
-				                 .addClass("loading")
-				                 .children(".ui-dialog-content")
-				                 .empty()
+					 .addClass("loading")
+					 .children(".ui-dialog-content")
+					 .empty();
 
 				$.post(link, { id: id }, function() {
 					dialog.data("grid").reload();
@@ -79,13 +79,40 @@
 		$(".ss-gridfield.ss-gridfield-editable").entwine({
 			reload: function(opts, success) {
 				var grid  = this;
-				var added = grid.find("tbody:first").find(".ss-gridfield-inline-new").detach();
+				// Record position of all items
+				var added = [];
+				var index = 0; // 0-based index
+				grid.find("tbody:first .ss-gridfield-item").each(function() {
+					// Record inline items with their original positions
+					if ($(this).is(".ss-gridfield-inline-new")) {
+						added.push({
+							'index': index,
+							'row': $(this).detach()
+						});
+					}
+					index++;
+				});
 
 				this._super(opts, function() {
-					if(added.length) {
-                        added.appendTo(grid.find("tbody:first"));
-                        grid.find("tbody:first").children(".ss-gridfield-no-items").hide();
-					}
+					var body = grid.find("tbody:first");
+					$.each(added, function(i, item) {
+						var row = item['row'],
+							index = item['index'],
+							replaces;
+						// Insert at index position
+						if (index === 0) {
+							body.prepend(row);
+						} else {
+							// Find item that we could potentially insert this row after
+							replaces = body.find('.ss-gridfield-item:nth-child(' + index + ')');
+							if (replaces.length) {
+								replaces.after(row);
+							} else {
+								body.append(row);
+							}
+						}
+						grid.find("tbody:first").children(".ss-gridfield-no-items").hide();
+					});
 
 					if(success) success.apply(grid, arguments);
 				});
@@ -131,7 +158,7 @@
 				}
 			},
 			onkeyup: function(e) {
-				if (e.keyCode == 90 && e.ctrlKey) 
+				if (e.keyCode == 90 && e.ctrlKey)
 				{
 					var target = $(e.target);
 					var elementsChanged = target.data("pasteManipulatedElements");
@@ -146,9 +173,9 @@
 				}
 			},
 			onaddnewinline: function(e) {
-                if(e.target != this[0]) {
-                    return;
-                }
+				if(e.target != this[0]) {
+					return;
+				}
 
 				var tmpl = window.tmpl;
 				var row = this.find(".ss-gridfield-add-inline-template:last");
@@ -157,8 +184,11 @@
 				tmpl.cache[this[0].id + "ss-gridfield-add-inline-template"] = tmpl(row.html());
 
 				this.find("tbody:first").append(tmpl(this[0].id + "ss-gridfield-add-inline-template", { num: num }));
-                this.find("tbody:first").children(".ss-gridfield-no-items").hide();
+				this.find("tbody:first").children(".ss-gridfield-no-items").hide();
 				this.data("add-inline-num", num + 1);
+
+				// Rebuild sort order fields
+				$(".ss-gridfield-orderable tbody").rebuildSort();
 			}
 		});
 
@@ -174,7 +204,7 @@
 				var msg = ss.i18n._t("GridFieldExtensions.CONFIRMDEL", "Are you sure you want to delete this?");
 
 				if(confirm(msg)) {
-                    this.parents("tr.ss-gridfield-inline-new:first").remove();
+					this.parents("tr.ss-gridfield-inline-new:first").remove();
 				}
 
 				return false;
@@ -234,36 +264,70 @@
 		 */
 
 		$(".ss-gridfield-orderable tbody").entwine({
+			rebuildSort: function() {
+				var grid = this.getGridField();
+
+				// Get lowest sort value in this list (respects pagination)
+				var minSort = null;
+				grid.getItems().each(function() {
+					// get sort field
+					var sortField = $(this).find('.ss-orderable-hidden-sort');
+					if (sortField.length) {
+						var thisSort = sortField.val();
+						if (minSort === null && thisSort > 0) {
+							minSort = thisSort;
+						} else if (thisSort > 0) {
+							minSort = Math.min(minSort, thisSort);
+						}
+					}
+				});
+				minSort = Math.max(1, minSort);
+
+				// With the min sort found, loop through all records and re-arrange
+				var sort = minSort;
+				grid.getItems().each(function() {
+					// get sort field
+					var sortField = $(this).find('.ss-orderable-hidden-sort');
+					if (sortField.length) {
+						sortField.val(sort);
+						sort++;
+					}
+				});
+			},
 			onadd: function() {
 				var self = this;
 
 				var helper = function(e, row) {
 					return row.clone()
-					          .addClass("ss-gridfield-orderhelper")
-					          .width("auto")
-					          .find(".col-buttons")
-					          .remove()
-					          .end();
+							  .addClass("ss-gridfield-orderhelper")
+							  .width("auto")
+							  .find(".col-buttons")
+							  .remove()
+							  .end();
 				};
 
-				var update = function() {
+				var update = function(event, ui) {
+					// If the item being dragged is unsaved, don't do anything
+					var postback = true;
+					if (ui.item.hasClass('ss-gridfield-inline-new')) {
+						postback = false;
+					}
+
+					// Rebuild all sort hidden fields
+					self.rebuildSort();
+
+					// Check if we are allowed to postback
 					var grid = self.getGridField();
-
-					var data = grid.getItems().map(function() {
-						return { name: "order[]", value: $(this).data("id") };
-					});
-
-					if (grid.data("immediate-update"))
+					if (grid.data("immediate-update") && postback)
 					{
 						grid.reload({
-							url: grid.data("url-reorder"),
-							data: data.get()
+							url: grid.data("url-reorder")
 						});
 					}
 					else
 					{
 						// Tells the user they have unsaved changes when they
-						// try and leave the page after sorting, also updates the 
+						// try and leave the page after sorting, also updates the
 						// save buttons to show the user they've made a change.
 						var form = $('.cms-edit-form');
 						form.addClass('changed');
@@ -278,9 +342,9 @@
 				});
 			},
 			onremove: function() {
-                if(this.data('sortable')) {
-				    this.sortable("destroy");
-                }
+				if(this.data('sortable')) {
+					this.sortable("destroy");
+				}
 			}
 		});
 
