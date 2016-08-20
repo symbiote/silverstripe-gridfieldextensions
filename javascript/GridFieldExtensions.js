@@ -309,7 +309,7 @@
 				var update = function(event, ui) {
 					// If the item being dragged is unsaved, don't do anything
 					var postback = true;
-					if (ui.item.hasClass('ss-gridfield-inline-new')) {
+					if ((ui != undefined) && ui.item.hasClass('ss-gridfield-inline-new')) {
 						postback = false;
 					}
 
