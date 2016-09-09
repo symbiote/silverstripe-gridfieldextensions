@@ -1,4 +1,16 @@
 <?php
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\SS_HTTPResponse_Exception;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Object;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\View\ArrayData;
+
 /**
  * A component which lets the user select from a list of classes to create a new record form.
  *
@@ -157,7 +169,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	public function handleAdd($grid, $request) {
 		$class     = $request->param('ClassName');
 		$classes   = $this->getClasses($grid);
-		$component = $grid->getConfig()->getComponentByType('GridFieldDetailForm');
+		$component = $grid->getConfig()->getComponentByType('SilverStripe\\Forms\\GridField\\GridFieldDetailForm');
 
 		if(!$component) {
 			throw new Exception('The add new multi class component requires the detail form component.');
