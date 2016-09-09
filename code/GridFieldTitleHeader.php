@@ -1,4 +1,9 @@
 <?php
+
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\ArrayData;
+
 /**
  * A simple header which displays column titles.
  */

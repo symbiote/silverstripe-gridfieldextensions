@@ -1,4 +1,13 @@
 <?php
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\RequestHandler;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\PaginatedList;
+
 /**
  * Used by {@link GridFieldAddExistingSearchButton} to provide the searching
  * functionality.
@@ -59,7 +68,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler {
 	public function SearchForm() {
 		$form = new Form(
 			$this,
-			'SearchForm',
+			'SilverStripe\\CMS\\Search\\SearchForm',
 			$this->context->getFields(),
 			new FieldList(
 				FormAction::create('doSearch', _t('GridFieldExtensions.SEARCH', 'Search'))

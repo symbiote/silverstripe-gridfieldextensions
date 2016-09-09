@@ -1,4 +1,9 @@
 <?php
+
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Dev\TestOnly;
+use SilverStripe\Forms\GridField\GridField;
+
 /**
  * Tests for {@link GridFieldAddNewMultiClass}.
  */

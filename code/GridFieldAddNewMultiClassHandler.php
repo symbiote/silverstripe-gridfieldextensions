@@ -1,4 +1,8 @@
 <?php
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
+
 /**
  * A custom grid field request handler that allows interacting with form fields when adding records.
  */

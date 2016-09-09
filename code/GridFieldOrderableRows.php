@@ -1,4 +1,24 @@
 <?php
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\RequestHandler;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridField_ColumnProvider;
+use SilverStripe\Forms\GridField\GridField_DataManipulator;
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\Forms\GridField\GridField_SaveHandler;
+use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DB;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\ORM\SS_Map;
+use SilverStripe\View\ViewableData;
+
 /**
  * Allows grid field rows to be re-ordered via drag and drop. Both normal data
  * lists and many many lists can be ordered.
@@ -319,7 +339,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 * Handles requests to move an item to the previous or next page.
 	 */
 	public function handleMoveToPage(GridField $grid, $request) {
-		if(!$paginator = $grid->getConfig()->getComponentByType('GridFieldPaginator')) {
+		if(!$paginator = $grid->getConfig()->getComponentByType('SilverStripe\\Forms\\GridField\\GridFieldPaginator')) {
 			$this->httpError(404, 'Paginator component not found');
 		}
 
@@ -461,7 +481,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$isVersioned = false;
 		$class = $list->dataClass();
 		if ($class == $this->getSortTable($list)) {
-			$isVersioned = $class::has_extension('Versioned');
+			$isVersioned = $class::has_extension('SilverStripe\\ORM\\Versioning\\Versioned');
 		}
 
 		// Loop through each item, and update the sort values which do not
