@@ -143,7 +143,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	 * @param DataList $list
 	 * @return string
 	 */
-	public function getSortTable(DataList $list) {
+	public function getSortTable(SS_List $list) {
 		$field = $this->getSortField();
 
 		if($list instanceof ManyManyList) {
@@ -219,7 +219,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 	}
 
 	public function getColumnMetadata($grid, $col) {
-		if ($fieldLabels = singleton($grid->list->dataClass)->fieldLabels()) {
+		if ($fieldLabels = singleton($grid->getModelClass())->fieldLabels()) {
 			return array('title' => isset($fieldLabels['Reorder']) ? $fieldLabels['Reorder'] : '');
 		}
 
