@@ -115,6 +115,8 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 
 			$result[$class] = $title;
 		}
+		
+		asort($result);
 
 		if($kill_ancestors) {
 			foreach($kill_ancestors as $class => $bool) {
