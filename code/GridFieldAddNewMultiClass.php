@@ -12,6 +12,7 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\View\ArrayData;
+use ReflectionClass;
 
 /**
  * A component which lets the user select from a list of classes to create a new record form.
