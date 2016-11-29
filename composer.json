@@ -19,12 +19,12 @@
 		"issues": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions/issues"
 	},
 	"require": {
-		"silverstripe/framework": "4.0.0-alpha1 as 3.4.1"
+		"silverstripe/framework": "4.0.0-alpha3 as 3.4.1"
 	},
 	"extra": {
 		"installer-name": "gridfieldextensions",
 		"branch-alias": {
-			"dev-master": "2.0.x-dev"
+			"dev-master": "1.4.x-dev"
 		},
 		"screenshots": [
 			"docs/en/_images/editable-rows.png",
@@ -34,6 +34,9 @@
 	"replace": {
 		"ajshort/silverstripe-gridfieldextensions": "self.version"
 	},
+	"autoload": {
+		"psr-4": {"SilverStripe\\Forms\\GridField\\": "code/"}
+	},
 	"prefer-stable": true,
-  	"minimum-stability": "dev"
+	"minimum-stability": "dev"
 }
