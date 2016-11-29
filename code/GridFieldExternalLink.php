@@ -1,5 +1,7 @@
 <?php
 
+namespace SilverStripe\Forms\GridField;
+
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\View\ArrayData;
 

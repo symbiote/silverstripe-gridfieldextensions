@@ -1,5 +1,7 @@
 <?php
 
+namespace SilverStripe\Forms\GridField;
+
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\ORM\SS_List;

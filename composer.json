@@ -34,6 +34,9 @@
 	"replace": {
 		"ajshort/silverstripe-gridfieldextensions": "self.version"
 	},
+	"autoload": {
+		"psr-4": {"SilverStripe\\Forms\\GridField\\": "code/"}
+	},
 	"prefer-stable": true,
-  	"minimum-stability": "dev"
+	"minimum-stability": "dev"
 }

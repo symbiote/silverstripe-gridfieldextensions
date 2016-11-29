@@ -1,5 +1,7 @@
 <?php
 
+namespace SilverStripe\Forms\GridField;
+
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;

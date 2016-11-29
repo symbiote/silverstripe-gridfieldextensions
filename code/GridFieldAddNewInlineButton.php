@@ -1,5 +1,7 @@
 <?php
 
+namespace SilverStripe\Forms\GridField;
+
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Object;
 use SilverStripe\Forms\Form;
