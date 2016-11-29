@@ -180,7 +180,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$classes = ClassInfo::dataClassesFor($list->dataClass());
 
 		foreach($classes as $class) {
-			if(singleton($class)->hasOwnTableDatabaseField($field)) {
+			if(singleton($class)->hasDataBaseField($field)) {
 				return $class;
 			}
 		}
