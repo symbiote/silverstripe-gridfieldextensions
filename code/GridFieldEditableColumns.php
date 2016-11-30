@@ -3,7 +3,7 @@
 namespace SilverStripe\Forms\GridField;
 
 use SilverStripe\Control\Controller;
-use SilverStripe\Control\SS_HTTPResponse_Exception;
+use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\Object;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
@@ -151,11 +151,11 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 		$list = $grid->getList();
 
 		if(!ctype_digit($id)) {
-			throw new SS_HTTPResponse_Exception(null, 400);
+			throw new HTTPResponse_Exception(null, 400);
 		}
 
 		if(!$record = $list->byID($id)) {
-			throw new SS_HTTPResponse_Exception(null, 404);
+			throw new HTTPResponse_Exception(null, 404);
 		}
 
 		$form = $this->getForm($grid, $record);

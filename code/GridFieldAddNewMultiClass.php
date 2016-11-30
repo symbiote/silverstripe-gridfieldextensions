@@ -3,7 +3,7 @@
 namespace SilverStripe\Forms\GridField;
 
 use SilverStripe\Control\Controller;
-use SilverStripe\Control\SS_HTTPResponse_Exception;
+use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Object;
@@ -180,7 +180,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 		}
 
 		if(!$class || !array_key_exists($class, $classes)) {
-			throw new SS_HTTPResponse_Exception(400);
+			throw new HTTPResponse_Exception(400);
 		}
 
 		$handler = Object::create($this->itemRequestClass,
