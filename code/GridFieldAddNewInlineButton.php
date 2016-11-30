@@ -100,6 +100,13 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 				));
 
 				$content = $field->Field();
+
+				// Convert HTML IDs built by FormTemplateHelper to the template format
+				$content = str_replace(
+					'GridFieldAddNewInlineButton_o.num_',
+					'GridFieldAddNewInlineButton_{%=o.num%}_',
+					$content
+				);
 			} else {
 				$content = $grid->getColumnContent($record, $column);
 
