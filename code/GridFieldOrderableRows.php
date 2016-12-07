@@ -1,5 +1,7 @@
 <?php
 
+namespace SilverStripe\Forms\GridField;
+
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\ClassInfo;
@@ -178,7 +180,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 		$classes = ClassInfo::dataClassesFor($list->dataClass());
 
 		foreach($classes as $class) {
-			if(singleton($class)->hasOwnTableDatabaseField($field)) {
+			if(singleton($class)->hasDataBaseField($field)) {
 				return $class;
 			}
 		}
