@@ -1,4 +1,19 @@
 <?php
+
+namespace SilverStripe\Forms\GridField;
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPResponse_Exception;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Object;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\View\ArrayData;
+use ReflectionClass;
+
 /**
  * A component which lets the user select from a list of classes to create a new record form.
  *
@@ -25,7 +40,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	/**
 	 * @var string
 	 */
-	protected $itemRequestClass = 'GridFieldAddNewMultiClassHandler';
+	protected $itemRequestClass = 'SilverStripe\\Forms\\GridField\\GridFieldAddNewMultiClassHandler';
 
 	/**
 	 * @param string $fragment the fragment to render the button in
@@ -158,14 +173,14 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 	public function handleAdd($grid, $request) {
 		$class     = $request->param('ClassName');
 		$classes   = $this->getClasses($grid);
-		$component = $grid->getConfig()->getComponentByType('GridFieldDetailForm');
+		$component = $grid->getConfig()->getComponentByType('SilverStripe\\Forms\\GridField\\GridFieldDetailForm');
 
 		if(!$component) {
 			throw new Exception('The add new multi class component requires the detail form component.');
 		}
 
 		if(!$class || !array_key_exists($class, $classes)) {
-			throw new SS_HTTPResponse_Exception(400);
+			throw new HTTPResponse_Exception(400);
 		}
 
 		$handler = Object::create($this->itemRequestClass,

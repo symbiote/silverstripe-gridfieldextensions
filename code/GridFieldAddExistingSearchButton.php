@@ -1,4 +1,12 @@
 <?php
+
+namespace SilverStripe\Forms\GridField;
+
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\View\ArrayData;
+
 /**
  * A modal search dialog which uses search context to search for and add
  * existing records to a grid field.

@@ -1,4 +1,19 @@
 <?php
+
+namespace SilverStripe\Forms\GridField;
+
+use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\RequestHandler;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldComponent;
+use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
+use SilverStripe\Forms\Tab;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\ORM\ArrayList;
+
 /**
  * A base utility class for request handlers which present a grid field detail
  * view.
@@ -65,7 +80,7 @@ abstract class GridFieldRequestHandler extends RequestHandler {
 	public function Form() {
 		$form = new Form(
 			$this,
-			'Form',
+			'SilverStripe\\Forms\\Form',
 			new FieldList($root = new TabSet('Root', new Tab('Main'))),
 			new FieldList()
 		);

@@ -1,4 +1,9 @@
 <?php
+
+namespace SilverStripe\Forms\GridField;
+
+use SilverStripe\View\Requirements;
+
 /**
  * Utility functions for the grid fields extension module.
  */

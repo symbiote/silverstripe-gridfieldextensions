@@ -1,4 +1,23 @@
 <?php
+
+namespace SilverStripe\Forms\GridField;
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPResponse_Exception;
+use SilverStripe\Core\Object;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldDataColumns;
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\Forms\GridField\GridField_SaveHandler;
+use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\ManyManyList;
+
 /**
  * Allows inline editing of grid field records without having to load a separate
  * edit interface.
@@ -132,11 +151,11 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 		$list = $grid->getList();
 
 		if(!ctype_digit($id)) {
-			throw new SS_HTTPResponse_Exception(null, 400);
+			throw new HTTPResponse_Exception(null, 400);
 		}
 
 		if(!$record = $list->byID($id)) {
-			throw new SS_HTTPResponse_Exception(null, 404);
+			throw new HTTPResponse_Exception(null, 404);
 		}
 
 		$form = $this->getForm($grid, $record);
@@ -177,7 +196,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 				if(isset($info['callback'])) {
 					$field = call_user_func($info['callback'], $record, $col, $grid);
 				} elseif(isset($info['field'])) {
-					if ($info['field'] == 'LiteralField') {
+					if ($info['field'] == 'SilverStripe\\Forms\\LiteralField') {
 						$field = new $info['field']($col, null);
 					} else {
 						$field = new $info['field']($col);

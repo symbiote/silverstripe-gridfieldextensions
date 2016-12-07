@@ -1,4 +1,19 @@
 <?php
+
+namespace SilverStripe\Forms\GridField;
+
+use SilverStripe\Core\Convert;
+use SilverStripe\Core\Object;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\Forms\GridField\GridField_SaveHandler;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\ManyManyList;
+use SilverStripe\View\ArrayData;
+use SilverStripe\View\Requirements;
+
 /**
  * Builds on the {@link GridFieldEditableColumns} component to allow creating new records.
  */

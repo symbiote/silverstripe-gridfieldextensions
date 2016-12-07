@@ -1,4 +1,10 @@
 <?php
+
+namespace SilverStripe\Forms\GridField;
+
+use SilverStripe\Forms\GridField\GridFieldDataColumns;
+use SilverStripe\View\ArrayData;
+
 /**
  * Displays a link to an external source referenced 'external link'
  */
