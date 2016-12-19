@@ -2,7 +2,8 @@
 
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\GridFieldExtensions\GridField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\GridFieldExtensions\GridFieldAddNewMultiClass;
 
 /**
  * Tests for {@link GridFieldAddNewMultiClass}.
