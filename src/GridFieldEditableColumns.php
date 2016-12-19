@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\Forms\GridField;
+namespace SilverStripe\GridFieldExtensions;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPResponse_Exception;
@@ -111,7 +111,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 		}
 
 		/** @var GridFieldOrderableRows $sortable */
-		$sortable = $grid->getConfig()->getComponentByType('GridFieldOrderableRows');
+		$sortable = $grid->getConfig()->getComponentByType('SilverStripe\\GridFieldExtensions\\GridFieldOrderableRows');
 
 		$form = $this->getForm($grid, $record);
 

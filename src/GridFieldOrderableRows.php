@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\Forms\GridField;
+namespace SilverStripe\GridFieldExtensions;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;
@@ -233,7 +233,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 
 		return ViewableData::create()->customise(array(
 			'SortField' => $sortField
-		))->renderWith('GridFieldOrderableRowsDragHandle');
+		))->renderWith('SilverStripe\\GridFieldExtensions\\GridFieldOrderableRowsDragHandle');
 	}
 
 	public function getColumnAttributes($grid, $record, $col) {

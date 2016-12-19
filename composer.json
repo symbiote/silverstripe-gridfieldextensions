@@ -1,42 +1,44 @@
 {
-	"name": "silverstripe-australia/gridfieldextensions",
-	"description": "A collection of useful grid field components",
-	"type": "silverstripe-module",
-	"homepage": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions",
-	"keywords": ["silverstripe", "gridfield"],
-	"license": "BSD-3-Clause",
-	"authors": [
-		{
-			"name": "Andrew Short",
-			"email": "andrewjshort@gmail.com"
-		},
-		{
-                        "name": "Marcus Nyeholt",
-                        "email": "marcus@silverstripe.com.au"
-                }
-	],
-	"support": {
-		"issues": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions/issues"
-	},
-	"require": {
-		"silverstripe/framework": "4.0.0-alpha3 as 3.4.1"
-	},
-	"extra": {
-		"installer-name": "gridfieldextensions",
-		"branch-alias": {
-			"dev-master": "1.4.x-dev"
-		},
-		"screenshots": [
-			"docs/en/_images/editable-rows.png",
-			"docs/en/_images/add-existing-search.png"
-		]
-	},
-	"replace": {
-		"ajshort/silverstripe-gridfieldextensions": "self.version"
-	},
-	"autoload": {
-		"psr-4": {"SilverStripe\\Forms\\GridField\\": "code/"}
-	},
-	"prefer-stable": true,
-	"minimum-stability": "dev"
+    "name": "silverstripe-australia/gridfieldextensions",
+    "description": "A collection of useful grid field components",
+    "type": "silverstripe-module",
+    "homepage": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions",
+    "keywords": ["silverstripe", "gridfield"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Andrew Short",
+            "email": "andrewjshort@gmail.com"
+        },
+        {
+            "name": "Marcus Nyeholt",
+            "email": "marcus@silverstripe.com.au"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions/issues"
+    },
+    "require": {
+        "silverstripe/framework": "~4.0"
+    },
+    "extra": {
+        "installer-name": "gridfieldextensions",
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        },
+        "screenshots": [
+            "docs/en/_images/editable-rows.png",
+            "docs/en/_images/add-existing-search.png"
+        ]
+    },
+    "replace": {
+        "ajshort/silverstripe-gridfieldextensions": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverStripe\\GridFieldExtensions\\": "src/"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }

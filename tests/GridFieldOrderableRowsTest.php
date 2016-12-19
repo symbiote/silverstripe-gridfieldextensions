@@ -2,8 +2,8 @@
 
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\GridFieldExtensions\GridField;
+use SilverStripe\GridFieldExtensions\GridFieldConfig_RelationEditor;
 use SilverStripe\ORM\DataObject;
 
 /**

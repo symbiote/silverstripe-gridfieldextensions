@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\Forms\GridField;
+namespace SilverStripe\GridFieldExtensions;
 
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\ORM\ArrayList;
@@ -24,7 +24,7 @@ class GridFieldTitleHeader implements GridField_HTMLProvider {
 		}
 
 		return array(
-			'header' => $cols->renderWith('GridFieldTitleHeader'),
+			'header' => $cols->renderWith(__CLASS__)
 		);
 	}
 

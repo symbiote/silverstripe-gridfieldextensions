@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\Forms\GridField;
+namespace SilverStripe\GridFieldExtensions;
 
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
@@ -11,9 +11,7 @@ use SilverStripe\View\ArrayData;
  * A modal search dialog which uses search context to search for and add
  * existing records to a grid field.
  */
-class GridFieldAddExistingSearchButton implements
-	GridField_HTMLProvider,
-	GridField_URLHandler {
+class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridField_URLHandler {
 
 	private static $allowed_actions = array(
 		'handleSearch'
@@ -90,7 +88,7 @@ class GridFieldAddExistingSearchButton implements
 		));
 
 		return array(
-			$this->fragment => $data->renderWith('GridFieldAddExistingSearchButton'),
+			$this->fragment => $data->renderWith('SilverStripe\\GridFieldExtensions\\GridFieldAddExistingSearchButton'),
 		);
 	}
 

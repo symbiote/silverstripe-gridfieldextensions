@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\Forms\GridField;
+namespace SilverStripe\GridFieldExtensions;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPResponse_Exception;
@@ -204,7 +204,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 		GridFieldExtensions::include_requirements();
 
 		$field = new DropdownField(sprintf('%s[ClassName]', __CLASS__), '', $classes, $this->defaultClass);
-		if (Config::inst()->get('GridFieldAddNewMultiClass', 'showEmptyString')) {
+		if (Config::inst()->get(__CLASS__, 'showEmptyString')) {
 			$field->setEmptyString(_t('GridFieldExtensions.SELECTTYPETOCREATE', '(Select type to create)'));
 		}
 		$field->addExtraClass('no-change-track');
