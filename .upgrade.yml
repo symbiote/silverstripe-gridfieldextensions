@@ -1,0 +1,12 @@
+mappings:
+  GridFieldAddExistingSearchButton: SilverStripe\GridFieldExtensions\GridFieldAddExistingSearchButton
+  GridFieldAddExistingSearchHandler: SilverStripe\GridFieldExtensions\GridFieldAddExistingSearchHandler
+  GridFieldAddNewInlineButton: SilverStripe\GridFieldExtensions\GridFieldAddNewInlineButton
+  GridFieldAddNewMultiClass: SilverStripe\GridFieldExtensions\GridFieldAddNewMultiClass
+  GridFieldAddNewMultiClassHandler: SilverStripe\GridFieldExtensions\GridFieldAddNewMultiClassHandler
+  GridFieldEditableColumns: SilverStripe\GridFieldExtensions\GridFieldEditableColumns
+  GridFieldExtensions: SilverStripe\GridFieldExtensions\GridFieldExtensions
+  GridFieldExternalLink: SilverStripe\GridFieldExtensions\GridFieldExternalLink
+  GridFieldOrderableRows: SilverStripe\GridFieldExtensions\GridFieldOrderableRows
+  GridFieldRequestHandler: SilverStripe\GridFieldExtensions\GridFieldRequestHandler
+  GridFieldTitleHeader: SilverStripe\GridFieldExtensions\GridFieldTitleHeader
