@@ -1,5 +1,4 @@
-SilverStripe Grid Field Extensions Module
-=========================================
+# SilverStripe Grid Field Extensions Module
 
 [![Build Status](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions.svg?branch=master)](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions)
 [![Latest Stable Version](https://poser.pugx.org/silverstripe-australia/gridfieldextensions/version.svg)](https://github.com/silverstripe-australia/silverstripe-gridfieldextensions/releases)
@@ -21,5 +20,10 @@ This module provides a number of useful grid field components:
   custom grid field detail views including tabs, breadcrumbs and other CMS
   features.
 * `GridFieldTitleHeader` - a simple header which displays column titles.
+
+This branch will aim for compatibility with SilverStripe 4.x. 
+
+For SilverStripe 3.x, please see the [compatible branch](https://github.com/silverstripe-australia/silverstripe-gridfieldextensions/tree/1).
+
 
 See [docs/en/index.md](docs/en/index.md) for documentation and examples.
