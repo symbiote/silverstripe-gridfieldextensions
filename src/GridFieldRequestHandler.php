@@ -22,145 +22,155 @@ use SilverStripe\ORM\ArrayList;
  * as tabs, breadcrumbs and a back link. Much of this code is extracted from the
  * detail form.
  */
-abstract class GridFieldRequestHandler extends RequestHandler {
+abstract class GridFieldRequestHandler extends RequestHandler
+{
 
-	private static $allowed_actions = array(
-		'Form'
-	);
+    private static $allowed_actions = array(
+        'Form'
+    );
 
-	/**
-	 * @var GridField
-	 */
-	protected $grid;
+    /**
+     * @var GridField
+     */
+    protected $grid;
 
-	/**
-	 * @var GridFieldComponent
-	 */
-	protected $component;
+    /**
+     * @var GridFieldComponent
+     */
+    protected $component;
 
-	/**
-	 * @var string
-	 */
-	protected $name;
+    /**
+     * @var string
+     */
+    protected $name;
 
-	/**
-	 * @var string
-	 */
-	protected $template = __CLASS__;
+    /**
+     * @var string
+     */
+    protected $template = __CLASS__;
 
-	public function __construct(GridField $grid, GridFieldComponent $component, $name) {
-		$this->grid = $grid;
-		$this->component = $component;
-		$this->name = $name;
+    public function __construct(GridField $grid, GridFieldComponent $component, $name)
+    {
+        $this->grid = $grid;
+        $this->component = $component;
+        $this->name = $name;
 
-		parent::__construct();
-	}
+        parent::__construct();
+    }
 
-	public function index($request) {
-		$result = $this->renderWith($this->template);
+    public function index($request)
+    {
+        $result = $this->renderWith($this->template);
 
-		if($request->isAjax()) {
-			return $result;
-		} else {
-			return $this->getTopLevelController()->customise(array(
-				'Content' => $result
-			));
-		}
-	}
+        if ($request->isAjax()) {
+            return $result;
+        } else {
+            return $this->getTopLevelController()->customise(array(
+                'Content' => $result
+            ));
+        }
+    }
 
-	public function Link($action = null) {
-		return Controller::join_links($this->grid->Link(), $this->name, $action);
-	}
+    public function Link($action = null)
+    {
+        return Controller::join_links($this->grid->Link(), $this->name, $action);
+    }
 
-	/**
-	 * This method should be overloaded to build out the detail form.
-	 *
-	 * @return Form
-	 */
-	public function Form() {
-		$form = new Form(
-			$this,
-			'SilverStripe\\Forms\\Form',
-			new FieldList($root = new TabSet('Root', new Tab('Main'))),
-			new FieldList()
-		);
+    /**
+     * This method should be overloaded to build out the detail form.
+     *
+     * @return Form
+     */
+    public function Form()
+    {
+        $form = new Form(
+            $this,
+            'SilverStripe\\Forms\\Form',
+            new FieldList($root = new TabSet('Root', new Tab('Main'))),
+            new FieldList()
+        );
 
-		if($this->getTopLevelController() instanceof LeftAndMain) {
-			$form->setTemplate('LeftAndMain_EditForm');
-			$form->addExtraClass('cms-content cms-edit-form cms-tabset center');
-			$form->setAttribute('data-pjax-fragment', 'CurrentForm Content');
+        if ($this->getTopLevelController() instanceof LeftAndMain) {
+            $form->setTemplate('LeftAndMain_EditForm');
+            $form->addExtraClass('cms-content cms-edit-form cms-tabset center');
+            $form->setAttribute('data-pjax-fragment', 'CurrentForm Content');
 
-			$root->setTemplate('CMSTabSet');
-			$form->Backlink = $this->getBackLink();
-		}
+            $root->setTemplate('CMSTabSet');
+            $form->Backlink = $this->getBackLink();
+        }
 
-		return $form;
-	}
+        return $form;
+    }
 
-	/**
-	 * @return Controller
-	 */
-	public function getController() {
-		return $this->grid->getForm()->getController();
-	}
+    /**
+     * @return Controller
+     */
+    public function getController()
+    {
+        return $this->grid->getForm()->getController();
+    }
 
-	/**
-	 * @param string $template
-	 */
-	public function setTemplate($template) {
-		$this->template = $template;
-	}
+    /**
+     * @param string $template
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTemplate() {
-		return $this->template;
-	}
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
 
-	/**
-	 * @return ArrayList
-	 */
-	public function getBreadcrumbs() {
-		$controller = $this->getController();
+    /**
+     * @return ArrayList
+     */
+    public function getBreadcrumbs()
+    {
+        $controller = $this->getController();
 
-		if($controller->hasMethod('Breadcrumbs')) {
-			return $controller->Breadcrumbs();
-		} else {
-			return new ArrayList();
-		}
-	}
+        if ($controller->hasMethod('Breadcrumbs')) {
+            return $controller->Breadcrumbs();
+        } else {
+            return new ArrayList();
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getBackLink() {
-		$controller = $this->getTopLevelController();
+    /**
+     * @return string
+     */
+    protected function getBackLink()
+    {
+        $controller = $this->getTopLevelController();
 
-		if($controller->hasMethod('Backlink')) {
-			return $controller->Backlink();
-		} else {
-			return $controller->Link();
-		}
-	}
+        if ($controller->hasMethod('Backlink')) {
+            return $controller->Backlink();
+        } else {
+            return $controller->Link();
+        }
+    }
 
-	/**
-	 * @return Controller
-	 */
-	protected function getTopLevelController() {
-		$controller = $this->getController();
+    /**
+     * @return Controller
+     */
+    protected function getTopLevelController()
+    {
+        $controller = $this->getController();
 
-		while($controller) {
-			if($controller instanceof GridFieldRequestHandler) {
-				$controller = $controller->getController();
-			} elseif($controller instanceof GridFieldDetailForm_ItemRequest) {
-				$controller = $controller->getController();
-			} else {
-				break;
-			}
-		}
+        while ($controller) {
+            if ($controller instanceof GridFieldRequestHandler) {
+                $controller = $controller->getController();
+            } elseif ($controller instanceof GridFieldDetailForm_ItemRequest) {
+                $controller = $controller->getController();
+            } else {
+                break;
+            }
+        }
 
-		return $controller;
-	}
-
+        return $controller;
+    }
 }

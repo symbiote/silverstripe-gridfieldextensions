@@ -17,170 +17,181 @@ use SilverStripe\View\Requirements;
 /**
  * Builds on the {@link GridFieldEditableColumns} component to allow creating new records.
  */
-class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_SaveHandler {
+class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_SaveHandler
+{
 
-	private $fragment;
+    private $fragment;
 
-	private $title;
+    private $title;
 
-	/**
-	 * @param string $fragment the fragment to render the button in
-	 */
-	public function __construct($fragment = 'buttons-before-left') {
-		$this->setFragment($fragment);
-		$this->setTitle(_t('GridFieldExtensions.ADD', 'Add'));
-	}
+    /**
+     * @param string $fragment the fragment to render the button in
+     */
+    public function __construct($fragment = 'buttons-before-left')
+    {
+        $this->setFragment($fragment);
+        $this->setTitle(_t('GridFieldExtensions.ADD', 'Add'));
+    }
 
-	/**
-	 * Gets the fragment name this button is rendered into.
-	 *
-	 * @return string
-	 */
-	public function getFragment() {
-		return $this->fragment;
-	}
+    /**
+     * Gets the fragment name this button is rendered into.
+     *
+     * @return string
+     */
+    public function getFragment()
+    {
+        return $this->fragment;
+    }
 
-	/**
-	 * Sets the fragment name this button is rendered into.
-	 *
-	 * @param string $fragment
-	 * @return GridFieldAddNewInlineButton $this
-	 */
-	public function setFragment($fragment) {
-		$this->fragment = $fragment;
-		return $this;
-	}
+    /**
+     * Sets the fragment name this button is rendered into.
+     *
+     * @param string $fragment
+     * @return GridFieldAddNewInlineButton $this
+     */
+    public function setFragment($fragment)
+    {
+        $this->fragment = $fragment;
+        return $this;
+    }
 
-	/**
-	 * Gets the button title text.
-	 *
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * Gets the button title text.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * Sets the button title text.
-	 *
-	 * @param string $title
-	 * @return GridFieldAddNewInlineButton $this
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-		return $this;
-	}
+    /**
+     * Sets the button title text.
+     *
+     * @param string $title
+     * @return GridFieldAddNewInlineButton $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
 
-	public function getHTMLFragments($grid) {
-		if($grid->getList() && !singleton($grid->getModelClass())->canCreate()) {
-			return array();
-		}
+    public function getHTMLFragments($grid)
+    {
+        if ($grid->getList() && !singleton($grid->getModelClass())->canCreate()) {
+            return array();
+        }
 
-		$fragment = $this->getFragment();
+        $fragment = $this->getFragment();
 
-		if(!$editable = $grid->getConfig()->getComponentByType('GridFieldEditableColumns')) {
-			throw new Exception('Inline adding requires the editable columns component');
-		}
+        if (!$editable = $grid->getConfig()->getComponentByType('GridFieldEditableColumns')) {
+            throw new Exception('Inline adding requires the editable columns component');
+        }
 
-		Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
-		GridFieldExtensions::include_requirements();
+        Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
+        GridFieldExtensions::include_requirements();
 
-		$data = new ArrayData(array(
-			'Title'  => $this->getTitle(),
-		));
+        $data = new ArrayData(array(
+            'Title'  => $this->getTitle(),
+        ));
 
-		return array(
-			$fragment => $data->renderWith(__CLASS__),
-			'after'   => $this->getRowTemplate($grid, $editable)
-		);
-	}
+        return array(
+            $fragment => $data->renderWith(__CLASS__),
+            'after'   => $this->getRowTemplate($grid, $editable)
+        );
+    }
 
-	private function getRowTemplate(GridField $grid, GridFieldEditableColumns $editable) {
-		$columns = new ArrayList();
-		$handled = array_keys($editable->getDisplayFields($grid));
+    private function getRowTemplate(GridField $grid, GridFieldEditableColumns $editable)
+    {
+        $columns = new ArrayList();
+        $handled = array_keys($editable->getDisplayFields($grid));
 
-		if($grid->getList()) {
-			$record = Object::create($grid->getModelClass());
-		} else {
-			$record = null;
-		}
+        if ($grid->getList()) {
+            $record = Object::create($grid->getModelClass());
+        } else {
+            $record = null;
+        }
 
-		$fields = $editable->getFields($grid, $record);
+        $fields = $editable->getFields($grid, $record);
 
-		foreach($grid->getColumns() as $column) {
-			if(in_array($column, $handled)) {
-				$field = $fields->dataFieldByName($column);
-				$field->setName(sprintf(
-					'%s[%s][{%%=o.num%%}][%s]', $grid->getName(), __CLASS__, $field->getName()
-				));
+        foreach ($grid->getColumns() as $column) {
+            if (in_array($column, $handled)) {
+                $field = $fields->dataFieldByName($column);
+                $field->setName(sprintf(
+                    '%s[%s][{%%=o.num%%}][%s]',
+                    $grid->getName(),
+                    __CLASS__,
+                    $field->getName()
+                ));
 
-				$content = $field->Field();
-			} else {
-				$content = $grid->getColumnContent($record, $column);
+                $content = $field->Field();
+            } else {
+                $content = $grid->getColumnContent($record, $column);
 
-				// Convert GridFieldEditableColumns to the template format
-				$content = str_replace(
-					'[GridFieldEditableColumns][0]',
-					'[GridFieldAddNewInlineButton][{%=o.num%}]',
-					$content
-				);
-			}
+                // Convert GridFieldEditableColumns to the template format
+                $content = str_replace(
+                    '[GridFieldEditableColumns][0]',
+                    '[GridFieldAddNewInlineButton][{%=o.num%}]',
+                    $content
+                );
+            }
 
-			$attrs = '';
+            $attrs = '';
 
-			foreach($grid->getColumnAttributes($record, $column) as $attr => $val) {
-				$attrs .= sprintf(' %s="%s"', $attr, Convert::raw2att($val));
-			}
+            foreach ($grid->getColumnAttributes($record, $column) as $attr => $val) {
+                $attrs .= sprintf(' %s="%s"', $attr, Convert::raw2att($val));
+            }
 
-			$columns->push(new ArrayData(array(
-				'Content'    => $content,
-				'Attributes' => $attrs,
-				'IsActions'  => $column == 'Actions'
-			)));
-		}
+            $columns->push(new ArrayData(array(
+                'Content'    => $content,
+                'Attributes' => $attrs,
+                'IsActions'  => $column == 'Actions'
+            )));
+        }
 
-		return $columns->renderWith('SilverStripe\\GridFieldExtensions\\GridFieldAddNewInlineRow');
-	}
+        return $columns->renderWith('SilverStripe\\GridFieldExtensions\\GridFieldAddNewInlineRow');
+    }
 
-	public function handleSave(GridField $grid, DataObjectInterface $record) {
-		$list  = $grid->getList();
-		$value = $grid->Value();
+    public function handleSave(GridField $grid, DataObjectInterface $record)
+    {
+        $list  = $grid->getList();
+        $value = $grid->Value();
 
-		if(!isset($value[__CLASS__]) || !is_array($value[__CLASS__])) {
-			return;
-		}
+        if (!isset($value[__CLASS__]) || !is_array($value[__CLASS__])) {
+            return;
+        }
 
-		$class    = $grid->getModelClass();
-		/** @var GridFieldEditableColumns $editable */
-		$editable = $grid->getConfig()->getComponentByType('SilverStripe\\GridFieldExtensions\\GridFieldEditableColumns');
-		/** @var GridFieldOrderableRows $sortable */
-		$sortable = $grid->getConfig()->getComponentByType('SilverStripe\\GridFieldExtensions\\GridFieldOrderableRows');
-		$form     = $editable->getForm($grid, $record);
+        $class    = $grid->getModelClass();
+        /** @var GridFieldEditableColumns $editable */
+        $editable = $grid->getConfig()->getComponentByType('SilverStripe\\GridFieldExtensions\\GridFieldEditableColumns');
+        /** @var GridFieldOrderableRows $sortable */
+        $sortable = $grid->getConfig()->getComponentByType('SilverStripe\\GridFieldExtensions\\GridFieldOrderableRows');
+        $form     = $editable->getForm($grid, $record);
 
-		if(!singleton($class)->canCreate()) {
-			return;
-		}
+        if (!singleton($class)->canCreate()) {
+            return;
+        }
 
-		foreach($value[__CLASS__] as $fields) {
-			$item  = $class::create();
-			$extra = array();
+        foreach ($value[__CLASS__] as $fields) {
+            $item  = $class::create();
+            $extra = array();
 
-			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
-			$form->saveInto($item);
+            $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
+            $form->saveInto($item);
 
-			// Check if we are also sorting these records
-			if ($sortable) {
-				$sortField = $sortable->getSortField();
-				$item->setField($sortField, $fields[$sortField]);
-			}
+            // Check if we are also sorting these records
+            if ($sortable) {
+                $sortField = $sortable->getSortField();
+                $item->setField($sortField, $fields[$sortField]);
+            }
 
-			if($list instanceof ManyManyList) {
-				$extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
-			}
+            if ($list instanceof ManyManyList) {
+                $extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
+            }
 
-			$item->write();
-			$list->add($item, $extra);
-		}
-	}
-
+            $item->write();
+            $list->add($item, $extra);
+        }
+    }
 }

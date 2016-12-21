@@ -1,16 +1,10 @@
 GridFieldOrderableRowsTest_Ordered:
   item1:
-    Sort: 0
   item2:
-    Sort: 0
   item3:
-    Sort: 0
   item4:
-    Sort: 0
   item5:
-    Sort: 0
   item6:
-    Sort: 0
 GridFieldOrderableRowsTest_Parent:
   parent:
     MyManyMany:
