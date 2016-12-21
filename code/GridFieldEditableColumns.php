@@ -37,7 +37,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 			$colRelation = explode('.', $col);
 			$value = $grid->getDataFieldValue($record, $colRelation[0]);
 			$field = $fields->fieldByName($colRelation[0]);
-			if (!$field || $field->isReadonly() || $field->isDisabled()) {
+			if (!$field || $field instanceof HtmlEditorField || $field->isReadonly() || $field->isDisabled()) {
 				return parent::getColumnContent($grid, $record, $col);
 			}
 
@@ -214,6 +214,11 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 					$colRelation = explode('.', $col);
 					if($class && $obj = singleton($class)->dbObject($colRelation[0])) {
 						$field = $obj->scaffoldFormField();
+						if ($field instanceof HtmlEditorField) {
+							// Ignore HtmlEditorField here as putting it in as a 'ReadonlyField' caused
+							// the data to be blanked when edited on the inline level.
+							continue;
+						}
 					} else {
 						$field = new ReadonlyField($colRelation[0]);
 					}
