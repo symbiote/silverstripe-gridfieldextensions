@@ -41,7 +41,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
     /**
      * @var string
      */
-    protected $itemRequestClass = 'SilverStripe\\Forms\\GridField\\GridFieldAddNewMultiClassHandler';
+    protected $itemRequestClass = 'SilverStripe\\GridFieldExtensions\\GridFieldAddNewMultiClassHandler';
 
     /**
      * @param string $fragment the fragment to render the button in
