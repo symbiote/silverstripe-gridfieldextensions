@@ -239,9 +239,9 @@
 				var btn = this.parents(".ss-gridfield-add-new-multi-class").find(".ss-ui-button");
 
 				if(this.val() && this.val().length) {
-					btn.button("enable");
+					btn.button().button("enable");
 				} else {
-					btn.button("disable");
+					btn.button().button("disable");
 				}
 			}
 		});

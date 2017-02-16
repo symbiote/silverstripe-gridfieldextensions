@@ -196,7 +196,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             }
         }
 
-        throw new Exception("Couldn't find the sort field '$field'");
+        throw new \Exception("Couldn't find the sort field '$field'");
     }
 
     public function getURLHandlers($grid)
