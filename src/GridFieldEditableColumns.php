@@ -17,6 +17,7 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
+use Exception;
 
 /**
  * Allows inline editing of grid field records without having to load a separate

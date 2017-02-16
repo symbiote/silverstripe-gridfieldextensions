@@ -20,6 +20,7 @@ use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\SS_Map;
 use SilverStripe\View\ViewableData;
+use Exception;
 
 /**
  * Allows grid field rows to be re-ordered via drag and drop. Both normal data

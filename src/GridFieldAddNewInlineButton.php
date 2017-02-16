@@ -13,6 +13,7 @@ use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
+use Exception;
 
 /**
  * Builds on the {@link GridFieldEditableColumns} component to allow creating new records.
