@@ -4,15 +4,14 @@ use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
-use SilverStripe\GridFieldExtensions\GridFieldOrderableRows;
 use SilverStripe\ORM\DataObject;
+use SilverStripeAustralia\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * Tests for the {@link GridFieldOrderableRows} component.
  */
 class GridFieldOrderableRowsTest extends SapphireTest
 {
-
     protected $usesDatabase = true;
 
     // protected static $fixture_file = 'GridFieldOrderableRowsTest.yml';
