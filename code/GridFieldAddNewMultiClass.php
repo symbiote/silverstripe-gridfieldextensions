@@ -154,7 +154,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 
 		GridFieldExtensions::include_requirements();
 
-		$field = new DropdownField(sprintf('%s[ClassName]', __CLASS__), '', $classes);
+		$field = new DropdownField(sprintf('%s[%s]', __CLASS__, $grid->getName()), '', $classes, $this->defaultClass);
 		$field->setEmptyString(_t('GridFieldExtensions.SELECTTYPETOCREATE', '(Select type to create)'));
 		$field->addExtraClass('no-change-track');
 
