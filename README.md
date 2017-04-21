@@ -16,6 +16,8 @@ This module provides a number of useful grid field components:
 * `GridFieldAddNewMultiClass` - lets the user select from a list of classes to
   create a new record from.
 * `GridFieldEditableColumns` - allows inline editing of records.
+* `GridFieldSaveRow` - allows to save inline edited record, also inside a ModelAdmin.
+* `GridFieldDuplicateRow` - allows to duplicate a record.
 * `GridFieldOrderableRows` - drag and drop re-ordering of rows.
 * `GridFieldRequestHandler` - a basic utility class which can be used to build
   custom grid field detail views including tabs, breadcrumbs and other CMS
