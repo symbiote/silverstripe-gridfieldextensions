@@ -55,7 +55,6 @@ class GridFieldDuplicateRow implements GridField_ColumnProvider, GridField_Actio
         if ($actionName == 'duplicaterow') {
 
             $model = $gridField->getModelClass();
-            $modified = $data[$model]['GridFieldEditableColumns'];
 
             $obj = DataObject::get_by_id($model, $arguments['RecordID']);
             $obj->duplicate();
