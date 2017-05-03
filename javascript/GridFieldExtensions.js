@@ -1,3 +1,8 @@
+function GFEremoveChanged() {
+    var form = jQuery('.cms-edit-form');
+    form.removeClass('changed');
+}
+
 (function($) {
 	$.entwine("ss", function($) {
 		/**

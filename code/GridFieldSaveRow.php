@@ -39,6 +39,7 @@ class GridFieldSaveRow implements GridField_ColumnProvider, GridField_ActionProv
         $field = GridField_FormAction::create(
                         $gridField, 'SaveRow' . $record->ID, 'Save', "saverow", array('RecordID' => $record->ID)
         );
+        $field->setAttribute('onclick', 'GFEremoveChanged()');
 
         return $field->Field();
     }
