@@ -75,7 +75,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
     {
         $form = new Form(
             $this,
-            'SilverStripe\\CMS\\Search\\SearchForm',
+            'SearchForm',
             $this->context->getFields(),
             new FieldList(
                 FormAction::create('doSearch', _t('GridFieldExtensions.SEARCH', 'Search'))
