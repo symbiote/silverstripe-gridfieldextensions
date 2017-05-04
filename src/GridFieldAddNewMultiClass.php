@@ -128,7 +128,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
                 $title = singleton($class)->i18n_singular_name();
             }
 
-            if ($ancestor_to_hide = Config::inst()->get($class, 'hide_ancestor', Config::FIRST_SET)) {
+            if ($ancestor_to_hide = Config::inst()->get($class, 'hide_ancestor')) {
                 $kill_ancestors[$ancestor_to_hide] = true;
             }
 
