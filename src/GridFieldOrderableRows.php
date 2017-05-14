@@ -13,6 +13,7 @@ use SilverStripe\Forms\GridField\GridField_SaveHandler;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObjectInterface;
@@ -193,7 +194,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 
         foreach ($classes as $class) {
             if (singleton($class)->hasDataBaseField($field)) {
-                return $class;
+                return DataObject::getSchema()->tableName($class);
             }
         }
 
