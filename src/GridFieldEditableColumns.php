@@ -275,7 +275,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     {
         $fields = $this->getFields($grid, $record);
 
-        $form = new Form($this, null, $fields, new FieldList());
+        $form = new Form($grid, null, $fields, new FieldList());
         $form->loadDataFrom($record);
 
         $form->setFormAction(Controller::join_links(
