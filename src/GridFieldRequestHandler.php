@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\GridFieldExtensions;
+namespace SilverStripeAustralia\GridFieldExtensions;
 
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Control\Controller;

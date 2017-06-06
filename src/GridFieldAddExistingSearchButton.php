@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\GridFieldExtensions;
+namespace SilverStripeAustralia\GridFieldExtensions;
 
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
