@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\GridFieldExtensions;
+namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Object;
@@ -151,7 +151,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
             )));
         }
 
-        return $columns->renderWith('SilverStripe\\GridFieldExtensions\\GridFieldAddNewInlineRow');
+        return $columns->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddNewInlineRow');
     }
 
     public function handleSave(GridField $grid, DataObjectInterface $record)
@@ -165,9 +165,9 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
         $class    = $grid->getModelClass();
         /** @var GridFieldEditableColumns $editable */
-        $editable = $grid->getConfig()->getComponentByType('SilverStripe\\GridFieldExtensions\\GridFieldEditableColumns');
+        $editable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldEditableColumns');
         /** @var GridFieldOrderableRows $sortable */
-        $sortable = $grid->getConfig()->getComponentByType('SilverStripe\\GridFieldExtensions\\GridFieldOrderableRows');
+        $sortable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldOrderableRows');
         $form     = $editable->getForm($grid, $record);
 
         if (!singleton($class)->canCreate()) {

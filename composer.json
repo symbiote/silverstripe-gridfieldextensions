@@ -24,7 +24,7 @@
     "extra": {
         "installer-name": "gridfieldextensions",
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "3.0.x-dev"
         },
         "screenshots": [
             "docs/en/_images/editable-rows.png",
@@ -36,7 +36,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SilverStripe\\GridFieldExtensions\\": "src/"
+            "Symbiote\\GridFieldExtensions\\": "src/"
         }
     },
     "prefer-stable": true,

@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\GridFieldExtensions;
+namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
@@ -97,7 +97,7 @@ class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridFi
         ));
 
         return array(
-            $this->fragment => $data->renderWith('SilverStripe\\GridFieldExtensions\\GridFieldAddExistingSearchButton'),
+            $this->fragment => $data->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddExistingSearchButton'),
         );
     }
 

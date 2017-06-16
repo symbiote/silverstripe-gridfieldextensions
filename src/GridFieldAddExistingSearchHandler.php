@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\GridFieldExtensions;
+namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;
@@ -49,7 +49,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
 
     public function index()
     {
-        return $this->renderWith('SilverStripe\\GridFieldExtensions\\GridFieldAddExistingSearchHandler');
+        return $this->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddExistingSearchHandler');
     }
 
     public function add($request)
