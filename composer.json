@@ -1,5 +1,5 @@
 {
-    "name": "silverstripe-australia/gridfieldextensions",
+    "name": "symbiote/silverstripe-gridfieldextensions",
     "description": "A collection of useful grid field components",
     "type": "silverstripe-module",
     "homepage": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions",
