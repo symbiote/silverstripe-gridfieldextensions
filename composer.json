@@ -2,7 +2,7 @@
     "name": "symbiote/silverstripe-gridfieldextensions",
     "description": "A collection of useful grid field components",
     "type": "silverstripe-module",
-    "homepage": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions",
+    "homepage": "http://github.com/symbiote/silverstripe-gridfieldextensions",
     "keywords": ["silverstripe", "gridfield"],
     "license": "BSD-3-Clause",
     "authors": [
@@ -12,11 +12,11 @@
         },
         {
             "name": "Marcus Nyeholt",
-            "email": "marcus@silverstripe.com.au"
+            "email": "marcus@symbiote.com.au"
         }
     ],
     "support": {
-        "issues": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions/issues"
+        "issues": "http://github.com/symbiote/silverstripe-gridfieldextensions/issues"
     },
     "require": {
         "silverstripe/framework": "~4.0"

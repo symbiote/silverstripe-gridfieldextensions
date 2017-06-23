@@ -1,10 +1,10 @@
 # SilverStripe Grid Field Extensions Module
 
-[![Build Status](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions.svg?branch=master)](https://travis-ci.org/silverstripe-australia/silverstripe-gridfieldextensions)
-[![Latest Stable Version](https://poser.pugx.org/symbiote/silverstripe-gridfieldextensions/version.svg)](https://github.com/silverstripe-australia/silverstripe-gridfieldextensions/releases)
+[![Build Status](https://travis-ci.org/symbiote/silverstripe-gridfieldextensions.svg?branch=master)](https://travis-ci.org/symbiote/silverstripe-gridfieldextensions)
+[![Latest Stable Version](https://poser.pugx.org/symbiote/silverstripe-gridfieldextensions/version.svg)](https://github.com/symbiote/silverstripe-gridfieldextensions/releases)
 [![Latest Unstable Version](https://poser.pugx.org/symbiote/silverstripe-gridfieldextensions/v/unstable.svg)](https://packagist.org/packages/symbiote/silverstripe-gridfieldextensions)
 [![Total Downloads](https://poser.pugx.org/symbiote/silverstripe-gridfieldextensions/downloads.svg)](https://packagist.org/packages/symbiote/silverstripe-gridfieldextensions)
-[![License](https://poser.pugx.org/symbiote/silverstripe-gridfieldextensions/license.svg)](https://github.com/silverstripe-australia/silverstripe-gridfieldextensions/blob/master/LICENSE.md)
+[![License](https://poser.pugx.org/symbiote/silverstripe-gridfieldextensions/license.svg)](https://github.com/symbiote/silverstripe-gridfieldextensions/blob/master/LICENSE.md)
 
 This module provides a number of useful grid field components:
 
@@ -23,7 +23,7 @@ This module provides a number of useful grid field components:
 
 This branch will aim for compatibility with SilverStripe 4.x. 
 
-For SilverStripe 3.x, please see the [compatible branch](https://github.com/silverstripe-australia/silverstripe-gridfieldextensions/tree/1).
+For SilverStripe 3.x, please see the [compatible branch](https://github.com/symbiote/silverstripe-gridfieldextensions/tree/1).
 
 
 See [docs/en/index.md](docs/en/index.md) for documentation and examples.
