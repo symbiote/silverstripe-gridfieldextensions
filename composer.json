@@ -32,7 +32,8 @@
         ]
     },
     "replace": {
-        "ajshort/silverstripe-gridfieldextensions": "self.version"
+        "ajshort/silverstripe-gridfieldextensions": "self.version",
+        "silverstripe-australia/gridfieldextensions": "self.version"
     },
     "autoload": {
         "psr-4": {
