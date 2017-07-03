@@ -6,7 +6,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Object;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
@@ -196,7 +196,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
             throw new HTTPResponse_Exception(400);
         }
 
-        $handler = Object::create(
+        $handler = Injector::inst()->create(
             $this->itemRequestClass,
             $grid,
             $component,
