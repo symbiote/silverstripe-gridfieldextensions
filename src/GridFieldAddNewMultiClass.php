@@ -145,7 +145,12 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
             }
         }
 
-        return $result;
+        $sanitised = array();
+        foreach($result as $class=>$title) {
+            $sanitised[$this->sanitiseClassName($class)] = $title;
+        }
+
+        return $sanitised;
     }
 
     /**
@@ -196,11 +201,12 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
             throw new HTTPResponse_Exception(400);
         }
 
+        $unsanitisedClass = $this->unsanitiseClassName($class);
         $handler = Injector::inst()->create(
             $this->itemRequestClass,
             $grid,
             $component,
-            new $class(),
+            new $unsanitisedClass(),
             $grid->getForm()->getController(),
             'add-multi-class'
         );
@@ -253,5 +259,21 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
     {
         $this->itemRequestClass = $class;
         return $this;
+    }
+
+    /**
+     * Sanitise a model class' name for inclusion in a link
+     * @return string
+     */
+    protected function sanitiseClassName($class) {
+        return str_replace('\\', '-', $class);
+    }
+
+    /**
+     * Unsanitise a model class' name from a URL param
+     * @return string
+     */
+    protected function unsanitiseClassName($class) {
+        return str_replace('-', '\\', $class);
     }
 }

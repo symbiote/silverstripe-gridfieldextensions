@@ -5,9 +5,9 @@ sudo: false
 language: php
 
 php:
-  - 5.5
   - 5.6
   - 7.0
+  - 7.1
 
 env:
   - DB=MYSQL CORE_RELEASE=4
@@ -18,7 +18,9 @@ before_script:
   - git clone git://github.com/silverstripe/silverstripe-travis-support.git ~/travis-support
   - php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss
   - cd ~/builds/ss
-  - composer install
+  - composer install --prefer-dist --no-progress --no-suggest
+  - composer require silverstripe/versioned:1.x-dev --prefer-dist --no-progress --no-suggest
+  - composer dump-autoload --optimize
 
 script:
   - vendor/bin/phpunit gridfieldextensions/tests
