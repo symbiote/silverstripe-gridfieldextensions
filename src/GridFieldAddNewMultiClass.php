@@ -265,7 +265,8 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
      * Sanitise a model class' name for inclusion in a link
      * @return string
      */
-    protected function sanitiseClassName($class) {
+    protected function sanitiseClassName($class)
+    {
         return str_replace('\\', '-', $class);
     }
 
@@ -273,7 +274,8 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
      * Unsanitise a model class' name from a URL param
      * @return string
      */
-    protected function unsanitiseClassName($class) {
+    protected function unsanitiseClassName($class)
+    {
         return str_replace('-', '\\', $class);
     }
 }
