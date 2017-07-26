@@ -3,7 +3,6 @@
 namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Core\Convert;
-use SilverStripe\Core\Object;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
@@ -12,6 +11,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\View\ArrayData;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\View\Requirements;
 use Exception;
 
@@ -86,11 +86,11 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
         $fragment = $this->getFragment();
 
-        if (!$editable = $grid->getConfig()->getComponentByType('GridFieldEditableColumns')) {
+        if (!$editable = $grid->getConfig()->getComponentByType(GridFieldEditableColumns::class)) {
             throw new Exception('Inline adding requires the editable columns component');
         }
 
-        Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
+        Requirements::javascript('symbiote/silverstripe-gridfieldextensions:javascript/tmpl.js');
         GridFieldExtensions::include_requirements();
 
         $data = new ArrayData(array(
@@ -109,7 +109,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         $handled = array_keys($editable->getDisplayFields($grid));
 
         if ($grid->getList()) {
-            $record = Object::create($grid->getModelClass());
+            $record = Injector::inst()->create($grid->getModelClass());
         } else {
             $record = null;
         }
