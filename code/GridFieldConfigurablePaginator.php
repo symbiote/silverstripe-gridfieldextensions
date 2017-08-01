@@ -236,6 +236,12 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
         // Assign the GridField to the class so it can be used later in the request
         $this->setGridField($gridField);
 
+        // Retain page sizes during actions provided by other components
+        $state = $this->getGridPagerState();
+        if (is_numeric($state->pageSize)) {
+            $this->setItemsPerPage($state->pageSize);
+        }
+
         if (!($dataList instanceof SS_Limitable) || ($dataList instanceof UnsavedRelationList)) {
             return $dataList;
         }
@@ -254,6 +260,9 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
     public function getTemplateParameters(GridField $gridField)
     {
         $state = $this->getGridPagerState();
+        if (is_numeric($state->pageSize)) {
+            $this->setItemsPerPage($state->pageSize);
+        }
         $arguments = $this->getPagerArguments();
 
         // Figure out which page and record range we're on
