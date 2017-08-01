@@ -1,15 +1,15 @@
 <tr>
     <td class="bottom-all" colspan="$Colspan">
+        <span class="pagination-page-size">
+            <%t GridFieldConfigurablePaginator.SHOW 'Show' %>
+            <select name="$PageSizesName" class="pagination-page-size-select" data-skip-autofocus="true">
+            <% loop $PageSizes %>
+                <option <% if $Selected %>selected="selected"<% end_if %>>$Size</option>
+            <% end_loop %>
+            </select>
+            $PageSizesSubmit
+        </span>
         <% if not $OnlyOnePage %>
-            <span class="pagination-page-size">
-                <%t GridFieldConfigurablePaginator.SHOW 'Show' %>
-                <select name="$PageSizesName" class="pagination-page-size-select" data-skip-autofocus="true">
-                <% loop $PageSizes %>
-                    <option <% if $Selected %>selected="selected"<% end_if %>>$Size</option>
-                <% end_loop %>
-                </select>
-                $PageSizesSubmit
-            </span>
             <div class="datagrid-pagination">
                 $FirstPage $PreviousPage
                 <span class="pagination-page-number">

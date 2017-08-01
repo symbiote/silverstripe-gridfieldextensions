@@ -261,18 +261,6 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
             return;
         }
 
-        // If there is only 1 page for all the records in list, we don't need to go further to sort out those
-        // first page, last page, pre and next pages, etc we are not render those in to the paginator.
-        if ($arguments['total-pages'] == 1) {
-            return ArrayData::create(array(
-                'OnlyOnePage' => true,
-                'FirstShownRecord' => $arguments['first-shown'],
-                'LastShownRecord' => $arguments['last-shown'],
-                'NumRecords' => $arguments['total-rows'],
-                'NumPages' => $arguments['total-pages']
-            ));
-        }
-
         // Define a list of the FormActions that should be generated for pager controls (see getPagerActions())
         $controls = array(
             'first' => array(
@@ -314,7 +302,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
 
         // Render in template
         return ArrayData::create(array(
-            'OnlyOnePage' => false,
+            'OnlyOnePage' => ($arguments['total-pages'] == 1),
             'FirstPage' => $actions['first'],
             'PreviousPage' => $actions['prev'],
             'NextPage' => $actions['next'],
