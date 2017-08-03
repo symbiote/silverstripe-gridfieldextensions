@@ -147,7 +147,6 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 		$editable = $grid->getConfig()->getComponentByType('GridFieldEditableColumns');
 		/** @var GridFieldOrderableRows $sortable */
 		$sortable = $grid->getConfig()->getComponentByType('GridFieldOrderableRows');
-		$form     = $editable->getForm($grid, $record);
 
 		if(!singleton($class)->canCreate()) {
 			return;
@@ -157,6 +156,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 			$item  = $class::create();
 			$extra = array();
 
+			$form = $editable->getForm($grid, $item);
 			$form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
 			$form->saveInto($item);
 
