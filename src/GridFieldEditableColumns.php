@@ -4,7 +4,7 @@ namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPResponse_Exception;
-use SilverStripe\Core\Object;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormField;
@@ -219,7 +219,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 $extra = $list->getExtraFields();
 
                 if ($extra && array_key_exists($col, $extra)) {
-                    $field = Object::create_from_string($extra[$col], $col)->scaffoldFormField();
+                    $field = Injector::inst()->create($extra[$col], $col)->scaffoldFormField();
                 }
             }
 
