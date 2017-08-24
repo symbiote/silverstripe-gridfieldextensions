@@ -21,5 +21,6 @@ This module provides a number of useful grid field components:
   custom grid field detail views including tabs, breadcrumbs and other CMS
   features.
 * `GridFieldTitleHeader` - a simple header which displays column titles.
+* `GridFieldConfigurablePaginator` - a paginator for GridField that allows customisable page sizes.
 
 See [docs/en/index.md](docs/en/index.md) for documentation and examples.
