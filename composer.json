@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe-australia/gridfieldextensions",
+	"name": "symbiote/silverstripe-gridfieldextensions",
 	"description": "A collection of useful grid field components",
 	"type": "silverstripe-module",
 	"homepage": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions",
@@ -11,12 +11,12 @@
 			"email": "andrewjshort@gmail.com"
 		},
 		{
-                        "name": "Marcus Nyeholt",
-                        "email": "marcus@silverstripe.com.au"
-                }
+			"name": "Marcus Nyeholt",
+			"email": "marcus@silverstripe.com.au"
+		}
 	],
 	"support": {
-		"issues": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions/issues"
+		"issues": "http://github.com/symbiote/silverstripe-gridfieldextensions/issues"
 	},
 	"require": {
 		"silverstripe/framework": "~3.1"
@@ -24,7 +24,7 @@
 	"extra": {
 		"installer-name": "gridfieldextensions",
 		"branch-alias": {
-			"dev-master": "1.4.x-dev"
+			"2.x-dev": "2.0.x-dev"
 		},
 		"screenshots": [
 			"docs/en/_images/editable-rows.png",
@@ -32,6 +32,7 @@
 		]
 	},
 	"replace": {
+		"silverstripe-australia/gridfieldextensions": "self.version",
 		"ajshort/silverstripe-gridfieldextensions": "self.version"
 	}
 }
