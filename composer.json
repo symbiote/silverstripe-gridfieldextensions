@@ -24,7 +24,7 @@
 	"extra": {
 		"installer-name": "gridfieldextensions",
 		"branch-alias": {
-			"2.x-dev": "2.0.x-dev"
+			"2.x-dev": "2.1.x-dev"
 		},
 		"screenshots": [
 			"docs/en/_images/editable-rows.png",
