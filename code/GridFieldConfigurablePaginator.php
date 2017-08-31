@@ -159,6 +159,10 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
     public function setPageSizes(array $pageSizes)
     {
         $this->pageSizes = $pageSizes;
+
+        // Reset items per page
+        $this->setItemsPerPage(current($pageSizes));
+
         return $this;
     }
 
