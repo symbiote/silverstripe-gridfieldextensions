@@ -80,6 +80,20 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
         $this->assertSame(3, $paginator->getTotalPages());
     }
 
+    public function testItemsPerPageIsSetToFirstInPageSizesListWhenChanged()
+    {
+        $paginator = new GridFieldConfigurablePaginator(20, array(20, 40, 60));
+        $paginator->setGridField($this->gridField);
+
+        // Initial state, should be what was provided to the constructor
+        $this->assertSame(20, $paginator->getItemsPerPage());
+
+        $paginator->setPageSizes(array(50, 100, 200));
+
+        // Set via public API, should now be set to 50
+        $this->assertSame(50, $paginator->getItemsPerPage());
+    }
+
     public function testGetCurrentPreviousAndNextPages()
     {
         $paginator = new GridFieldConfigurablePaginator(20, array(20, 40, 60));
