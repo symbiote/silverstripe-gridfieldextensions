@@ -1,7 +1,7 @@
 <div class="ss-gridfield-add-new-multi-class">
 	$ClassField.FieldHolder
 
-	<a href="#" data-href="$Link" class="ss-ui-action-constructive ss-ui-button" data-icon="add">
+	<a href="#" data-href="$Link" data-add-multiclass class="btn btn-primary font-icon-plus btn__addnewmulticlass" data-icon="add">
 		$Title
 	</a>
 </div>

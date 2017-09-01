@@ -75,6 +75,7 @@
 
 .ss-gridfield-add-new-multi-class {
 	margin-bottom: 8px !important;
+	white-space: nowrap;
 }
 
 .ss-gridfield-add-new-multi-class .field {
@@ -84,6 +85,34 @@
 	margin: 0 4px 0 0;
 }
 
+.cms-edit-form:not(.AssetAdmin) .ss-gridfield-add-new-multi-class .form-group .form__field-holder {
+	display: inline;
+	padding: 0;
+	margin: 0;
+}
+
+.cms-edit-form:not(.AssetAdmin) .ss-gridfield-add-new-multi-class .form-group {
+	display: inline-block;
+	margin: 0;
+	min-width: 150px;
+	width: calc(100% - 20px);
+}
+
+.ss-gridfield-add-new-multi-class .form-group:after {
+	border:0;
+}
+
+.btn__addnewmulticlass {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	line-height: 1.85em;
+}
+
+.ss-gridfield-add-new-multi-class .chosen-container-active.chosen-with-drop .chosen-single,
+.ss-gridfield-add-new-multi-class .chosen-container-single .chosen-single  {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
 /**
  * GridFieldEditableColumns
  */
