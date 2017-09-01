@@ -1,5 +1,7 @@
 <?php
 
+namespace Symbiote\GridFieldExtensions\Tests;
+
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\GridField\GridField;

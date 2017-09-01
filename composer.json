@@ -42,7 +42,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Symbiote\\GridFieldExtensions\\": "src/"
+            "Symbiote\\GridFieldExtensions\\": "src/",
+            "Symbiote\\GridFieldExtensions\\Tests\\": "tests/"
         }
     },
     "prefer-stable": true,
