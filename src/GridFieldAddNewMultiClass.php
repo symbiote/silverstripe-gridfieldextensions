@@ -158,7 +158,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
         }
 
         $sanitised = array();
-        foreach($result as $class=>$title) {
+        foreach ($result as $class => $title) {
             $sanitised[$this->sanitiseClassName($class)] = $title;
         }
 

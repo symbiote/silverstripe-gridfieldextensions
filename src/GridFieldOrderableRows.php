@@ -516,11 +516,11 @@ class GridFieldOrderableRows extends RequestHandler implements
             $sortTable = $this->getSortTable($list);
             $additionalSQL = '';
             $baseTable = $sortTable;
-            if(class_exists($sortTable)) {
+            if (class_exists($sortTable)) {
                 $baseTable = singleton($sortTable)->baseTable();
             }
             $isBaseTable = ($baseTable == $sortTable);
-            if(!$list instanceof ManyManyList && $isBaseTable){
+            if (!$list instanceof ManyManyList && $isBaseTable) {
                 $additionalSQL = ', "LastEdited" = NOW()';
             }
 
@@ -535,7 +535,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                         $this->getSortTableClauseForIds($list, $id)
                     ));
 
-                    if(!$isBaseTable) {
+                    if (!$isBaseTable) {
                         DB::query(sprintf(
                             'UPDATE "%s" SET "LastEdited" = NOW() WHERE %s',
                             $baseTable,
@@ -570,11 +570,11 @@ class GridFieldOrderableRows extends RequestHandler implements
 
         $additionalSQL = '';
         $baseTable = $table;
-        if(class_exists($table)) {
+        if (class_exists($table)) {
             $baseTable = singleton($table)->baseTable();
         }
         $isBaseTable = ($baseTable == $table);
-        if(!$list instanceof ManyManyList && $isBaseTable){
+        if (!$list instanceof ManyManyList && $isBaseTable) {
             $additionalSQL = ', "LastEdited" = NOW()';
         }
 
@@ -591,7 +591,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 $this->getSortTableClauseForIds($list, $id)
             ));
 
-            if(!$isBaseTable) {
+            if (!$isBaseTable) {
                 DB::query(sprintf(
                     'UPDATE "%s" SET "LastEdited" = NOW() WHERE %s',
                     $baseTable,
