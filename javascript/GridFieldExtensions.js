@@ -215,7 +215,7 @@
 		 * GridFieldAddNewMultiClass
 		 */
 
-		$(".ss-gridfield-add-new-multi-class .ss-ui-button").entwine({
+		$(".ss-gridfield-add-new-multi-class .btn__addnewmulticlass").entwine({
 			onclick: function() {
 				var link = this.data("href");
 				var cls  = this.parents(".ss-gridfield-add-new-multi-class").find("select").val();
@@ -236,12 +236,12 @@
 				this.update();
 			},
 			update: function() {
-				var btn = this.parents(".ss-gridfield-add-new-multi-class").find(".ss-ui-button");
+				var btn = this.parents(".ss-gridfield-add-new-multi-class").find('[data-add-multiclass]');
 
 				if(this.val() && this.val().length) {
-					btn.button().button("enable");
+					btn.removeClass('disabled');
 				} else {
-					btn.button().button("disable");
+					btn.addClass('disabled');
 				}
 			}
 		});
