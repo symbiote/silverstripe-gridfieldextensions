@@ -135,7 +135,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             // Check if we are also sorting these records
             if ($sortable) {
                 $sortField = $sortable->getSortField();
-                $item->setField($sortField, $fields[$sortField]);
+                if (!empty($fields[$sortField])) {
+                    $item->setField($sortField, $fields[$sortField]);
+                }
             }
 
             if ($list instanceof ManyManyList) {

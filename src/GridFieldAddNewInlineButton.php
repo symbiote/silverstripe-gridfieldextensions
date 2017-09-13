@@ -90,7 +90,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
             throw new Exception('Inline adding requires the editable columns component');
         }
 
-        Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
+//        Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
         GridFieldExtensions::include_requirements();
 
         $data = new ArrayData(array(
@@ -109,7 +109,9 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         $handled = array_keys($editable->getDisplayFields($grid));
 
         if ($grid->getList()) {
-            $record = Object::create($grid->getModelClass());
+            $class = $grid->getModelClass();
+            $record = $class::create();
+//            $record = Object::create($grid->getModelClass());
         } else {
             $record = null;
         }
