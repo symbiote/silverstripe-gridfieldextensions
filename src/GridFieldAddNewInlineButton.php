@@ -86,7 +86,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
         $fragment = $this->getFragment();
 
-        if (!$editable = $grid->getConfig()->getComponentByType('GridFieldEditableColumns')) {
+        if (!$editable = $grid->getConfig()->getComponentByType('Symbiote\GridFieldExtensions\GridFieldEditableColumns')) {
             throw new Exception('Inline adding requires the editable columns component');
         }
 
