@@ -2,7 +2,9 @@
 
 namespace Symbiote\GridFieldExtensions;
 
+use Closure;
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
@@ -13,8 +15,11 @@ use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_SaveHandler;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
 use Exception;
@@ -34,6 +39,10 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     GridField_SaveHandler,
     GridField_URLHandler
 {
+    /**
+     * @skipUpgrade
+     */
+    const POST_KEY = 'GridFieldEditableColumns';
 
     private static $allowed_actions = array(
         'handleForm'
@@ -104,19 +113,20 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
     public function handleSave(GridField $grid, DataObjectInterface $record)
     {
+        /** @var DataList $list */
         $list  = $grid->getList();
         $value = $grid->Value();
 
-        if (!isset($value[__CLASS__]) || !is_array($value[__CLASS__])) {
+        if (!isset($value[self::POST_KEY]) || !is_array($value[self::POST_KEY])) {
             return;
         }
 
         /** @var GridFieldOrderableRows $sortable */
-        $sortable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldOrderableRows');
+        $sortable = $grid->getConfig()->getComponentByType(GridFieldOrderableRows::class);
 
         $form = $this->getForm($grid, $record);
 
-        foreach ($value[__CLASS__] as $id => $fields) {
+        foreach ($value[self::POST_KEY] as $id => $fields) {
             if (!is_numeric($id) || !is_array($fields)) {
                 continue;
             }
@@ -147,6 +157,12 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         }
     }
 
+    /**
+     * @param GridField $grid
+     * @param HTTPRequest $request
+     * @return Form
+     * @throws HTTPResponse_Exception
+     */
     public function handleForm(GridField $grid, $request)
     {
         $id   = $request->param('ID');
@@ -182,12 +198,14 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
      * @param GridField $grid
      * @param DataObjectInterface $record
      * @return FieldList
+     * @throws Exception
      */
     public function getFields(GridField $grid, DataObjectInterface $record)
     {
         $cols   = $this->getDisplayFields($grid);
         $fields = new FieldList();
 
+        /** @var DataList $list */
         $list   = $grid->getList();
         $class  = $list ? $list->dataClass() : null;
 
@@ -200,7 +218,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 if (isset($info['callback'])) {
                     $field = call_user_func($info['callback'], $record, $col, $grid);
                 } elseif (isset($info['field'])) {
-                    if ($info['field'] == 'SilverStripe\\Forms\\LiteralField') {
+                    if ($info['field'] == LiteralField::class) {
                         $field = new $info['field']($col, null);
                     } else {
                         $field = new $info['field']($col);
@@ -234,12 +252,12 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                     // available or is readonly
                     //
                     $colRelation = explode('.', $col);
-                    if ($class && $obj = singleton($class)->dbObject($colRelation[0])) {
+                    if ($class && $obj = DataObject::singleton($class)->dbObject($colRelation[0])) {
                         $field = $obj->scaffoldFormField();
                     } else {
                         $field = new ReadonlyField($colRelation[0]);
                     }
-                } elseif ($class && $obj = singleton($class)->dbObject($col)) {
+                } elseif ($class && $obj = DataObject::singleton($class)->dbObject($col)) {
                     $field = $obj->scaffoldFormField();
                 } else {
                     $field = new ReadonlyField($col);
@@ -292,7 +310,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         return sprintf(
             '%s[%s][%s][%s]',
             $grid->getName(),
-            __CLASS__,
+            self::POST_KEY,
             $record->ID,
             $name
         );
