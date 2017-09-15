@@ -144,8 +144,10 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
                     sprintf('[%s][{%%=o.num%%}]', self::POST_KEY),
                     $content
                 );
+            }
 
-                // Cast content as HTML
+            // Cast content
+            if (! $content instanceof DBField) {
                 $content = DBField::create_field('HTMLFragment', $content);
             }
 
@@ -157,7 +159,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
             $columns->push(new ArrayData(array(
                 'Content'    => $content,
-                'Attributes' => $attrs,
+                'Attributes' => DBField::create_field('HTMLFragment', $attrs),
                 'IsActions'  => $column == 'Actions'
             )));
         }
