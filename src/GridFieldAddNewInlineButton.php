@@ -8,7 +8,9 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_SaveHandler;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\Core\Injector\Injector;
@@ -20,6 +22,10 @@ use Exception;
  */
 class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_SaveHandler
 {
+    /**
+     * @skipUpgrade
+     */
+    const POST_KEY = 'GridFieldAddNewInlineButton';
 
     private $fragment;
 
@@ -86,7 +92,9 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
         $fragment = $this->getFragment();
 
-        if (!$editable = $grid->getConfig()->getComponentByType(GridFieldEditableColumns::class)) {
+        /** @var GridFieldEditableColumns $editable */
+        $editable = $grid->getConfig()->getComponentByType(GridFieldEditableColumns::class);
+        if (!$editable) {
             throw new Exception('Inline adding requires the editable columns component');
         }
 
@@ -122,7 +130,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
                 $field->setName(sprintf(
                     '%s[%s][{%%=o.num%%}][%s]',
                     $grid->getName(),
-                    __CLASS__,
+                    self::POST_KEY,
                     $field->getName()
                 ));
 
@@ -132,10 +140,13 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
                 // Convert GridFieldEditableColumns to the template format
                 $content = str_replace(
-                    '[GridFieldEditableColumns][0]',
-                    '[GridFieldAddNewInlineButton][{%=o.num%}]',
+                    sprintf('[%s][0]', GridFieldEditableColumns::POST_KEY),
+                    sprintf('[%s][{%%=o.num%%}]', self::POST_KEY),
                     $content
                 );
+
+                // Cast content as HTML
+                $content = DBField::create_field('HTMLFragment', $content);
             }
 
             $attrs = '';
@@ -159,22 +170,23 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         $list  = $grid->getList();
         $value = $grid->Value();
 
-        if (!isset($value[__CLASS__]) || !is_array($value[__CLASS__])) {
+        if (!isset($value[self::POST_KEY]) || !is_array($value[self::POST_KEY])) {
             return;
         }
 
         $class    = $grid->getModelClass();
         /** @var GridFieldEditableColumns $editable */
-        $editable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldEditableColumns');
+        $editable = $grid->getConfig()->getComponentByType(GridFieldEditableColumns::class);
         /** @var GridFieldOrderableRows $sortable */
-        $sortable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldOrderableRows');
+        $sortable = $grid->getConfig()->getComponentByType(GridFieldOrderableRows::class);
         $form     = $editable->getForm($grid, $record);
 
         if (!singleton($class)->canCreate()) {
             return;
         }
 
-        foreach ($value[__CLASS__] as $fields) {
+        foreach ($value[self::POST_KEY] as $fields) {
+            /** @var DataObject $item */
             $item  = $class::create();
             $extra = array();
 
