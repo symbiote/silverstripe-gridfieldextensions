@@ -387,5 +387,14 @@
 				if(this.hasClass("ui-droppable")) this.droppable("destroy");
 			}
 		});
+
+        /**
+         * GridFieldConfigurablePaginator
+         */
+        $('.ss-gridfield-configurable-paginator .pagination-page-size-select').entwine({
+            onchange: function () {
+                this.parent().find('.ss-gridfield-pagesize-submit').trigger('click');
+            }
+        });
 	});
 })(jQuery);

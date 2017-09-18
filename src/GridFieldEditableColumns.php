@@ -124,8 +124,6 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         /** @var GridFieldOrderableRows $sortable */
         $sortable = $grid->getConfig()->getComponentByType(GridFieldOrderableRows::class);
 
-        $form = $this->getForm($grid, $record);
-
         foreach ($value[self::POST_KEY] as $id => $fields) {
             if (!is_numeric($id) || !is_array($fields)) {
                 continue;
@@ -139,6 +137,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
             $extra = array();
 
+            $form = $this->getForm($grid, $record);
             $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
             $form->saveInto($item);
 
