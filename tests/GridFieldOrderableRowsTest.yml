@@ -1,10 +1,3 @@
-GridFieldOrderableRowsTest_Ordered:
-  item1:
-  item2:
-  item3:
-  item4:
-  item5:
-  item6:
 GridFieldOrderableRowsTest_Parent:
   parent:
     MyManyMany:
@@ -20,3 +13,27 @@ GridFieldOrderableRowsTest_Parent:
         ManyManySort: 108
       - 5: =>GridFieldOrderableRowsTest_Ordered.item6
         ManyManySort: 108
+GridFieldOrderableRowsTest_OrderableChild:
+  item1:
+    Sort: 1
+  item2:
+    Sort: 2
+  item3:
+    Sort: 3
+  item4:
+    Sort: 4
+GridFieldOrderableRowsTest_Ordered:
+  item1:
+    Sort: 1
+  item2:
+    Sort: 2
+  item3:
+    Sort: 3
+  item4:
+    Sort: 4
+  item5:
+    Sort: 5
+  item6:
+    Sort: 6
+  nestedtest:
+    Children: =>GridFieldOrderableRowsTest_OrderableChild.item1,=>GridFieldOrderableRowsTest_OrderableChild.item2,=>GridFieldOrderableRowsTest_OrderableChild.item3,=>GridFieldOrderableRowsTest_OrderableChild.item4
