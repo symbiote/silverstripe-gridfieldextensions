@@ -12,6 +12,8 @@ class GridFieldOrderableRowsTest extends SapphireTest {
 		'GridFieldOrderableRowsTest_Parent',
 		'GridFieldOrderableRowsTest_Ordered',
 		'GridFieldOrderableRowsTest_Subclass',
+		'GridFieldOrderableRowsTest_Unorderable',
+		'GridFieldOrderableRowsTest_OrderableChild',
 	);
 
 	public function testReorderItems() {
@@ -47,6 +49,35 @@ class GridFieldOrderableRowsTest extends SapphireTest {
 
 		$this->assertEquals($desiredOrder, $newOrder);
 
+	}
+
+	public function testSortableChildClass() {
+		$orderable = new GridFieldOrderableRows('Sort');
+		$reflection = new ReflectionMethod($orderable, 'executeReorder');
+		$reflection->setAccessible(true);
+
+		$parent = $this->objFromFixture('GridFieldOrderableRowsTest_Ordered', 'nestedtest');
+
+		$config = new GridFieldConfig_RelationEditor();
+		$config->addComponent($orderable);
+
+		$grid = new GridField(
+			'Children',
+			'Children',
+			$parent->Children(),
+			$config
+		);
+
+		$originalOrder = $parent->Children()->column('ID');
+		$desiredOrder = array_reverse($originalOrder);
+
+		$this->assertNotEquals($originalOrder, $desiredOrder);
+
+		$reflection->invoke($orderable, $grid, $desiredOrder);
+
+		$newOrder = $parent->Children()->column('ID');
+
+		$this->assertEquals($desiredOrder, $newOrder);
 	}
 
 	/**
@@ -112,6 +143,10 @@ class GridFieldOrderableRowsTest_Ordered extends DataObject implements TestOnly 
 		'Parent' => 'GridFieldOrderableRowsTest_Parent'
 	);
 
+	private static $has_many = array(
+		'Children' => 'GridFieldOrderableRowsTest_OrderableChild',
+	);
+
 	private static $belongs_many_many =array(
 		'MyManyMany' => 'GridFieldOrderableRowsTest_Parent',
 	);
@@ -119,6 +154,23 @@ class GridFieldOrderableRowsTest_Ordered extends DataObject implements TestOnly 
 }
 
 class GridFieldOrderableRowsTest_Subclass extends GridFieldOrderableRowsTest_Ordered implements TestOnly {
+}
+
+class GridFieldOrderableRowsTest_Unorderable extends DataObject implements TestOnly {
+}
+
+class GridFieldOrderableRowsTest_OrderableChild extends GridFieldOrderableRowsTest_Unorderable implements TestOnly {
+
+	private static $db = array(
+		'Sort' => 'Int',
+	);
+
+	private static $has_one = array(
+		'Parent' => 'GridFieldOrderableRowsTest_Ordered',
+	);
+
+	private static $default_sort = '"Sort" ASC';
+
 }
 
 /**#@-*/
