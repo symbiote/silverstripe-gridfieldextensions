@@ -1,7 +1,7 @@
 {
     "name": "symbiote/silverstripe-gridfieldextensions",
     "description": "A collection of useful grid field components",
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
     "homepage": "http://github.com/symbiote/silverstripe-gridfieldextensions",
     "keywords": ["silverstripe", "gridfield"],
     "license": "BSD-3-Clause",
@@ -19,6 +19,7 @@
         "issues": "http://github.com/symbiote/silverstripe-gridfieldextensions/issues"
     },
     "require": {
+        "silverstripe/vendor-plugin": "^1.0",
         "silverstripe/framework": "~4.0"
     },
     "require-dev": {
@@ -34,6 +35,10 @@
         "screenshots": [
             "docs/en/_images/editable-rows.png",
             "docs/en/_images/add-existing-search.png"
+        ],
+        "expose": [
+            "css",
+            "javascript"
         ]
     },
     "replace": {
