@@ -24,7 +24,7 @@ This module provides a number of useful grid field components:
 
 This branch will aim for compatibility with SilverStripe 4.x. 
 
-For SilverStripe 3.x, please see the [compatible branch](https://github.com/symbiote/silverstripe-gridfieldextensions/tree/1).
+For SilverStripe 3.x, please see the [compatible branch](https://github.com/symbiote/silverstripe-gridfieldextensions/tree/2).
 
 
 See [docs/en/index.md](docs/en/index.md) for documentation and examples.
