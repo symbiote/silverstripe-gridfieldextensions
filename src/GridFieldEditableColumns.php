@@ -3,6 +3,7 @@
 namespace Symbiote\GridFieldExtensions;
 
 use Closure;
+use Exception;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse_Exception;
@@ -22,7 +23,6 @@ use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
-use Exception;
 
 /**
  * Allows inline editing of grid field records without having to load a separate
@@ -144,7 +144,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             // Check if we are also sorting these records
             if ($sortable) {
                 $sortField = $sortable->getSortField();
-                $item->setField($sortField, $fields[$sortField]);
+                if (isset($fields[$sortField])) {
+                    $item->setField($sortField, $fields[$sortField]);
+                }
             }
 
             if ($list instanceof ManyManyList) {
