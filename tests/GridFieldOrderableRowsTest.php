@@ -1,11 +1,15 @@
 <?php
 
+namespace Symbiote\GridFieldExtensions\Tests;
+
+use ReflectionMethod;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
-use SilverStripe\ORM\DataObject;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubParent;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass;
 
 /**
  * Tests for the {@link GridFieldOrderableRows} component.
@@ -15,19 +19,13 @@ class GridFieldOrderableRowsTest extends SapphireTest
 
     protected $usesDatabase = true;
 
-    // protected static $fixture_file = 'GridFieldOrderableRowsTest.yml';
+    protected static $fixture_file = 'GridFieldOrderableRowsTest.yml';
 
-    protected $extraDataObjects = array(
-        'GridFieldOrderableRowsTest_Parent',
-        'GridFieldOrderableRowsTest_Ordered',
-        'GridFieldOrderableRowsTest_Subclass',
+    protected static $extra_dataobjects = array(
+        StubParent::class,
+        StubOrdered::class,
+        StubSubclass::class,
     );
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->markTestSkipped('Upgrade to 4.0: Needs to be re-implemented.');
-    }
 
     public function testReorderItems()
     {
@@ -35,7 +33,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $reflection = new ReflectionMethod($orderable, 'executeReorder');
         $reflection->setAccessible(true);
 
-        $parent = $this->objFromFixture('GridFieldOrderableRowsTest_Parent', 'parent');
+        $parent = $this->objFromFixture(StubParent::class, 'parent');
 
         $config = new GridFieldConfig_RelationEditor();
         $config->addComponent($orderable);
@@ -71,70 +69,27 @@ class GridFieldOrderableRowsTest extends SapphireTest
     {
         $orderable = new GridFieldOrderableRows();
 
-        $parent = new GridFieldOrderableRowsTest_Parent();
+        $parent = new StubParent();
         $parent->write();
 
         $this->assertEquals(
-            'GridFieldOrderableRowsTest_Ordered',
+            'StubOrdered',
             $orderable->getSortTable($parent->MyHasMany())
         );
 
         $this->assertEquals(
-            'GridFieldOrderableRowsTest_Ordered',
+            'StubOrdered',
             $orderable->getSortTable($parent->MyHasManySubclass())
         );
 
         $this->assertEquals(
-            'GridFieldOrderableRowsTest_Ordered',
+            'StubOrdered',
             $orderable->getSortTable($parent->MyManyMany())
         );
 
         $this->assertEquals(
-            'GridFieldOrderableRowsTest_Parent_MyManyMany',
+            'StubParent_MyManyMany',
             $orderable->setSortField('ManyManySort')->getSortTable($parent->MyManyMany())
         );
     }
 }
-
-/**#@+
- * @ignore
- */
-
-class GridFieldOrderableRowsTest_Parent extends DataObject implements TestOnly
-{
-
-    private static $has_many = array(
-        'MyHasMany' => 'GridFieldOrderableRowsTest_Ordered',
-        'MyHasManySubclass' => 'GridFieldOrderableRowsTest_Subclass'
-    );
-
-    private static $many_many = array(
-        'MyManyMany' => 'GridFieldOrderableRowsTest_Ordered'
-    );
-
-    private static $many_many_extraFields = array(
-        'MyManyMany' => array('ManyManySort' => 'Int')
-    );
-}
-
-class GridFieldOrderableRowsTest_Ordered extends DataObject implements TestOnly
-{
-
-    private static $db = array(
-        'Sort' => 'Int'
-    );
-
-    private static $has_one = array(
-        'Parent' => 'GridFieldOrderableRowsTest_Parent'
-    );
-
-    private static $belongs_many_many =array(
-        'MyManyMany' => 'GridFieldOrderableRowsTest_Parent',
-    );
-}
-
-class GridFieldOrderableRowsTest_Subclass extends GridFieldOrderableRowsTest_Ordered implements TestOnly
-{
-}
-
-/**#@-*/

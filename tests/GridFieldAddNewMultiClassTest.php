@@ -1,9 +1,14 @@
 <?php
 
+namespace Symbiote\GridFieldExtensions\Tests;
+
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\GridField\GridField;
 use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubA;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubB;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubC;
 
 /**
  * Tests for {@link GridFieldAddNewMultiClass}.
@@ -14,59 +19,32 @@ class GridFieldAddNewMultiClassTest extends SapphireTest
     public function testGetClasses()
     {
         $grid = new GridField('TestGridField');
-        $grid->setModelClass('GridFieldAddNewMultiClassTest_A');
+        $grid->setModelClass(StubA::class);
 
         $component = new GridFieldAddNewMultiClass();
 
         $this->assertEquals(
             array(
-                'GridFieldAddNewMultiClassTest_A' => 'A',
-                'GridFieldAddNewMultiClassTest_B' => 'B',
-                'GridFieldAddNewMultiClassTest_C' => 'C'
+                'Symbiote-GridFieldExtensions-Tests-Stub-StubA' => 'A',
+                'Symbiote-GridFieldExtensions-Tests-Stub-StubB' => 'B',
+                'Symbiote-GridFieldExtensions-Tests-Stub-StubC' => 'C'
             ),
             $component->getClasses($grid),
             'Subclasses are populated by default and sorted'
         );
 
         $component->setClasses(array(
-            'GridFieldAddNewMultiClassTest_B' => 'Custom Title',
-            'GridFieldAddNewMultiClassTest_A'
+            StubB::class => 'Custom Title',
+            StubA::class
         ));
 
         $this->assertEquals(
             array(
-                'GridFieldAddNewMultiClassTest_B' => 'Custom Title',
-                'GridFieldAddNewMultiClassTest_A' => 'A'
+                'Symbiote-GridFieldExtensions-Tests-Stub-StubB' => 'Custom Title',
+                'Symbiote-GridFieldExtensions-Tests-Stub-StubA' => 'A'
             ),
             $component->getClasses($grid),
             'Sorting and custom titles can be specified'
         );
     }
 }
-
-/**#@+
- * @ignore
- */
-
-class GridFieldAddNewMultiClassTest_A implements TestOnly
-{
-    public function i18n_singular_name()
-    {
-        $class = get_class($this);
-        return substr($class, strpos($class, '_') + 1);
-    }
-
-    public function canCreate()
-    {
-        return true;
-    }
-}
-
-class GridFieldAddNewMultiClassTest_B extends GridFieldAddNewMultiClassTest_A implements TestOnly
-{
-}
-class GridFieldAddNewMultiClassTest_C extends GridFieldAddNewMultiClassTest_A implements TestOnly
-{
-}
-
-/**#@-*/

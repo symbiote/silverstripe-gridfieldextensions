@@ -73,8 +73,7 @@
  */
 
 .ss-gridfield-add-new-multi-class {
-  margin-bottom: 8px !important;
-  white-space: nowrap;
+  margin-bottom: 8px !important;white-space: nowrap;
 }
 
 .ss-gridfield-add-new-multi-class .field {
@@ -131,7 +130,7 @@
 .ss-gridfield-editable select.dropdown {
   border: 1px solid #b3b3b3;
   background-color: #fff;
-  padding: 7px 7px 7px 4px;
+  padding: 7px 7px7px 4px;
   line-height: 16px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -166,12 +165,13 @@
 }
 
 .ss-gridfield-orderable .col-reorder .handle {
-  cursor: move;
-  padding: 16px 0 11px;
+
+  cursor: move;padding: 16px 0 11px;
 }
 
 .ss-gridfield-orderable .col-reorder .handle .icon {
-  line-height: 100%;
+  line-
+  height: 100%;
   font-size: 1.5em;
 }
 
@@ -198,4 +198,26 @@
 .ss-gridfield-orderable tfoot .ss-gridfield-nextpage {
   background-position: -40px 9px !important;
   margin-right: 0;
+}
+
+/**
+ * GridFieldConfigurablePaginator
+ */
+.ss-gridfield-configurable-paginator .pagination-page-size {
+  color: #fff;
+  float: left;
+  padding: 6px 0;
+}
+
+.ss-gridfield-configurable-paginator .pagination-page-size-select {
+  margin-left: 0;
+  width: auto;
+}
+
+.ss-gridfield-configurable-paginator .ss-gridfield-pagesize-submit {
+  display: none;
+}
+
+.ss-gridfield-configurable-paginator .pagination-page-number input {
+  text-align: center;
 }

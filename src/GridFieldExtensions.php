@@ -9,16 +9,9 @@ use SilverStripe\View\Requirements;
  */
 class GridFieldExtensions
 {
-
     public static function include_requirements()
     {
-        $moduleDir = self::get_module_dir();
-        Requirements::css($moduleDir.'/css/GridFieldExtensions.css');
-        Requirements::javascript($moduleDir.'/javascript/GridFieldExtensions.js');
-    }
-
-    public static function get_module_dir()
-    {
-        return basename(dirname(__DIR__));
+        Requirements::css('symbiote/silverstripe-gridfieldextensions:css/GridFieldExtensions.css');
+        Requirements::javascript('symbiote/silverstripe-gridfieldextensions:javascript/GridFieldExtensions.js');
     }
 }

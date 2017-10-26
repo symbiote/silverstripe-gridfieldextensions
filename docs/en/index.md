@@ -106,3 +106,36 @@ class Item extends DataObject {
 
 **Please NOTE:** There is a limitation when using `GridFieldOrderableRows` on unsaved data objects; namely, that it doesn't work as without data being saved, the list of related objects has no context. Please check `$this->ID` before adding the `GridFieldOrderableRows` component to the grid field config (or even, before adding the gridfield at all). 
 
+Configurable Paginator
+----------------------
+
+The `GridFieldConfigurablePaginator` component allows you to have a page size dropdown added to your GridField
+pagination controls. The page sizes are configurable via the configuration system, or at call time using the public API.
+To use this component you should remove the original paginator component first:
+
+```php
+$gridField->getConfig()
+    ->removeComponentsByType('GridFieldPaginator')
+    ->addComponent(new GridFieldConfigurablePaginator());
+```
+
+You can configure the page sizes with the configuration system. Note that merging is the default strategy, so to replace
+the default sizes with your own you will need to unset the original first, for example:
+
+```php
+# File: mysite/_config.php
+Config::inst()->remove('GridFieldConfigurablePaginator', 'default_page_sizes');
+Config::inst()->update('GridFieldConfigurablePaginator', 'default_page_sizes', array(100, 200, 500));
+```
+
+You can also override these at call time:
+
+```php
+$paginator = new GridFieldConfigurablePaginator(100, array(100, 200, 500));
+
+$paginator->setPageSizes(array(200, 500, 1000));
+$paginator->setItemsPerPage(500);
+```
+
+The first shown record will be maintained across page size changes, and the number of pages and current page will be
+recalculated on each request, based on the current first shown record and page size.

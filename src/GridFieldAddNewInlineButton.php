@@ -144,8 +144,10 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
                     sprintf('[%s][{%%=o.num%%}]', self::POST_KEY),
                     $content
                 );
+            }
 
-                // Cast content as HTML
+            // Cast content
+            if (! $content instanceof DBField) {
                 $content = DBField::create_field('HTMLFragment', $content);
             }
 
@@ -157,7 +159,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
             $columns->push(new ArrayData(array(
                 'Content'    => $content,
-                'Attributes' => $attrs,
+                'Attributes' => DBField::create_field('HTMLFragment', $attrs),
                 'IsActions'  => $column == 'Actions'
             )));
         }
@@ -179,7 +181,6 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         $editable = $grid->getConfig()->getComponentByType(GridFieldEditableColumns::class);
         /** @var GridFieldOrderableRows $sortable */
         $sortable = $grid->getConfig()->getComponentByType(GridFieldOrderableRows::class);
-        $form     = $editable->getForm($grid, $record);
 
         if (!singleton($class)->canCreate()) {
             return;
@@ -190,6 +191,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
             $item  = $class::create();
             $extra = array();
 
+            $form = $editable->getForm($grid, $record);
             $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
             $form->saveInto($item);
 

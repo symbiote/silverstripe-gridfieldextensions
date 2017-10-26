@@ -20,10 +20,11 @@ This module provides a number of useful grid field components:
   custom grid field detail views including tabs, breadcrumbs and other CMS
   features.
 * `GridFieldTitleHeader` - a simple header which displays column titles.
+* `GridFieldConfigurablePaginator` - a paginator for GridField that allows customisable page sizes.
 
 This branch will aim for compatibility with SilverStripe 4.x. 
 
-For SilverStripe 3.x, please see the [compatible branch](https://github.com/symbiote/silverstripe-gridfieldextensions/tree/1).
+For SilverStripe 3.x, please see the [compatible branch](https://github.com/symbiote/silverstripe-gridfieldextensions/tree/2).
 
 
 See [docs/en/index.md](docs/en/index.md) for documentation and examples.

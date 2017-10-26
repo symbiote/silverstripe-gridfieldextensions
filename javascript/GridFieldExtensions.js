@@ -250,7 +250,7 @@
 		 * GridFieldEditableColumns
 		 */
 
-		$('.ss-gridfield.ss-gridfield-editable .ss-gridfield-item td').entwine({
+		$('.grid-field .ss-gridfield-item').entwine({
 			onclick: function(e) {
 				// Prevent the default row click action when clicking a cell that contains a field
 				if (this.find('.editable-column-field').length) {
@@ -387,5 +387,14 @@
 				if(this.hasClass("ui-droppable")) this.droppable("destroy");
 			}
 		});
+
+        /**
+         * GridFieldConfigurablePaginator
+         */
+        $('.ss-gridfield-configurable-paginator .pagination-page-size-select').entwine({
+            onchange: function () {
+                this.parent().find('.ss-gridfield-pagesize-submit').trigger('click');
+            }
+        });
 	});
 })(jQuery);
