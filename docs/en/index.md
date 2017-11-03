@@ -65,8 +65,10 @@ a new record. By default it allows them to select the model class for the grid f
 subclasses. You can control the createable classes using the `setClasses` method.
 
 ```php
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+
 $grid->getConfig()
-     ->removeComponentsByType('GridFieldAddNewButton')
+     ->removeComponentsByType(GridFieldAddNewButton::class)
      ->addComponent(new GridFieldAddNewMultiClass());
 ```
 
