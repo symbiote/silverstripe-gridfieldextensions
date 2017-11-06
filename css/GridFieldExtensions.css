@@ -83,6 +83,10 @@
   margin: 0 4px 0 0;
 }
 
+.ss-gridfield-add-new-multi-class .form-group {
+  padding-bottom: 0;
+}
+
 .cms-edit-form:not(.AssetAdmin) .ss-gridfield-add-new-multi-class .form-group .form__field-holder {
   display: inline;
   padding: 0;
