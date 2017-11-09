@@ -37,8 +37,8 @@
             "docs/en/_images/add-existing-search.png"
         ],
         "expose": [
-            "css",
-            "javascript"
+            "client/dist",
+            "client/thirdparty"
         ]
     },
     "replace": {

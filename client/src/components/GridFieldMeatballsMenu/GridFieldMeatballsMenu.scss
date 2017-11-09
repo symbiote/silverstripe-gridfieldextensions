@@ -1,0 +1,11 @@
+@import "variables";
+
+.meatball-menu__actions .popover-body {
+
+  .dropdown-item,
+  .dropdown-divider {
+    margin-left: calc(-#{$popover-padding} + 1px);
+    margin-right: calc(-#{$popover-padding} + 1px);
+    width: calc(100% + #{$popover-padding * 2} - 2px);
+  }
+}

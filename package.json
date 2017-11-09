@@ -1,0 +1,50 @@
+{
+  "name": "silverstripe-gridfieldextensions",
+  "version": "1.0.0",
+  "description": "A collection of GridField components for the silverstripe-admin module",
+  "scripts": {
+    "build": "yarn && NODE_ENV=production webpack -p --bail --progress",
+    "watch": "yarn && NODE_ENV=development webpack --watch --progress",
+    "css": "WEBPACK_CHILD=css npm run build",
+    "lint": "eslint client/src; sass-lint -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/symbiote/silverstripe-gridfieldextensions.git"
+  },
+  "keywords": [
+    "silverstripe",
+    "elemental",
+    "content blocks"
+  ],
+  "author": "Symbiote AU",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/symbiote/silverstripe-gridfieldextensions/issues"
+  },
+  "homepage": "https://github.com/symbiote/silverstripe-gridfieldextensions#readme",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "devDependencies": {
+    "@silverstripe/webpack-config": "^0.4.0",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.1",
+    "eslint": "^4.6.1",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.3.0",
+    "webpack": "^2.6.1"
+  },
+  "engines": {
+    "node": "^6.x"
+  }
+}

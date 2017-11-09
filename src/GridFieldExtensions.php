@@ -11,7 +11,7 @@ class GridFieldExtensions
 {
     public static function include_requirements()
     {
-        Requirements::css('symbiote/silverstripe-gridfieldextensions:css/GridFieldExtensions.css');
-        Requirements::javascript('symbiote/silverstripe-gridfieldextensions:javascript/GridFieldExtensions.js');
+        Requirements::css('symbiote/silverstripe-gridfieldextensions:client/dist/styles/bundle.css');
+        Requirements::javascript('symbiote/silverstripe-gridfieldextensions:client/dist/js/bundle.js');
     }
 }
