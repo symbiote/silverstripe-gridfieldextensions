@@ -13,7 +13,8 @@ jQuery.entwine('ss', $ => {
       // reinstantiate the changetracker otherwise we will get false positives
       // due to the react component not existing in the DOM at the time of
       // page load, and `undefined !== ""``
-      this.closest('form').changetracker();
+      // See: LeftAndMain.EditForm.js for reference
+      $('.cms-edit-form')._setupChangeTracker();
     },
     getItemId() {
       return this.closest('.ss-gridfield-item').data('id');
