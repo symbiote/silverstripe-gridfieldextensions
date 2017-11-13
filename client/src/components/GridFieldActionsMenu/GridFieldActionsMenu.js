@@ -2,17 +2,17 @@ import jQuery from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { provideInjector } from 'lib/Injector';
-import Meatballs from 'components/GridFieldMeatballsMenu/GridFieldMeatballsComponent';
+import ActionsMenu from 'components/GridFieldActionsMenu/GridFieldActionsMenuComponent';
 
-const InjectedMeatballs = provideInjector(Meatballs);
+const InjectedActionsMenu = provideInjector(ActionsMenu);
 
 jQuery.entwine('ss', $ => {
-  $('.js-injector-boot .ss-gridfield .meatball-menu__activator').entwine({
+  $('.js-injector-boot .ss-gridfield .actions-menu__activator').entwine({
     onmatch() {
-      this.drawMeatballs();
+      this.drawActionsMenu();
       // reinstantiate the changetracker otherwise we will get false positives
       // due to the react component not existing in the DOM at the time of
-      // page load, and `undefined !== ""``
+      // page load, and `undefined !== ""`
       // See: LeftAndMain.EditForm.js for reference
       $('.cms-edit-form')._setupChangeTracker();
     },
@@ -22,7 +22,7 @@ jQuery.entwine('ss', $ => {
     getData() {
       return JSON.parse(decodeURIComponent(this.data('actions')) || '[]');
     },
-    drawMeatballs() {
+    drawActionsMenu() {
       const items = [];
       this.getData().forEach((menuGroup) => {
         if (items.length) {
@@ -30,7 +30,7 @@ jQuery.entwine('ss', $ => {
         }
         items.push(
           menuGroup.map(({ Title, Link, Type }) => (
-            <a href={Link} className={`dropdown-item meatball-menu__${Type}-action`}>
+            <a href={Link} className={`dropdown-item actions-menu__${Type}-action`}>
               {Title}
             </a>
           )),
@@ -43,14 +43,14 @@ jQuery.entwine('ss', $ => {
         .css('position', 'relative')
         .get(0);
       ReactDOM.render(
-        <InjectedMeatballs id={`meatball-menu_${this.getItemId()}`} container={scrollingContainer}>
+        <InjectedActionsMenu id={`actions-menu_${this.getItemId()}`} container={scrollingContainer}>
           {items}
-        </InjectedMeatballs>,
+        </InjectedActionsMenu>,
         this.get(0),
       );
     },
   });
-  $('.meatball-menu__versioning-action').entwine({
+  $('.actions-menu__versioning-action').entwine({
     onclick(e) {
       jQuery.ajax({
         headers: { 'X-Pjax': 'CurrentForm,Breadcrumbs' },

@@ -6,12 +6,12 @@ use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
-use Symbiote\GridFieldExtensions\GridFieldMeatballMenuComponent;
+use Symbiote\GridFieldExtensions\GridFieldActionsMenu;
 use Symbiote\GridFieldExtensions\Tests\Stub\ClassWithTabs;
 use Symbiote\GridFieldExtensions\Tests\Stub\VersionedClassWithTabs;
 use SilverStripe\Versioned\Versioned;
 
-class GridFieldMeatballMenuComponentTest extends SapphireTest
+class GridFieldActionsMenuComponentTest extends SapphireTest
 {
     protected $usesDatabase = true;
 
@@ -30,19 +30,19 @@ class GridFieldMeatballMenuComponentTest extends SapphireTest
     {
         parent::setUp();
 
-        $this->component = new GridFieldMeatballMenuComponent;
+        $this->component = new GridFieldActionsMenu;
     }
 
-    public function testAugmentColumnsAddsMeatballs()
+    public function testAugmentColumnsAddsActions()
     {
         $columns = [];
         $this->component->augmentColumns(null, $columns);
-        $this->assertContains('Meatballs', $columns);
+        $this->assertContains('Actions', $columns);
     }
 
-    public function testComponentRegistersItselfAsHandlingMeatballs()
+    public function testComponentRegistersItselfAsHandlingActions()
     {
-        $this->assertSame(['Meatballs'], $this->component->getColumnsHandled(null));
+        $this->assertSame(['Actions'], $this->component->getColumnsHandled(null));
     }
 
     public function testCanGetAndSetActions()
@@ -53,7 +53,7 @@ class GridFieldMeatballMenuComponentTest extends SapphireTest
 
     public function testGetSetAndConstructShowFirstTab()
     {
-        $component = new GridFieldMeatballMenuComponent(false);
+        $component = new GridFieldActionsMenu(false);
         $this->assertFalse($component->getShowFirstTab());
 
         $component->setShowFirstTab(true);
@@ -63,7 +63,7 @@ class GridFieldMeatballMenuComponentTest extends SapphireTest
     public function testRecordWithRootTabsHasTabsInMenu()
     {
         $record = new ClassWithTabs;
-        $result = $this->component->getColumnContent($this->getMockGridField(), $record, 'Meatballs');
+        $result = $this->component->getColumnContent($this->getMockGridField(), $record, 'Actions');
 
         $this->assertContains('Apple', $result);
         $this->assertContains('Orange', $result);
@@ -72,7 +72,7 @@ class GridFieldMeatballMenuComponentTest extends SapphireTest
     public function testVersionedRecordHasVersionedActionsInMenu()
     {
         $record = new VersionedClassWithTabs;
-        $result = $this->component->getColumnContent($this->getMockGridField(), $record, 'Meatballs');
+        $result = $this->component->getColumnContent($this->getMockGridField(), $record, 'Actions');
 
         $this->assertContains('Apple', $result);
         $this->assertContains('Orange', $result);
@@ -99,17 +99,17 @@ class GridFieldMeatballMenuComponentTest extends SapphireTest
         return $gridField;
     }
 
-    public function testGetColumnAttributesHasMeatballClass()
+    public function testGetColumnAttributesHasActionsMenuClass()
     {
         $result = $this->component->getColumnAttributes(null, null, null);
-        $this->assertContains('meatball-menu', $result['class']);
+        $this->assertContains('actions-menu', $result['class']);
     }
 
-    public function testColumnMetadataContainsMoreActionsWhenColumnIsMeatballs()
+    public function testColumnMetadataContainsMoreActionsWhenColumnIsActions()
     {
         $this->assertEmpty($this->component->getColumnMetadata(null, 'foo'), 'Default return value is empty');
 
-        $result = $this->component->getColumnMetadata(null, 'Meatballs');
+        $result = $this->component->getColumnMetadata(null, 'Actions');
         $this->assertSame('More Actions', $result['title']);
     }
 }

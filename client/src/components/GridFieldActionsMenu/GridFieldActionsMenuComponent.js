@@ -1,33 +1,33 @@
 import { inject } from 'lib/Injector';
 import React, { PropTypes } from 'react';
 
-const Meatballs = ({ PopoverField, id, children, container }) => (
+const ActionsMenu = ({ PopoverField, id, children, container }) => (
   <PopoverField
     id={id}
     buttonSize="sm"
     data={{ placement: 'bottom' }}
     className="mr-0 btn-sm"
-    popoverClassName="meatball-menu__actions"
+    popoverClassName="actions-menu__actions"
     container={container}
   >
     {children}
   </PopoverField>
 );
 
-Meatballs.propTypes = {
+ActionsMenu.propTypes = {
   id: PropTypes.string.isRequired,
   PopoverField: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-Meatballs.defaultProps = {
+ActionsMenu.defaultProps = {
   id: '',
   PopoverField: null,
 };
 
-export { Meatballs as Component };
+export { ActionsMenu as Component };
 
 export default inject(
   ['PopoverField'],
   (PopoverField) => ({ PopoverField }),
-  () => 'Meatballs'
-)(Meatballs);
+  () => 'ActionsMenu'
+)(ActionsMenu);

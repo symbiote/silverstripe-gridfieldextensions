@@ -18,7 +18,10 @@ use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
 
-class GridFieldMeatballMenuComponent implements
+/**
+ * Provides an encapsulated list of actions to do with the current record
+ */
+class GridFieldActionsMenu implements
     GridField_ColumnProvider,
     GridField_URLHandler
 {
@@ -62,14 +65,14 @@ class GridFieldMeatballMenuComponent implements
 
     public function augmentColumns($gridField, &$columns)
     {
-        if (!in_array('Meatballs', $columns)) {
-            $columns[] = 'Meatballs';
+        if (!in_array('Actions', $columns)) {
+            $columns[] = 'Actions';
         }
     }
 
     public function getColumnsHandled($gridField)
     {
-        return ['Meatballs'];
+        return ['Actions'];
     }
 
     /**
@@ -176,20 +179,21 @@ class GridFieldMeatballMenuComponent implements
         $templateData = ArrayData::create([
             'Actions' => Convert::raw2json(array_values($this->getActions())),
         ]);
+        $template = SSViewer::get_templates_by_class($this, '', static::class);
 
-        return $templateData->renderWith(static::class);
+        return $templateData->renderWith($template);
     }
 
     public function getColumnAttributes($gridField, $record, $columnName)
     {
         return [
-            'class' => 'grid-field__col-compact meatball-menu',
+            'class' => 'grid-field__col-compact actions-menu',
         ];
     }
 
     public function getColumnMetadata($gridField, $columnName)
     {
-        if ($columnName === 'Meatballs') {
+        if ($columnName === 'Actions') {
             return [
                 'title' => _t(__CLASS__ . '.MoreActions', 'More Actions'),
             ];
@@ -220,7 +224,7 @@ class GridFieldMeatballMenuComponent implements
         $record = $gridField->getList()->byID($request->param("ID")) ?: $injector->create($gridField->getModelClass());
         $handler = $injector->createWithArgs(
             GridFieldDetailForm_ItemRequest::class,
-            [$gridField, $this, $record, $requestHandler, 'Meatballs']
+            [$gridField, $this, $record, $requestHandler, 'GridFieldActionsMenu']
         );
         return $handler->handleRequest($request);
     }
