@@ -20,6 +20,7 @@ use SilverStripe\View\SSViewer;
 
 /**
  * Provides an encapsulated list of actions to do with the current record
+ * such as edit, publish, unpublish, archive, et al.
  */
 class GridFieldActionsMenu implements
     GridField_ColumnProvider,
