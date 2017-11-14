@@ -9,7 +9,7 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
-use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
+use SilverStripe\Forms\GridField\GridFieldDetailForm;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\ORM\DataObject;
@@ -213,21 +213,15 @@ class GridFieldActionsMenu implements
     }
 
     /**
-     * Basically an overly condensed GridFieldDetailForm::handleItem
+     * Pass through to GridFieldDetailForm::handleItem
      *
      * @param GridField $gridField
      * @param HTTPRequest $request
      */
     public function handleRecordLink($gridField, $request)
     {
-        $injector = Injector::inst();
-        $requestHandler = $gridField->getForm()->getController();
-        $record = $gridField->getList()->byID($request->param("ID")) ?: $injector->create($gridField->getModelClass());
-        $handler = $injector->createWithArgs(
-            GridFieldDetailForm_ItemRequest::class,
-            [$gridField, $this, $record, $requestHandler, 'GridFieldActionsMenu']
-        );
-        return $handler->handleRequest($request);
+        $detailForm = Injector::inst()->create(GridFieldDetailForm::class);
+        return $detailForm->handleItem($gridField, $request);
     }
 
     /**
@@ -295,22 +289,5 @@ class GridFieldActionsMenu implements
     public function getActions()
     {
         return $this->actions;
-    }
-
-    // The following 3 null return functions implement an undefined interface
-    // expected by GridFieldDetailForm_ItemRequest
-    public function getFields()
-    {
-        return null;
-    }
-
-    public function getValidator()
-    {
-        return null;
-    }
-
-    public function getItemEditFormCallback()
-    {
-        return null;
     }
 }
