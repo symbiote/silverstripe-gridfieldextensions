@@ -10,18 +10,25 @@ use SilverStripe\Security\Security;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Control\HTTPResponse;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\GridField\GridFieldDetailForm;
 
 class GridFieldRecordActionHandler extends RequestHandler
 {
 
     private static $allowed_actions = [
+        'detailForm',
         'publish',
         'unpublish',
         'archive'
     ];
 
     private static $url_handlers = [
-        '$Action!' => '$Action'
+        '$ID//edit' => 'detailForm',
+        '$ID//view' => 'detailForm',
+        '$ID//ItemEditForm' => 'detailForm',
+        '$ID//$Action!' => '$Action',
+        '$ID' => 'detailForm',
     ];
 
     protected $record = null;
@@ -31,6 +38,12 @@ class GridFieldRecordActionHandler extends RequestHandler
         $this->gridField = $gridField;
         $this->record = $record;
         parent::__construct();
+    }
+
+    public function detailForm(HTTPRequest $request)
+    {
+        $detailForm = Injector::inst()->create(GridFieldDetailForm::class);
+        return $detailForm->handleItem($this->gridField, $request);
     }
 
     public function publish(HTTPRequest $request)
@@ -100,7 +113,7 @@ class GridFieldRecordActionHandler extends RequestHandler
             $title = '<a href="' . $link . '">"' . $title . '"</a>';
         }
         $message = _t(
-            'Symbiote\\GridFieldExtensions\\GridFieldRecordActionHandler.' . $translationID,
+            __CLASS__ . '.' . $translationID,
             "$translationID {type} {title}",
             array(
                 'type' => $this->record->i18n_singular_name(),

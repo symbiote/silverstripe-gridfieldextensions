@@ -14,6 +14,7 @@ class ClassWithTabs extends DataObject implements TestOnly
     {
         $fields = parent::getCMSFields();
 
+        // ADD two new root level tabs - don't forget 'Main' is included by default!
         $fields->addFieldsToTab('Root.Apple', TextField::create('Apple'));
         $fields->addFieldsToTab('Root.Orange', TextField::create('Orange'));
 

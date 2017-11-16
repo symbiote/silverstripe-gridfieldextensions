@@ -11,7 +11,7 @@ use Symbiote\GridFieldExtensions\Tests\Stub\ClassWithTabs;
 use Symbiote\GridFieldExtensions\Tests\Stub\VersionedClassWithTabs;
 use SilverStripe\Versioned\Versioned;
 
-class GridFieldActionsMenuComponentTest extends SapphireTest
+class GridFieldActionsMenuTest extends SapphireTest
 {
     protected $usesDatabase = true;
 
@@ -79,6 +79,18 @@ class GridFieldActionsMenuComponentTest extends SapphireTest
 
         $this->assertContains('Publish', $result);
         $this->assertContains('Delete', $result);
+    }
+
+    public function testNotShowingTheFirstTabDoesNotShowTheFirstTab()
+    {
+        $component = new GridFieldActionsMenu;
+        $record = new ClassWithTabs;
+        $result = $component->getColumnContent($this->getMockGridField(), $record, 'Actions');
+        $this->assertContains('Main', $result);
+
+        $component->setShowFirstTab(false);
+        $result = $component->getColumnContent($this->getMockGridField(), $record, 'Actions');
+        $this->assertNotContains('Main', $result);
     }
 
     /**
