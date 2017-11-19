@@ -17,6 +17,7 @@ class GridFieldRecordActionHandler extends RequestHandler
 {
 
     private static $allowed_actions = [
+        'defaultAction',
         'detailForm',
         'publish',
         'unpublish',
@@ -28,16 +29,41 @@ class GridFieldRecordActionHandler extends RequestHandler
         '$ID//view' => 'detailForm',
         '$ID//ItemEditForm' => 'detailForm',
         '$ID//$Action!' => '$Action',
-        '$ID' => 'detailForm',
+        '$ID' => 'defaultAction',
     ];
 
+    /**
+     * Name of action method to run when `'ID' => 'defaultAction'` is matched
+     * Allows for an author to update to e.g. an applied `Extension`'s method
+     * @var string
+     */
+    private static $default_action = 'detailForm';
+
+    /**
+     * @var DataObject The object we're performing actions on
+     */
     protected $record = null;
+
+    /**
+     * @var GridField The GridField we're performing actions through
+     */
+    protected $gridField = null;
 
     public function __construct(GridField $gridField, DataObjectInterface $record)
     {
         $this->gridField = $gridField;
         $this->record = $record;
         parent::__construct();
+    }
+
+    public function defaultAction(HTTPRequest $request)
+    {
+        $action = $this->config()->default_action;
+        if ($this->hasAction($action) && $this->checkAccessAction($action)) {
+            return $this->handleAction($request, $action);
+        }
+        $classMessage = Director::isLive() ? 'on this handler' : 'on class '.static::class;
+        return $this->httpError(403, "Action '' isn't allowed $classMessage.");
     }
 
     public function detailForm(HTTPRequest $request)

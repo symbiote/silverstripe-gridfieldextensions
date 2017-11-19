@@ -88,6 +88,7 @@ class GridFieldActionsMenu implements
      * Add each of the "Root" tabs to the actions for this component
      * We expect that a tabbed list of fields will always have a singular root.
      *
+     * @param GridField $gridField
      * @param DataObject $record
      * @param string $typeName
      *
@@ -125,6 +126,7 @@ class GridFieldActionsMenu implements
      * If the object is versioned (has the {@link Versioned} extension applied) then add
      * actions to publish, unpublish, and archive - depending on record state.
      *
+     * @param GridField $gridField
      * @param DataObject $record
      * @param string $typeName
      *
@@ -182,7 +184,7 @@ class GridFieldActionsMenu implements
         }
         // remove empty entries
         foreach ($actions as $section => $sectionItems) {
-            $section = array_filter($sectionItems);
+            $actions[$section] = array_filter($sectionItems);
         }
         $actions = array_filter($actions);
         // render
