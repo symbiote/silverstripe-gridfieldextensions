@@ -1,0 +1,57 @@
+/**
+ * GridFieldAddExistingSearchButton
+ */
+
+.add-existing-search-dialog {
+  min-width: inherit !important;
+}
+
+.add-existing-search-dialog .add-existing-search-form .field {
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.add-existing-search-dialog .add-existing-search-form .field label {
+  padding-bottom: 4px;
+}
+
+.add-existing-search-dialog .add-existing-search-form .Actions {
+  margin-top: 10px;
+  padding: 0;
+}
+
+.add-existing-search-dialog .add-existing-search-items li a {
+  background: $white;
+  border: solid #CCC;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  display: block;
+  padding: 6px;
+}
+
+.add-existing-search-dialog .add-existing-search-items li:first-child a {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-top-width: 1px;
+}
+
+.add-existing-search-dialog .add-existing-search-items li:last-child a {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.add-existing-search-dialog .add-existing-search-items li a:hover {
+  background: #F4F4F4;
+}
+
+.add-existing-search-dialog .add-existing-search-pagination li {
+  background: $white;
+  display: block;
+  float: left;
+  margin-right: 2px;
+  margin-top: 12px;
+  padding: 6px;
+}

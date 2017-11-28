@@ -98,7 +98,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
             throw new Exception('Inline adding requires the editable columns component');
         }
 
-        Requirements::javascript('symbiote/silverstripe-gridfieldextensions:javascript/tmpl.js');
+        Requirements::javascript('symbiote/silverstripe-gridfieldextensions:client/thirdparty/tmpl.js');
         GridFieldExtensions::include_requirements();
 
         $data = new ArrayData(array(

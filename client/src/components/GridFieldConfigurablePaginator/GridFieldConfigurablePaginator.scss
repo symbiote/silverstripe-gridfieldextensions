@@ -1,0 +1,21 @@
+/**
+ * GridFieldConfigurablePaginator
+ */
+.ss-gridfield-configurable-paginator .pagination-page-size {
+  color: $white;
+  float: left;
+  padding: 6px 0;
+}
+
+.ss-gridfield-configurable-paginator .pagination-page-size-select {
+  margin-left: 0;
+  width: auto;
+}
+
+.ss-gridfield-configurable-paginator .ss-gridfield-pagesize-submit {
+  display: none;
+}
+
+.ss-gridfield-configurable-paginator .pagination-page-number input {
+  text-align: center;
+}

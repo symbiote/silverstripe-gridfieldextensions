@@ -95,18 +95,18 @@ If you wish to append newly created items to the end of the list, use an `onBefo
 ```php
 class Item extends DataObject {
 	private static $db = array('Sort' => 'Int');
-	
+
 	protected function onBeforeWrite() {
 		if (!$this->Sort) {
 			$this->Sort = Item::get()->max('Sort') + 1;
 		}
-		
+
 		parent::onBeforeWrite();
 	}
 }
 ```
 
-**Please NOTE:** There is a limitation when using `GridFieldOrderableRows` on unsaved data objects; namely, that it doesn't work as without data being saved, the list of related objects has no context. Please check `$this->ID` before adding the `GridFieldOrderableRows` component to the grid field config (or even, before adding the gridfield at all). 
+**Please NOTE:** There is a limitation when using `GridFieldOrderableRows` on unsaved data objects; namely, that it doesn't work as without data being saved, the list of related objects has no context. Please check `$this->ID` before adding the `GridFieldOrderableRows` component to the grid field config (or even, before adding the gridfield at all).
 
 Configurable Paginator
 ----------------------
@@ -141,3 +141,44 @@ $paginator->setItemsPerPage(500);
 
 The first shown record will be maintained across page size changes, and the number of pages and current page will be
 recalculated on each request, based on the current first shown record and page size.
+
+
+Actions Menu
+------------
+
+The `GridFieldActionsMenu` serves as an encapsulation type component, which for each item/row will render a pop-out/dropdown menu to the user - represented on in the UI as the 'meatball' type widget (as opposed to the ever popular 'hamburger' collapsing menu widget). The actions menu will render one of three classes of information:
+
+ - **Links to different edit screens**
+   If the item in the current row has an edit form (`getCMSFields`) which contains a root level `TabSet`, this division of items houses an entry for each of it's contained `Tab`s in the nature of e.g. `GridFieldEditButton`, etc. A parameter of `false` can be passed in to skip the first tab, in the case that clicking the row should invoke this action (such as the aforementioned edit button does).
+ - **Versioned actions**
+   Iff the item is versioned (via the `Versioned` extension), then applicable actions will be rendered in this division. These will be _Publish_, _Unpublish_, and _Archive_ (aka delete). It is worth noting that Publish and Unpublish are _not_ mutually exclusive, as a record can have changes ahead of it's published version (i.e. "Modified" as opposed to "Draft").
+ - **Arbitrary extra links**
+   Links can be added to any extra division of the pop-out menu, when the components constructor is passed an array of Title, Link, and Type tuples. The title and link mapping to render the text and href of an anchor tag, and the type forming an identifying BEM style CSS class in the form of `actions-menu__${Type}-action` for either styling or JS hooks (probably via entwine). When adding arbitrary links please remember that SilverStripe makes use of the `<base>` tag, and external links will require a protocol as well as a path.
+
+**Examples:**
+
+Basic usage:
+
+```php
+$config->addComponent(new GridFieldActionsMenu());
+```
+
+Skip the first root tab:
+
+```php
+$config->addComponent(new GridFieldActionsMenu(true));
+```
+
+Add arbitrary extra links:
+
+```php
+$meatballs = new GridFieldActionsMenu();
+$meatballs->addActionToGroup([
+    [
+        'Title' => 'Neato',
+        'Link' => 'some/action',
+        'Type' => 'extra'
+    ]
+], 'arbitrary');
+$config->addComponent($meatballs);
+```
