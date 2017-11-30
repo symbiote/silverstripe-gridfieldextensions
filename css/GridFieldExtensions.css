@@ -208,14 +208,13 @@
  * GridFieldConfigurablePaginator
  */
 .ss-gridfield-configurable-paginator .pagination-page-size {
-  color: #fff;
+  align-items: center;
+  display: flex;
   float: left;
-  padding: 6px 0;
 }
 
 .ss-gridfield-configurable-paginator .pagination-page-size-select {
-  margin-left: 0;
-  width: auto;
+  margin-left: .5rem;
 }
 
 .ss-gridfield-configurable-paginator .ss-gridfield-pagesize-submit {
