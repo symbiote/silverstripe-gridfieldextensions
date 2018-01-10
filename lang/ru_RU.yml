@@ -1,0 +1,9 @@
+ru_RU:
+  GridFieldAddExistingSearchHandler.ss:
+    NOITEMS: 'Нет элементов.'
+    RESULTS: 'Результаты'
+  GridFieldExtensions:
+    ADD: 'Добавить'
+    ADDEXISTING: 'Добавить существующий'
+    SEARCH: 'Поиск'
+    SELECTTYPETOCREATE: '(Выберите тип для создания)'
