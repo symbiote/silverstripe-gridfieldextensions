@@ -134,7 +134,7 @@
 .ss-gridfield-editable select.dropdown {
   border: 1px solid #b3b3b3;
   background-color: #fff;
-  padding: 7px 7px7px 4px;
+  padding: 7px 7px 7px 4px;
   line-height: 16px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -174,8 +174,7 @@
 }
 
 .ss-gridfield-orderable .col-reorder .handle .icon {
-  line-
-  height: 100%;
+  line-height: 100%;
   font-size: 1.5em;
 }
 
