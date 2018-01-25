@@ -37,7 +37,7 @@
             "javascript"
         ],
         "branch-alias": {
-            "3.x-dev": "3.2.x-dev"
+            "dev-master": "4.x-dev"
         }
     },
     "replace": {
