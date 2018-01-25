@@ -44,6 +44,15 @@
 			}
 		});
 
+		// Allow the list item to be clickable as well as the anchor
+    $('.add-existing-search-dialog .add-existing-search-items .list-group-item-action').entwine({
+      onclick: function() {
+        if (this.children('a').length > 0) {
+          this.children('a').first().trigger('click');
+        }
+      }
+    });
+
 		$(".add-existing-search-dialog .add-existing-search-items a").entwine({
 			onclick: function() {
 				var link = this.closest(".add-existing-search-items").data("add-link");
