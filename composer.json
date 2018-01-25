@@ -28,7 +28,6 @@
         "silverstripe/versioned": "^1@dev"
     },
     "extra": {
-        "installer-name": "gridfieldextensions",
         "screenshots": [
             "docs/en/_images/editable-rows.png",
             "docs/en/_images/add-existing-search.png"
@@ -36,7 +35,10 @@
         "expose": [
             "css",
             "javascript"
-        ]
+        ],
+        "branch-alias": {
+            "3.x-dev": "3.2.x-dev"
+        }
     },
     "replace": {
         "ajshort/silverstripe-gridfieldextensions": "self.version",
