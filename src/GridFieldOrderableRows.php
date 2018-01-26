@@ -11,17 +11,17 @@ use SilverStripe\Forms\GridField\GridField_DataManipulator;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_SaveHandler;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DB;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\SS_Map;
 use SilverStripe\View\ViewableData;
-use Exception;
 
 /**
  * Allows grid field rows to be re-ordered via drag and drop. Both normal data
@@ -363,7 +363,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      */
     public function handleMoveToPage(GridField $grid, $request)
     {
-        if (!$paginator = $grid->getConfig()->getComponentByType('SilverStripe\\Forms\\GridField\\GridFieldPaginator')) {
+        if (!$paginator = $grid->getConfig()->getComponentByType(GridFieldPaginator::class)) {
             $this->httpError(404, 'Paginator component not found');
         }
 
