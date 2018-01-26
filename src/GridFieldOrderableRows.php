@@ -21,6 +21,7 @@ use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\SS_Map;
+use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ViewableData;
 
 /**
@@ -169,6 +170,35 @@ class GridFieldOrderableRows extends RequestHandler implements
     {
         $this->reorderColumnNumber = $colno;
         return $this;
+    }
+
+    /**
+     * Validates sortable list
+     *
+     * @param SS_List $list
+     * @throws Exception
+     */
+    public function validateSortField(SS_List $list)
+    {
+        $field = $this->getSortField();
+
+        if ($list instanceof ManyManyList) {
+            $extra = $list->getExtraFields();
+
+            if ($extra && array_key_exists($field, $extra)) {
+                return;
+            }
+        }
+
+        $classes = ClassInfo::dataClassesFor($list->dataClass());
+
+        foreach ($classes as $class) {
+            if (singleton($class)->hasDataBaseField($field)) {
+                return;
+            }
+        }
+
+        throw new \Exception("Couldn't find the sort field '" . $field . "'");
     }
 
     /**
@@ -504,11 +534,9 @@ class GridFieldOrderableRows extends RequestHandler implements
         }
 
         // If not a ManyManyList and using versioning, detect it.
-        $isVersioned = false;
+        $this->validateSortField($list);
         $class = $list->dataClass();
-        if ($class == $this->getSortTable($list)) {
-            $isVersioned = $class::has_extension('SilverStripe\\ORM\\Versioning\\Versioned');
-        }
+        $isVersioned = $class::has_extension(Versioned::class);
 
         // Loop through each item, and update the sort values which do not
         // match to order the objects.
