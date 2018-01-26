@@ -7,8 +7,10 @@ use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\Search\SearchContext;
 
 /**
  * Used by {@link GridFieldAddExistingSearchButton} to provide the searching
@@ -49,7 +51,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
 
     public function index()
     {
-        return $this->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddExistingSearchHandler');
+        return $this->renderWith(__CLASS__);
     }
 
     public function add($request)
@@ -73,19 +75,18 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
      */
     public function SearchForm()
     {
-        $form = new Form(
+        $form = Form::create(
             $this,
             'SearchForm',
             $this->context->getFields(),
-            new FieldList(
+            FieldList::create(
                 FormAction::create('doSearch', _t('GridFieldExtensions.SEARCH', 'Search'))
                     ->setUseButtonTag(true)
-                    ->addExtraClass('ss-ui-button')
-                    ->setAttribute('data-icon', 'magnifier')
+                    ->addExtraClass('btn btn-primary font-icon-search')
             )
         );
 
-        $form->addExtraClass('stacked add-existing-search-form');
+        $form->addExtraClass('stacked add-existing-search-form form--no-dividers');
         $form->setFormMethod('GET');
 
         return $form;
