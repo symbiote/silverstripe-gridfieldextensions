@@ -18,8 +18,9 @@ use SilverStripe\ORM\DB;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\ORM\SS_Map;
+use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ViewableData;
 use Exception;
 
@@ -180,24 +181,19 @@ class GridFieldOrderableRows extends RequestHandler implements
     public function getSortTable(SS_List $list)
     {
         $field = $this->getSortField();
-
         if ($list instanceof ManyManyList) {
             $extra = $list->getExtraFields();
             $table = $list->getJoinTable();
-
             if ($extra && array_key_exists($field, $extra)) {
                 return $table;
             }
         }
-
         $classes = ClassInfo::dataClassesFor($list->dataClass());
-
         foreach ($classes as $class) {
             if (singleton($class)->hasDataBaseField($field)) {
                 return DataObject::getSchema()->tableName($class);
             }
         }
-
         throw new \Exception("Couldn't find the sort field '$field'");
     }
 
@@ -499,15 +495,15 @@ class GridFieldOrderableRows extends RequestHandler implements
         /** @var SS_List $map */
         $map = $list->map('ID', $sortField);
         //fix for versions of SS that return inconsistent types for `map` function
-        if ($map instanceof SS_Map) {
+        if ($map instanceof Map) {
             $map = $map->toArray();
         }
 
         // If not a ManyManyList and using versioning, detect it.
         $isVersioned = false;
         $class = $list->dataClass();
-        if ($class == $this->getSortTable($list)) {
-            $isVersioned = $class::has_extension('SilverStripe\\ORM\\Versioning\\Versioned');
+        if (DataObject::getSchema()->tableName($class) == $this->getSortTable($list)) {
+            $isVersioned = $class::has_extension(Versioned::class);
         }
 
         // Loop through each item, and update the sort values which do not
