@@ -19,8 +19,8 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\ORM\SS_Map;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ViewableData;
 
@@ -529,7 +529,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         /** @var SS_List $map */
         $map = $list->map('ID', $sortField);
         //fix for versions of SS that return inconsistent types for `map` function
-        if ($map instanceof SS_Map) {
+        if ($map instanceof Map) {
             $map = $map->toArray();
         }
 
