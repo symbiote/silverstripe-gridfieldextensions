@@ -24,6 +24,11 @@ This module provides a number of useful grid field components:
 
 This branch will aim for compatibility with SilverStripe 4.x. 
 
+## Installation
+```bash
+composer require symbiote/silverstripe-gridfieldextensions "^3"
+```
+
 For SilverStripe 3.x, please see the [compatible branch](https://github.com/symbiote/silverstripe-gridfieldextensions/tree/2).
 
 
