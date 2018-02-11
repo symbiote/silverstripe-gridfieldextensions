@@ -44,6 +44,15 @@
 			}
 		});
 
+		// Allow the list item to be clickable as well as the anchor
+    $('.add-existing-search-dialog .add-existing-search-items .list-group-item-action').entwine({
+      onclick: function() {
+        if (this.children('a').length > 0) {
+          this.children('a').first().trigger('click');
+        }
+      }
+    });
+
 		$(".add-existing-search-dialog .add-existing-search-items a").entwine({
 			onclick: function() {
 				var link = this.closest(".add-existing-search-items").data("add-link");
@@ -264,6 +273,82 @@
 		 */
 
 		$(".ss-gridfield-orderable tbody").entwine({
+      // reload the gridfield without triggering the change event
+      // this is because the change has already been saved by reorder action
+      reload: function (ajaxOpts, successCallback) {
+        var self = this.getGridField(), form = this.closest('form'),
+          focusedElName = this.find(':input:focus').attr('name'), // Save focused element for restoring after refresh
+          data = form.find(':input').serializeArray();
+
+        if (!ajaxOpts) {
+          ajaxOpts = {};
+        }
+        if (!ajaxOpts.data) {
+          ajaxOpts.data = [];
+        }
+        ajaxOpts.data = ajaxOpts.data.concat(data);
+
+        // Include any GET parameters from the current URL, as the view state might depend on it.
+        // For example, a list prefiltered through external search criteria might be passed to GridField.
+        if (window.location.search) {
+          ajaxOpts.data = window.location.search.replace(/^\?/, '') + '&' + $.param(ajaxOpts.data);
+        }
+
+        form.addClass('loading');
+
+        $.ajax($.extend({}, {
+          headers: {"X-Pjax": 'CurrentField'},
+          type: "POST",
+          url: this.data('url'),
+          dataType: 'html',
+          success: function (data) {
+            // Replace the grid field with response, not the form.
+            // TODO Only replaces all its children, to avoid replacing the current scope
+            // of the executing method. Means that it doesn't retrigger the onmatch() on the main container.
+            self.empty().append($(data).children());
+
+            // Refocus previously focused element. Useful e.g. for finding+adding
+            // multiple relationships via keyboard.
+            if (focusedElName) self.find(':input[name="' + focusedElName + '"]').focus();
+
+            // Update filter
+            if (self.find('.grid-field__filter-header').length) {
+              var content;
+              if (ajaxOpts.data[0].filter == "show") {
+                content = '<span class="non-sortable"></span>';
+                self.addClass('show-filter').find('.grid-field__filter-header').show();
+              } else {
+                content = '<button type="button" title="Open search and filter" name="showFilter" class="btn btn-secondary font-icon-search btn--no-text btn--icon-large grid-field__filter-open"></button>';
+                self.removeClass('show-filter').find('.grid-field__filter-header').hide();
+              }
+
+              self.find('.sortable-header th:last').html(content);
+            }
+
+            form.removeClass('loading');
+            if (successCallback) {
+              successCallback.apply(this, arguments);
+            }
+            self.trigger('reload', self);
+
+            // update publish button if necessary
+            const publish = $('#Form_EditForm_action_publish');
+
+            // button needs to be updated only if it's in published state
+            if (publish.length > 0 && publish.hasClass('btn-outline-primary')) {
+              publish.removeClass('btn-outline-primary');
+              publish.removeClass('font-icon-tick');
+              publish.addClass('btn-primary');
+              publish.addClass('font-icon-rocket');
+              publish.find('.btn__title').html('Save & publish');
+            }
+          },
+          error: function (e) {
+            alert(i18n._t('Admin.ERRORINTRANSACTION'));
+            form.removeClass('loading');
+          }
+        }, ajaxOpts));
+      },
 			rebuildSort: function() {
 				var grid = this.getGridField();
 
@@ -320,7 +405,7 @@
 					var grid = self.getGridField();
 					if (grid.data("immediate-update") && postback)
 					{
-						grid.reload({
+						self.reload({
 							url: grid.data("url-reorder")
 						});
 					}

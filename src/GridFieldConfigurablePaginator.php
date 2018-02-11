@@ -5,8 +5,8 @@ namespace Symbiote\GridFieldExtensions;
 use Exception;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridField_FormAction;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridState_Data;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\Limitable;
@@ -269,7 +269,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      * {@inheritDoc}
      *
      * @param  GridField $gridField
-     * @return ArrayList|null
+     * @return ArrayData|null
      */
     public function getTemplateParameters(GridField $gridField)
     {
@@ -281,7 +281,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
 
         // Figure out which page and record range we're on
         if (!$arguments['total-rows']) {
-            return;
+            return null;
         }
 
         // Define a list of the FormActions that should be generated for pager controls (see getPagerActions())
@@ -289,13 +289,15 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
             'first' => array(
                 'title' => 'First',
                 'args' => array('first-shown' => 1),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-left ss-gridfield-firstpage',
+                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-left '
+                    . 'ss-gridfield-firstpage',
                 'disable-previous' => ($this->getCurrentPage() == 1)
             ),
             'prev' => array(
                 'title' => 'Previous',
                 'args' => array('first-shown' => $arguments['first-shown'] - $this->getItemsPerPage()),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-left ss-gridfield-previouspage',
+                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-left '
+                    . 'ss-gridfield-previouspage',
                 'disable-previous' => ($this->getCurrentPage() == 1)
             ),
             'next' => array(
@@ -307,7 +309,8 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
             'last' => array(
                 'title' => 'Last',
                 'args' => array('first-shown' => ($this->getTotalPages() - 1) * $this->getItemsPerPage() + 1),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-right ss-gridfield-lastpage',
+                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-right '
+                    . 'ss-gridfield-lastpage',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
             ),
             'pagesize' => array(

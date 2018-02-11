@@ -1,0 +1,14 @@
+en:
+  GridFieldExtensions:
+    ADD: Add
+    ADDEXISTING: 'Add Existing'
+    BACK: Back
+    CURRENT: (current)
+    NOITEMS: 'There are no items.'
+    Next: Next
+    PREVIOUS: Previous
+    RESULTS: Results
+    SEARCH: Search
+    SELECTTYPETOCREATE: '(Select type to create)'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Show
