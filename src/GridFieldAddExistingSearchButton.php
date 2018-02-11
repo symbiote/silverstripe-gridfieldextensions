@@ -91,14 +91,15 @@ class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridFi
     {
         GridFieldExtensions::include_requirements();
 
-        $data = new ArrayData(array(
+        $data = ArrayData::create([
             'Title' => $this->getTitle(),
-            'Link'  => $grid->Link('add-existing-search')
-        ));
+            'Classes' => 'action btn btn-primary font-icon-search add-existing-search',
+            'Link' => $grid->Link('add-existing-search'),
+        ]);
 
-        return array(
-            $this->fragment => $data->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddExistingSearchButton'),
-        );
+        return [
+            $this->fragment => $data->renderWith(__CLASS__),
+        ];
     }
 
     public function getURLHandlers($grid)

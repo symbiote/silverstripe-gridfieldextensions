@@ -11,17 +11,18 @@ use SilverStripe\Forms\GridField\GridField_DataManipulator;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_SaveHandler;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DB;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\ORM\SS_Map;
+use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ViewableData;
-use Exception;
 
 /**
  * Allows grid field rows to be re-ordered via drag and drop. Both normal data
@@ -169,6 +170,35 @@ class GridFieldOrderableRows extends RequestHandler implements
     {
         $this->reorderColumnNumber = $colno;
         return $this;
+    }
+
+    /**
+     * Validates sortable list
+     *
+     * @param SS_List $list
+     * @throws Exception
+     */
+    public function validateSortField(SS_List $list)
+    {
+        $field = $this->getSortField();
+
+        if ($list instanceof ManyManyList) {
+            $extra = $list->getExtraFields();
+
+            if ($extra && array_key_exists($field, $extra)) {
+                return;
+            }
+        }
+
+        $classes = ClassInfo::dataClassesFor($list->dataClass());
+
+        foreach ($classes as $class) {
+            if (singleton($class)->hasDataBaseField($field)) {
+                return;
+            }
+        }
+
+        throw new \Exception("Couldn't find the sort field '" . $field . "'");
     }
 
     /**
@@ -363,7 +393,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      */
     public function handleMoveToPage(GridField $grid, $request)
     {
-        if (!$paginator = $grid->getConfig()->getComponentByType('SilverStripe\\Forms\\GridField\\GridFieldPaginator')) {
+        if (!$paginator = $grid->getConfig()->getComponentByType(GridFieldPaginator::class)) {
             $this->httpError(404, 'Paginator component not found');
         }
 
@@ -499,16 +529,14 @@ class GridFieldOrderableRows extends RequestHandler implements
         /** @var SS_List $map */
         $map = $list->map('ID', $sortField);
         //fix for versions of SS that return inconsistent types for `map` function
-        if ($map instanceof SS_Map) {
+        if ($map instanceof Map) {
             $map = $map->toArray();
         }
 
         // If not a ManyManyList and using versioning, detect it.
-        $isVersioned = false;
+        $this->validateSortField($list);
         $class = $list->dataClass();
-        if ($class == $this->getSortTable($list)) {
-            $isVersioned = $class::has_extension('SilverStripe\\ORM\\Versioning\\Versioned');
-        }
+        $isVersioned = $class::has_extension(Versioned::class);
 
         // Loop through each item, and update the sort values which do not
         // match to order the objects.
