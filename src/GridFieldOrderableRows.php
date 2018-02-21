@@ -545,10 +545,8 @@ class GridFieldOrderableRows extends RequestHandler implements
             $sortTable = $this->getSortTable($list);
             $now = DBDatetime::now()->Rfc2822();
             $additionalSQL = '';
-            $baseTable = $sortTable;
-            if (class_exists($sortTable)) {
-                $baseTable = singleton($sortTable)->baseTable();
-            }
+            $baseTable = DataObject::getSchema()->baseDataTable($list->dataClass());
+
             $isBaseTable = ($baseTable == $sortTable);
             if (!$list instanceof ManyManyList && $isBaseTable) {
                 $additionalSQL = ", \"LastEdited\" = '$now'";
@@ -565,7 +563,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                         $this->getSortTableClauseForIds($list, $id)
                     ));
 
-                    if (!$isBaseTable) {
+                    if (!$isBaseTable && !$list instanceof ManyManyList) {
                         DB::query(sprintf(
                             'UPDATE "%s" SET "LastEdited" = \'%s\' WHERE %s',
                             $baseTable,
@@ -600,10 +598,8 @@ class GridFieldOrderableRows extends RequestHandler implements
         $clause = sprintf('"%s"."%s" = 0', $table, $this->getSortField());
         $now = DBDatetime::now()->Rfc2822();
         $additionalSQL = '';
-        $baseTable = $table;
-        if (class_exists($table)) {
-            $baseTable = singleton($table)->baseTable();
-        }
+        $baseTable = DataObject::getSchema()->baseDataTable($list->dataClass());
+
         $isBaseTable = ($baseTable == $table);
         if (!$list instanceof ManyManyList && $isBaseTable) {
             $additionalSQL = ", \"LastEdited\" = '$now'";
@@ -622,7 +618,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 $this->getSortTableClauseForIds($list, $id)
             ));
 
-            if (!$isBaseTable) {
+            if (!$isBaseTable && !$list instanceof ManyManyList) {
                 DB::query(sprintf(
                     'UPDATE "%s" SET "LastEdited" = \'%s\' WHERE %s',
                     $baseTable,

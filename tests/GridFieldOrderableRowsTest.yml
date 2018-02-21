@@ -1,3 +1,12 @@
+Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild:
+  item1:
+    Sort: 1
+  item2:
+    Sort: 2
+  item3:
+    Sort: 3
+  item4:
+    Sort: 4
 Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered:
   item1:
     Sort: 1
@@ -11,7 +20,8 @@ Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered:
     Sort: 5
   item6:
     Sort: 6
-
+  nestedtest:
+    Children: =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild.item1,=>Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild.item2,=>Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild.item3,=>Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild.item4
 Symbiote\GridFieldExtensions\Tests\Stub\StubParent:
   parent:
     MyManyMany:
