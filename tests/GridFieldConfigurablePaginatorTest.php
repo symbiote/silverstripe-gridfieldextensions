@@ -165,7 +165,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
     public function testGetPageSizesAsList()
     {
         $paginator = new GridFieldConfigurablePaginator(10, array(10, 20, 30));
-        $this->assertDOSEquals(array(
+        $this->assertListEquals(array(
             array('Size' => '10', 'Selected' => true),
             array('Size' => '20', 'Selected' => false),
             array('Size' => '30', 'Selected' => false),
