@@ -3,6 +3,7 @@
 namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
@@ -145,7 +146,12 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
             }
         }
 
-        return $result;
+        $sanitised = array();
+        foreach($result as $class=>$title) {
+            $sanitised[$this->sanitiseClassName($class)] = $title;
+        }
+
+        return $sanitised;
     }
 
     /**
@@ -179,7 +185,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
      * Handles adding a new instance of a selected class.
      *
      * @param GridField $grid
-     * @param SS_HTTPRequest $request
+     * @param HTTPRequest $request
      * @return GridFieldAddNewMultiClassHandler
      */
     public function handleAdd($grid, $request)
@@ -196,11 +202,12 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
             throw new HTTPResponse_Exception(400);
         }
 
+        $unsanitisedClass = $this->unsanitiseClassName($class);
         $handler = Injector::inst()->create(
             $this->itemRequestClass,
             $grid,
             $component,
-            new $class(),
+            new $unsanitisedClass(),
             $grid->getForm()->getController(),
             'add-multi-class'
         );
@@ -222,7 +229,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 
         GridFieldExtensions::include_requirements();
 
-        $field = new DropdownField(sprintf('%s[ClassName]', __CLASS__), '', $classes, $this->defaultClass);
+        $field = new DropdownField(sprintf('%s[%s]', __CLASS__, $grid->getName()), '', $classes, $this->defaultClass);
         if (Config::inst()->get(__CLASS__, 'showEmptyString')) {
             $field->setEmptyString(_t('GridFieldExtensions.SELECTTYPETOCREATE', '(Select type to create)'));
         }
@@ -253,5 +260,21 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
     {
         $this->itemRequestClass = $class;
         return $this;
+    }
+
+    /**
+     * Sanitise a model class' name for inclusion in a link
+     * @return string
+     */
+    protected function sanitiseClassName($class) {
+        return str_replace('\\', '-', $class);
+    }
+
+    /**
+     * Unsanitise a model class' name from a URL param
+     * @return string
+     */
+    protected function unsanitiseClassName($class) {
+        return str_replace('-', '\\', $class);
     }
 }

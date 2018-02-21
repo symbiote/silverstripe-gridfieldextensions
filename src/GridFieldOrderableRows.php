@@ -15,6 +15,7 @@ use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
@@ -514,7 +515,8 @@ class GridFieldOrderableRows extends RequestHandler implements
         // match to order the objects.
         if (!$isVersioned) {
             $sortTable = $this->getSortTable($list);
-            $additionalSQL = (!$list instanceof ManyManyList) ? ', "LastEdited" = NOW()' : '';
+            $now = DBDatetime::now()->Rfc2822();
+            $additionalSQL = (!$list instanceof ManyManyList) ? ", \"LastEdited\" = '$now'" : '';
             foreach ($sortedIDs as $sortValue => $id) {
                 if ($map[$id] != $sortValue) {
                     DB::query(sprintf(
@@ -550,7 +552,8 @@ class GridFieldOrderableRows extends RequestHandler implements
         $field  = $this->getSortField();
         $table  = $this->getSortTable($list);
         $clause = sprintf('"%s"."%s" = 0', $table, $this->getSortField());
-        $additionalSQL = (!$list instanceof ManyManyList) ? ', "LastEdited" = NOW()' : '';
+        $now = DBDatetime::now()->Rfc2822();
+        $additionalSQL = (!$list instanceof ManyManyList) ? ", \"LastEdited\" = '$now'" : '';
 
         foreach ($list->where($clause)->column('ID') as $id) {
             $max = DB::query(sprintf('SELECT MAX("%s") + 1 FROM "%s"', $field, $table));

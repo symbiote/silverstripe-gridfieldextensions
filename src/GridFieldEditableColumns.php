@@ -4,7 +4,7 @@ namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPResponse_Exception;
-use SilverStripe\Core\Object;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormField;
@@ -16,6 +16,7 @@ use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\ManyManyList;
 use Exception;
 
@@ -114,8 +115,6 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         /** @var GridFieldOrderableRows $sortable */
         $sortable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldOrderableRows');
 
-        $form = $this->getForm($grid, $record);
-
         foreach ($value[__CLASS__] as $id => $fields) {
             if (!is_numeric($id) || !is_array($fields)) {
                 continue;
@@ -129,6 +128,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
             $extra = array();
 
+            $form = $this->getForm($grid, $record);
             $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
             $form->saveInto($item);
 
@@ -219,7 +219,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 $extra = $list->getExtraFields();
 
                 if ($extra && array_key_exists($col, $extra)) {
-                    $field = Object::create_from_string($extra[$col], $col)->scaffoldFormField();
+                    $field = Injector::inst()->create($extra[$col], $col)->scaffoldFormField();
                 }
             }
 

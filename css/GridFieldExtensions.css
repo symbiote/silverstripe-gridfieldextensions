@@ -3,58 +3,58 @@
  */
 
 .add-existing-search-dialog {
-	min-width: inherit !important;
+    min-width: inherit !important;
 }
 
 .add-existing-search-dialog .add-existing-search-form .field {
-	border: none;
-	box-shadow: none;
-	margin-bottom: 0;
-	padding-bottom: 0;
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .add-existing-search-dialog .add-existing-search-form .field label {
-	padding-bottom: 4px;
+    padding-bottom: 4px;
 }
 
 .add-existing-search-dialog .add-existing-search-form .Actions {
-	margin-top: 10px;
-	padding: 0;
+    margin-top: 10px;
+    padding: 0;
 }
 
 .add-existing-search-dialog .add-existing-search-items li a {
-	background: #FFF;
-	border-bottom-width: 1px;
-	border-color: #CCC;
-	border-left-width: 1px;
-	border-right-width: 1px;
-	border-style: solid;
-	display: block;
-	padding: 6px;
+    background: #FFF;
+    border-bottom-width: 1px;
+    border-color: #CCC;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-style: solid;
+    display: block;
+    padding: 6px;
 }
 
 .add-existing-search-dialog .add-existing-search-items li:first-child a {
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	border-top-width: 1px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top-width: 1px;
 }
 
 .add-existing-search-dialog .add-existing-search-items li:last-child a {
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 .add-existing-search-dialog .add-existing-search-items li a:hover {
-	background: #F4F4F4;
+    background: #F4F4F4;
 }
 
 .add-existing-search-dialog .add-existing-search-pagination li {
-	background: #FFF;
-	display: block;
-	float: left;
-	margin-right: 2px;
-	margin-top: 12px;
-	padding: 6px;
+    background: #FFF;
+    display: block;
+    float: left;
+    margin-right: 2px;
+    margin-top: 12px;
+    padding: 6px;
 }
 
 /**
@@ -62,11 +62,11 @@
  */
 
 .ss-gridfield-inline-new {
-	background: #EFE;
+    background: #EFE;
 }
 
 .ss-gridfield-inline-new:nth-child(2n) {
-	background: #DFD;
+    background: #DFD;
 }
 
 /**
@@ -74,14 +74,14 @@
  */
 
 .ss-gridfield-add-new-multi-class {
-	margin-bottom: 8px !important;
+    margin-bottom: 8px !important;
 }
 
 .ss-gridfield-add-new-multi-class .field {
-	border: none;
-	box-shadow: none;
-	float: left;
-	margin: 0 4px 0 0;
+    border: none;
+    box-shadow: none;
+    float: left;
+    margin: 0 4px 0 0;
 }
 
 /**
@@ -89,38 +89,38 @@
  */
 
 .ss-gridfield-editable .readonly {
-	padding-top: 0 !important;
+    padding-top: 0 !important;
 }
 
 .ss-gridfield-editable input.text,
 .ss-gridfield-editable textarea,
 .ss-gridfield-editable select,
 .ss-gridfield-editable .TreeDropdownField {
-	margin: 0 !important;
-	max-width: none !important;
+    margin: 0 !important;
+    max-width: none !important;
 }
 
 .ss-gridfield-editable select.dropdown {
-	border: 1px solid #b3b3b3;
-	background-color: #fff;
-	padding: 7px 7px;
-	padding-left: 4px;
-	line-height: 16px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+    border: 1px solid #b3b3b3;
+    background-color: #fff;
+    padding: 7px 7px;
+    padding-left: 4px;
+    line-height: 16px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
 }
 
 .ss-gridfield-add-new-inline {
-	margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 
 .ss-gridfield-add-new-inline span.readonly {
-	color: #FFF !important;
+    color: #FFF !important;
 }
 
 .ss-gridfield-add-new-inline .col-buttons {
-	text-align: right;
+    text-align: right;
 }
 
 /**
@@ -128,57 +128,79 @@
  */
 
 .ss-gridfield-orderable thead tr th.col-Reorder span {
-	padding: 0 !important;
-	margin-left: 8px;
+    padding: 0 !important;
+    margin-left: 8px;
 }
 
 .ss-gridfield-orderable .col-reorder {
-	position: relative;
-	padding: 0 !important;
-	width: 16px !important;
+    position: relative;
+    padding: 0 !important;
+    width: 16px !important;
 }
 
 .ss-gridfield-orderable .col-reorder .handle {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	cursor: move;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: move;
 }
 
 .ss-gridfield-orderable .col-reorder .handle .icon {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 5px;
-	height: 11px;
-	margin: -5px 0 0 -2px;
-	background-image: url('../../framework/admin/thirdparty/jquery-ui-themes/smoothness/images/ui-icons_222222_256x240.png');
-	background-position: -5px -227px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 11px;
+    margin: -5px 0 0 -2px;
+    background-image: url('../../framework/thirdparty/jquery-ui-themes/smoothness/images/ui-icons_222222_256x240.png');
+    background-position: -5px -227px;
 }
 
 .ss-gridfield-orderhelper {
-	border-bottom: 1px solid rgba(0, 0, 0, .1);
-	border-top: 1px solid rgba(0, 0, 0, .1);
-	box-shadow: 0 0 8px rgba(0, 0, 0, .4);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 0 0 8px rgba(0, 0, 0, .4);
 }
 
 .ss-gridfield-orderable tfoot .ui-droppable {
-	padding-left: 12px;
-	padding-right: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 .ss-gridfield-orderable tfoot .ui-droppable-active {
-	background-color: #D4CF90 !important;
+    background-color: #D4CF90 !important;
 }
 
 .ss-gridfield-orderable tfoot .ss-gridfield-previouspage {
-	background-position: -16px 9px !important;
-	margin-left: 0;
+    background-position: -16px 9px !important;
+    margin-left: 0;
 }
 
 .ss-gridfield-orderable tfoot .ss-gridfield-nextpage {
-	background-position: -40px 9px !important;
-	margin-right: 0;
+    background-position: -40px 9px !important;
+    margin-right: 0;
+}
+
+/**
+ * GridFieldConfigurablePaginator
+ */
+.ss-gridfield-configurable-paginator .pagination-page-size {
+    color: #fff;
+    float: left;
+    padding: 6px 0;
+}
+
+.ss-gridfield-configurable-paginator .pagination-page-size-select {
+    margin-left: 0;
+    width: auto;
+}
+
+.ss-gridfield-configurable-paginator .ss-gridfield-pagesize-submit {
+    display: none;
+}
+
+.ss-gridfield-configurable-paginator .pagination-page-number input {
+    text-align: center;
 }

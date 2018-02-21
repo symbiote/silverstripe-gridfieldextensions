@@ -3,7 +3,7 @@
 namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Core\Convert;
-use SilverStripe\Core\Object;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
@@ -109,7 +109,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         $handled = array_keys($editable->getDisplayFields($grid));
 
         if ($grid->getList()) {
-            $record = Object::create($grid->getModelClass());
+            $record = Injector::inst()->create($grid->getModelClass());
         } else {
             $record = null;
         }
@@ -168,7 +168,6 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         $editable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldEditableColumns');
         /** @var GridFieldOrderableRows $sortable */
         $sortable = $grid->getConfig()->getComponentByType('Symbiote\\GridFieldExtensions\\GridFieldOrderableRows');
-        $form     = $editable->getForm($grid, $record);
 
         if (!singleton($class)->canCreate()) {
             return;
@@ -178,6 +177,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
             $item  = $class::create();
             $extra = array();
 
+            $form = $editable->getForm($grid, $record);
             $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
             $form->saveInto($item);
 

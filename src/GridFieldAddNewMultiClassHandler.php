@@ -19,8 +19,16 @@ class GridFieldAddNewMultiClassHandler extends GridFieldDetailForm_ItemRequest
             return Controller::join_links(
                 $this->gridField->Link(),
                 'add-multi-class',
-                get_class($this->record)
+                $this->sanitiseClassName(get_class($this->record))
             );
         }
+    }
+
+    /**
+     * Sanitise a model class' name for inclusion in a link
+     * @return string
+     */
+    protected function sanitiseClassName($class) {
+        return str_replace('\\', '-', $class);
     }
 }

@@ -20,6 +20,7 @@ This module provides a number of useful grid field components:
   custom grid field detail views including tabs, breadcrumbs and other CMS
   features.
 * `GridFieldTitleHeader` - a simple header which displays column titles.
+* `GridFieldConfigurablePaginator` - a paginator for GridField that allows customisable page sizes.
 
 This branch will aim for compatibility with SilverStripe 4.x. 
 
