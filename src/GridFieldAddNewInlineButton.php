@@ -3,6 +3,7 @@
 namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
@@ -13,7 +14,6 @@ use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\View\ArrayData;
-use SilverStripe\Core\Injector\Injector;
 use SilverStripe\View\Requirements;
 use Exception;
 
