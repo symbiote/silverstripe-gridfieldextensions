@@ -7,9 +7,11 @@ use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubParent;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubUnorderable;
 
 /**
  * Tests for the {@link GridFieldOrderableRows} component.
@@ -21,11 +23,13 @@ class GridFieldOrderableRowsTest extends SapphireTest
 
     protected static $fixture_file = 'GridFieldOrderableRowsTest.yml';
 
-    protected static $extra_dataobjects = array(
+    protected static $extra_dataobjects = [
         StubParent::class,
         StubOrdered::class,
         StubSubclass::class,
-    );
+        StubUnorderable::class,
+        StubOrderableChild::class,
+    ];
 
     public function testReorderItems()
     {
@@ -46,7 +50,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         );
 
         $originalOrder = $parent->MyManyMany()->sort('ManyManySort')->column('ID');
-        $desiredOrder = array();
+        $desiredOrder = [];
 
         // Make order non-contiguous, and 1-based
         foreach (array_reverse($originalOrder) as $index => $id) {
@@ -62,8 +66,38 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $this->assertEquals($desiredOrder, $newOrder);
     }
 
+    public function testSortableChildClass()
+    {
+        $orderable = new GridFieldOrderableRows('Sort');
+        $reflection = new ReflectionMethod($orderable, 'executeReorder');
+        $reflection->setAccessible(true);
+
+        $parent = $this->objFromFixture(StubOrdered::class, 'nestedtest');
+
+        $config = new GridFieldConfig_RelationEditor();
+        $config->addComponent($orderable);
+
+        $grid = new GridField(
+            'Children',
+            'Children',
+            $parent->Children(),
+            $config
+        );
+
+        $originalOrder = $parent->Children()->column('ID');
+        $desiredOrder = array_reverse($originalOrder);
+
+        $this->assertNotEquals($originalOrder, $desiredOrder);
+
+        $reflection->invoke($orderable, $grid, $desiredOrder);
+
+        $newOrder = $parent->Children()->column('ID');
+
+        $this->assertEquals($desiredOrder, $newOrder);
+    }
+
     /**
-     * @covers GridFieldOrderableRows::getSortTable
+     * @covers \Symbiote\GridFieldExtensions\GridFieldOrderableRows::getSortTable
      */
     public function testGetSortTable()
     {
