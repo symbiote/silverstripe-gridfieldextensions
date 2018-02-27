@@ -325,6 +325,12 @@
               self.find('.sortable-header th:last').html(content);
             }
 
+            // update CMS preview
+            var preview = $('.cms-preview');
+            if (preview.length) {
+              preview.entwine('.ss.preview')._initialiseFromContent();
+            }
+
             form.removeClass('loading');
             if (successCallback) {
               successCallback.apply(this, arguments);
