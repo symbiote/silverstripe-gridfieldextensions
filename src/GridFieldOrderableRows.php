@@ -531,8 +531,12 @@ class GridFieldOrderableRows extends RequestHandler implements
 
         // If not a ManyManyList and using versioning, detect it.
         $this->validateSortField($list);
+        $isVersioned = false;
         $class = $list->dataClass();
-        $isVersioned = $class::has_extension(Versioned::class);
+
+        if (DataObject::getSchema()->tableName($class) == $this->getSortTable($list)) {
+            $isVersioned = $class::has_extension(Versioned::class);
+        }
 
         // Loop through each item, and update the sort values which do not
         // match to order the objects.
