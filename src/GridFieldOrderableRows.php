@@ -20,6 +20,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\DataObjectSchema;
 use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
@@ -544,6 +545,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         // match to order the objects.
         if (!$isVersioned || $list instanceof ManyManyList) {
             $sortTable = $this->getSortTable($list);
+            $now = DBDatetime::now()->Rfc2822();
             $additionalSQL = '';
             $baseTable = $sortTable;
             if (class_exists($sortTable)) {
@@ -551,7 +553,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             }
             $isBaseTable = ($baseTable == $sortTable);
             if (!$list instanceof ManyManyList && $isBaseTable) {
-                $additionalSQL = ', "LastEdited" = NOW()';
+                $additionalSQL = ", \"LastEdited\" = '$now'";
             }
 
             foreach ($sortedIDs as $sortValue => $id) {
