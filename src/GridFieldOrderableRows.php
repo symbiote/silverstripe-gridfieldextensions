@@ -534,8 +534,20 @@ class GridFieldOrderableRows extends RequestHandler implements
         $isVersioned = false;
         $class = $list->dataClass();
 
-        if (DataObject::getSchema()->tableName($class) == $this->getSortTable($list)) {
-            $isVersioned = $class::has_extension(Versioned::class);
+        // check if sort column is present on the model provided by dataClass() and if it's versioned
+        // cases:
+        // Model has sort column and is versioned - handle as versioned
+        // Model has sort column and is NOT versioned - handle as NOT versioned
+        // Model doesn't have sort column because sort column is on ManyManyList - handle as NOT versioned
+
+        // try to match table name, note that we have to cover the case where the table which has the sort column
+        // belongs to ancestor of the object which is populating the list
+        $classes = ClassInfo::ancestry($class, true);
+        foreach ($classes as $currentClass) {
+            if (DataObject::getSchema()->tableName($currentClass) == $this->getSortTable($list)) {
+                $isVersioned = $class::has_extension(Versioned::class);
+                break;
+            }
         }
 
         // Loop through each item, and update the sort values which do not
