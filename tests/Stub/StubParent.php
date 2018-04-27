@@ -9,7 +9,8 @@ class StubParent extends DataObject implements TestOnly
 {
     private static $has_many = array(
         'MyHasMany' => StubOrdered::class,
-        'MyHasManySubclass' => StubSubclass::class
+        'MyHasManySubclass' => StubSubclass::class,
+        'MyHasManySubclassOrderedVersioned' => StubSubclassOrderedVersioned::class,
     );
 
     private static $many_many = array(
