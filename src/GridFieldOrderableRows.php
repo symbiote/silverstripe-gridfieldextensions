@@ -2,6 +2,7 @@
 
 namespace Symbiote\GridFieldExtensions;
 
+use Exception;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\ClassInfo;
@@ -17,9 +18,11 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\ORM\DataObjectSchema;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ManyManyList;
-use SilverStripe\ORM\Map;
+use SilverStripe\ORM\ManyManyThroughList;
+use SilverStripe\ORM\ManyManyThroughQueryManipulator;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Versioned\Versioned;
@@ -142,6 +145,16 @@ class GridFieldOrderableRows extends RequestHandler implements
     }
 
     /**
+     * Checks to see if the relationship list is for a type of many_many
+     *
+     * @param SS_List $list
+     */
+    protected function isManyMany(SS_List $list)
+    {
+        return $list instanceof ManyManyList || $list instanceof ManyManyThroughList;
+    }
+
+    /**
      * Sets extra sort fields to apply before the sort field.
      *
      * @param string|array $fields
@@ -183,10 +196,17 @@ class GridFieldOrderableRows extends RequestHandler implements
     {
         $field = $this->getSortField();
 
+        // Check extra fields on many many relation types
         if ($list instanceof ManyManyList) {
             $extra = $list->getExtraFields();
 
             if ($extra && array_key_exists($field, $extra)) {
+                return;
+            }
+        } elseif ($list instanceof ManyManyThroughList) {
+            $manipulator = $this->getManyManyInspector($list);
+            $fieldTable = DataObject::getSchema()->tableForField($manipulator->getJoinClass(), $field);
+            if ($fieldTable) {
                 return;
             }
         }
@@ -199,7 +219,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             }
         }
 
-        throw new \Exception("Couldn't find the sort field '" . $field . "'");
+        throw new Exception("Couldn't find the sort field '" . $field . "'");
     }
 
     /**
@@ -219,6 +239,8 @@ class GridFieldOrderableRows extends RequestHandler implements
             if ($extra && array_key_exists($field, $extra)) {
                 return $table;
             }
+        } elseif ($list instanceof ManyManyThroughList) {
+            return $this->getManyManyInspector($list)->getJoinAlias();
         }
 
         $classes = ClassInfo::dataClassesFor($list->dataClass());
@@ -228,8 +250,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 return DataObject::getSchema()->tableName($class);
             }
         }
-
-        throw new \Exception("Couldn't find the sort field '$field'");
+        throw new Exception("Couldn't find the sort field '$field'");
     }
 
     public function getURLHandlers($grid)
@@ -345,9 +366,10 @@ class GridFieldOrderableRows extends RequestHandler implements
         }
         $list = $grid->getList();
         $modelClass = $grid->getModelClass();
-        if ($list instanceof ManyManyList && !singleton($modelClass)->canView()) {
+        $isManyMany = $this->isManyMany($list);
+        if ($isManyMany && !singleton($modelClass)->canView()) {
             $this->httpError(403);
-        } elseif (!($list instanceof ManyManyList) && !singleton($modelClass)->canEdit()) {
+        } elseif (!$isManyMany && !singleton($modelClass)->canEdit()) {
             $this->httpError(403);
         }
 
@@ -369,10 +391,10 @@ class GridFieldOrderableRows extends RequestHandler implements
     }
 
     /**
-     * Get mapping of sort value to ID from posted data
+     * Get mapping of sort value to item ID from posted data (gridfield list state), ordered by sort value.
      *
      * @param array $data Raw posted data
-     * @return array
+     * @return array [sortIndex => recordID]
      */
     protected function getSortedIDs($data)
     {
@@ -478,7 +500,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         if (!is_array($sortedIDs)) {
             return false;
         }
-        $field = $this->getSortField();
+        $sortField = $this->getSortField();
 
         $sortterm = '';
         if ($this->extraSortFields) {
@@ -491,7 +513,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             }
         }
         $list = $grid->getList();
-        $sortterm .= '"'.$this->getSortTable($list).'"."'.$field.'"';
+        $sortterm .= '"'.$this->getSortTable($list).'"."'.$sortField.'"';
         $items = $list->filter('ID', $sortedIDs)->sort($sortterm);
 
         // Ensure that each provided ID corresponded to an actual object.
@@ -512,11 +534,21 @@ class GridFieldOrderableRows extends RequestHandler implements
                 if (isset($record->_SortColumn0)) {
                     $current[$record->ID] = $record->_SortColumn0;
                 } else {
-                    $current[$record->ID] = $record->$field;
+                    $current[$record->ID] = $record->$sortField;
                 }
             }
+        } elseif ($items instanceof ManyManyThroughList) {
+            $manipulator = $this->getManyManyInspector($list);
+            $joinClass = $manipulator->getJoinClass();
+            $fromRelationName = $manipulator->getForeignKey();
+            $toRelationName = $manipulator->getLocalKey();
+            $sortlist = DataList::create($joinClass)->filter([
+                $toRelationName => $items->column('ID'),
+                $fromRelationName => $items->first()->getJoin()->$fromRelationName,
+            ]);
+            $current = $sortlist->map($toRelationName, $sortField)->toArray();
         } else {
-            $current = $items->map('ID', $field)->toArray();
+            $current = $items->map('ID', $sortField)->toArray();
         }
 
         // Perform the actual re-ordering.
@@ -524,20 +556,52 @@ class GridFieldOrderableRows extends RequestHandler implements
         return true;
     }
 
+    /**
+     * @param SS_List $list
+     * @param array $values **UNUSED** [listItemID => currentSortValue];
+     * @param array $sortedIDs [newSortValue => listItemID]
+     */
     protected function reorderItems($list, array $values, array $sortedIDs)
     {
+        // setup
         $sortField = $this->getSortField();
-        /** @var SS_List $map */
-        $map = $list->map('ID', $sortField);
-        //fix for versions of SS that return inconsistent types for `map` function
-        if ($map instanceof Map) {
-            $map = $map->toArray();
-        }
-
-        // If not a ManyManyList and using versioning, detect it.
-        $this->validateSortField($list);
         $class = $list->dataClass();
-        $isVersioned = $class::has_extension(Versioned::class);
+        // The problem is that $sortedIDs is a list of the _related_ item IDs, which causes trouble
+        // with ManyManyThrough, where we need the ID of the _join_ item in order to set the value.
+        $itemToSortReference = ($list instanceof ManyManyThroughList) ? 'getJoin' : 'Me';
+        $currentSortList = $list->map('ID', $itemToSortReference)->toArray();
+
+        // sanity check.
+        $this->validateSortField($list);
+
+        $isVersioned = false;
+        // check if sort column is present on the model provided by dataClass() and if it's versioned
+        // cases:
+        // Model has sort column and is versioned - handle as versioned
+        // Model has sort column and is NOT versioned - handle as NOT versioned
+        // Model doesn't have sort column because sort column is on ManyManyList - handle as NOT versioned
+        // Model doesn't have sort column because sort column is on ManyManyThroughList...
+        //   - Related item is not versioned:
+        //       - Through object is versioned: THROW an error.
+        //       - Through object is NOT versioned: handle as NOT versioned
+        //   - Related item is versioned...
+        //       - Through object is versioned: handle as versioned
+        //       - Through object is NOT versioned: THROW an error.
+        $isManyMany = $this->isManyMany($list);
+        if ($isManyMany && $list instanceof ManyManyThroughList) {
+            $listClassVersioned = $class::create()->hasExtension(Versioned::class);
+            // We'll be updating the join class, not the relation class.
+            $class = $this->getManyManyInspector($list)->getJoinClass();
+            $isVersioned = $class::create()->hasExtension(Versioned::class);
+
+            if ($listClassVersioned xor $isVersioned) {
+                throw new Exception(
+                    'ManyManyThrough cannot mismatch Versioning between join class and related class'
+                );
+            }
+        } elseif (!$isManyMany) {
+            $isVersioned = $class::create()->hasExtension(Versioned::class);
+        }
 
         // Loop through each item, and update the sort values which do not
         // match to order the objects.
@@ -545,22 +609,22 @@ class GridFieldOrderableRows extends RequestHandler implements
             $sortTable = $this->getSortTable($list);
             $now = DBDatetime::now()->Rfc2822();
             $additionalSQL = '';
-            $baseTable = DataObject::getSchema()->baseDataTable($list->dataClass());
+            $baseTable = DataObject::getSchema()->baseDataTable($class);
 
             $isBaseTable = ($baseTable == $sortTable);
             if (!$list instanceof ManyManyList && $isBaseTable) {
                 $additionalSQL = ", \"LastEdited\" = '$now'";
             }
 
-            foreach ($sortedIDs as $sortValue => $id) {
-                if ($map[$id] != $sortValue) {
+            foreach ($sortedIDs as $newSortValue => $targetRecordID) {
+                if ($currentSortList[$targetRecordID]->$sortField != $newSortValue) {
                     DB::query(sprintf(
                         'UPDATE "%s" SET "%s" = %d%s WHERE %s',
                         $sortTable,
                         $sortField,
-                        $sortValue,
+                        $newSortValue,
                         $additionalSQL,
-                        $this->getSortTableClauseForIds($list, $id)
+                        $this->getSortTableClauseForIds($list, $targetRecordID)
                     ));
 
                     if (!$isBaseTable && !$list instanceof ManyManyList) {
@@ -568,20 +632,22 @@ class GridFieldOrderableRows extends RequestHandler implements
                             'UPDATE "%s" SET "LastEdited" = \'%s\' WHERE %s',
                             $baseTable,
                             $now,
-                            $this->getSortTableClauseForIds($list, $id)
+                            $this->getSortTableClauseForIds($list, $targetRecordID)
                         ));
                     }
                 }
             }
         } else {
             // For versioned objects, modify them with the ORM so that the
-            // *_versions table is updated. This ensures re-ordering works
+            // *_Versions table is updated. This ensures re-ordering works
             // similar to the SiteTree where you change the position, and then
             // you go into the record and publish it.
-            foreach ($sortedIDs as $sortValue => $id) {
-                if ($map[$id] != $sortValue) {
-                    $record = $class::get()->byID($id);
-                    $record->$sortField = $sortValue;
+            foreach ($sortedIDs as $newSortValue => $targetRecordID) {
+                // either the list data class (has_many, (belongs_)many_many)
+                // or the intermediary join class (many_many through)
+                $record = $currentSortList[$targetRecordID];
+                if ($record->$sortField != $newSortValue) {
+                    $record->$sortField = $newSortValue;
                     $record->write();
                 }
             }
@@ -618,7 +684,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 $this->getSortTableClauseForIds($list, $id)
             ));
 
-            if (!$isBaseTable && !$list instanceof ManyManyList) {
+            if (!$isBaseTable && !$this->isManyMany($list)) {
                 DB::query(sprintf(
                     'UPDATE "%s" SET "LastEdited" = \'%s\' WHERE %s',
                     $baseTable,
@@ -629,6 +695,18 @@ class GridFieldOrderableRows extends RequestHandler implements
         }
     }
 
+    /**
+     * Forms a WHERE clause for the table the sort column is defined on.
+     * e.g. ID = 5
+     * e.g. ID IN(5, 8, 10)
+     * e.g. SortOrder = 5 AND RelatedThing.ID = 3
+     * e.g. SortOrder IN(5, 8, 10) AND RelatedThing.ID = 3
+     *
+     * @param DataList $list
+     * @param int|string|array $ids a single number, or array of numbers
+     *
+     * @return string
+     */
     protected function getSortTableClauseForIds(DataList $list, $ids)
     {
         if (is_array($ids)) {
@@ -637,10 +715,13 @@ class GridFieldOrderableRows extends RequestHandler implements
             $value = '= ' . (int) $ids;
         }
 
-        if ($list instanceof ManyManyList) {
-            $extra = $list->getExtraFields();
-            $key   = $list->getLocalKey();
-            $foreignKey = $list->getForeignKey();
+        if ($this->isManyMany($list)) {
+            $intropector = $this->getManyManyInspector($list);
+            $extra = $list instanceof ManyManyList ?
+                $intropector->getExtraFields() :
+                DataObjectSchema::create()->fieldSpecs($intropector->getJoinClass(), DataObjectSchema::DB_ONLY);
+            $key   = $intropector->getLocalKey();
+            $foreignKey = $intropector->getForeignKey();
             $foreignID  = (int) $list->getForeignID();
 
             if ($extra && array_key_exists($this->getSortField(), $extra)) {
@@ -655,5 +736,28 @@ class GridFieldOrderableRows extends RequestHandler implements
         }
 
         return "\"ID\" $value";
+    }
+
+    /**
+     * A ManyManyList defines functions such as getLocalKey, however on ManyManyThroughList
+     * these functions are moved to ManyManyThroughQueryManipulator, but otherwise retain
+     * the same signature.
+     *
+     * @param ManyManyList|ManyManyThroughList
+     *
+     * @return ManyManyList|ManyManyThroughQueryManipulator
+     */
+    protected function getManyManyInspector($list)
+    {
+        $inspector = $list;
+        if ($list instanceof ManyManyThroughList) {
+            foreach ($list->dataQuery()->getDataQueryManipulators() as $manipulator) {
+                if ($manipulator instanceof ManyManyThroughQueryManipulator) {
+                    $inspector = $manipulator;
+                    break;
+                }
+            }
+        }
+        return $inspector;
     }
 }
