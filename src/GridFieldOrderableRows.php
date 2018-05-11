@@ -598,7 +598,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             }
         }
 
-        $this->extend('onAfterReorderItems', $list);
+        $this->extend('onAfterReorderItems', $list, $values, $sortedIDs);
     }
 
     protected function populateSortValues(DataList $list)
