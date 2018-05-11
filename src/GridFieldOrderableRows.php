@@ -19,6 +19,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\ManyManyThroughList;
 use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\FieldType\DBDatetime;
@@ -183,7 +184,7 @@ class GridFieldOrderableRows extends RequestHandler implements
     {
         $field = $this->getSortField();
 
-        if ($list instanceof ManyManyList) {
+        if ($list instanceof ManyManyList || $list instanceof ManyManyThroughList) {
             $extra = $list->getExtraFields();
 
             if ($extra && array_key_exists($field, $extra)) {
@@ -211,7 +212,7 @@ class GridFieldOrderableRows extends RequestHandler implements
     public function getSortTable(SS_List $list)
     {
         $field = $this->getSortField();
-        if ($list instanceof ManyManyList) {
+        if ($list instanceof ManyManyList || $list instanceof ManyManyThroughList) {
             $extra = $list->getExtraFields();
             $table = $list->getJoinTable();
             if ($extra && array_key_exists($field, $extra)) {
