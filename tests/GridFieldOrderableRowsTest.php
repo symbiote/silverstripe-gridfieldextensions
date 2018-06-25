@@ -12,16 +12,22 @@ use Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubParent;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubUnorderable;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs;
 
 /**
  * Tests for the {@link GridFieldOrderableRows} component.
  */
 class GridFieldOrderableRowsTest extends SapphireTest
 {
-
-    protected $usesDatabase = true;
-
-    protected static $fixture_file = 'GridFieldOrderableRowsTest.yml';
+    /**
+     * @var string
+     */
+    protected static $fixture_file = [
+        'GridFieldOrderableRowsTest.yml',
+        'OrderableRowsThroughTest.yml'
+    ];
 
     protected static $extra_dataobjects = [
         StubParent::class,
@@ -29,27 +35,44 @@ class GridFieldOrderableRowsTest extends SapphireTest
         StubSubclass::class,
         StubUnorderable::class,
         StubOrderableChild::class,
+        StubOrderedVersioned::class,
+        StubSubclassOrderedVersioned::class,
+        ThroughDefiner::class,
+        ThroughIntermediary::class,
+        ThroughBelongs::class,
     ];
 
-    public function testReorderItems()
+    public function reorderItemsProvider()
     {
-        $orderable = new GridFieldOrderableRows('ManyManySort');
+        return [
+            [StubParent::class . '.parent', 'MyManyMany', 'ManyManySort'],
+            [ThroughDefiner::class . '.DefinerOne', 'Belongings', 'Sort'],
+        ];
+    }
+
+    /**
+     * @dataProvider reorderItemsProvider
+     */
+    public function testReorderItems($fixtureID, $relationName, $sortName)
+    {
+        $orderable = new GridFieldOrderableRows($sortName);
         $reflection = new ReflectionMethod($orderable, 'executeReorder');
         $reflection->setAccessible(true);
-
-        $parent = $this->objFromFixture(StubParent::class, 'parent');
 
         $config = new GridFieldConfig_RelationEditor();
         $config->addComponent($orderable);
 
+        list($parentClass, $parentInstanceID) = explode('.', $fixtureID);
+        $parent = $this->objFromFixture($parentClass, $parentInstanceID);
+
         $grid = new GridField(
-            'MyManyMany',
-            'My Many Many',
-            $parent->MyManyMany()->sort('ManyManySort'),
+            $relationName,
+            'Testing Many Many',
+            $parent->$relationName()->sort($sortName),
             $config
         );
 
-        $originalOrder = $parent->MyManyMany()->sort('ManyManySort')->column('ID');
+        $originalOrder = $parent->$relationName()->sort($sortName)->column('ID');
         $desiredOrder = [];
 
         // Make order non-contiguous, and 1-based
@@ -61,7 +84,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
 
         $reflection->invoke($orderable, $grid, $desiredOrder);
 
-        $newOrder = $parent->MyManyMany()->sort('ManyManySort')->map('ManyManySort', 'ID')->toArray();
+        $newOrder = $parent->$relationName()->sort($sortName)->map($sortName, 'ID')->toArray();
 
         $this->assertEquals($desiredOrder, $newOrder);
     }
@@ -125,5 +148,77 @@ class GridFieldOrderableRowsTest extends SapphireTest
             'StubParent_MyManyMany',
             $orderable->setSortField('ManyManySort')->getSortTable($parent->MyManyMany())
         );
+
+        $this->assertEquals(
+            'StubOrderedVersioned',
+            $orderable->setSortField('Sort')->getSortTable($parent->MyHasManySubclassOrderedVersioned())
+        );
+    }
+
+    public function testReorderItemsSubclassVersioned()
+    {
+        $orderable = new GridFieldOrderableRows('Sort');
+        $reflection = new ReflectionMethod($orderable, 'executeReorder');
+        $reflection->setAccessible(true);
+
+        $parent = $this->objFromFixture(StubParent::class, 'parent-subclass-ordered-versioned');
+
+        // make sure all items are published
+        foreach ($parent->MyHasManySubclassOrderedVersioned() as $item) {
+            $item->publishRecursive();
+        }
+
+        // there should be no difference between stages at this point
+        $differenceFound = false;
+        foreach ($parent->MyHasManySubclassOrderedVersioned() as $item) {
+            /** @var  StubSubclassOrderedVersioned|Versioned $item */
+            if ($item->stagesDiffer()) {
+                $this->fail('Unexpected difference found on stages');
+            }
+        }
+
+        // reorder items
+        $config = new GridFieldConfig_RelationEditor();
+        $config->addComponent($orderable);
+
+        $grid = new GridField(
+            'TestField',
+            'TestField',
+            $parent->MyHasManySubclassOrderedVersioned()->sort('Sort', 'ASC'),
+            $config
+        );
+
+        $originalOrder = $parent->MyHasManySubclassOrderedVersioned()
+            ->sort('Sort', 'ASC')
+            ->column('ID');
+
+        $desiredOrder = [];
+
+        // Make order non-contiguous, and 1-based
+        foreach (array_reverse($originalOrder) as $index => $id) {
+            $desiredOrder[$index * 2 + 1] = $id;
+        }
+
+        $this->assertNotEquals($originalOrder, $desiredOrder);
+
+        $reflection->invoke($orderable, $grid, $desiredOrder);
+
+        $newOrder = $parent->MyHasManySubclassOrderedVersioned()
+            ->sort('Sort', 'ASC')
+            ->map('Sort', 'ID')
+            ->toArray();
+
+        $this->assertEquals($desiredOrder, $newOrder);
+
+        // reorder should have been handled as versioned - there should be a difference between stages now
+        $differenceFound = false;
+        foreach ($parent->MyHasManySubclassOrderedVersioned() as $item) {
+            if ($item->stagesDiffer()) {
+                $differenceFound = true;
+                break;
+            }
+        }
+
+        $this->assertTrue($differenceFound);
     }
 }
