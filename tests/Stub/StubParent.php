@@ -7,19 +7,19 @@ use SilverStripe\ORM\DataObject;
 
 class StubParent extends DataObject implements TestOnly
 {
-    private static $has_many = array(
+    private static $has_many = [
         'MyHasMany' => StubOrdered::class,
         'MyHasManySubclass' => StubSubclass::class,
         'MyHasManySubclassOrderedVersioned' => StubSubclassOrderedVersioned::class,
-    );
+    ];
 
-    private static $many_many = array(
-        'MyManyMany' => StubOrdered::class
-    );
+    private static $many_many = [
+        'MyManyMany' => StubOrdered::class,
+    ];
 
-    private static $many_many_extraFields = array(
-        'MyManyMany' => array('ManyManySort' => 'Int')
-    );
+    private static $many_many_extraFields = [
+        'MyManyMany' => ['ManyManySort' => 'Int'],
+    ];
 
     private static $table_name = 'StubParent';
 }

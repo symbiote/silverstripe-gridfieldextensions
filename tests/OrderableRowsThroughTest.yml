@@ -1,0 +1,30 @@
+Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner:
+  DefinerOne:
+  DefinerTwo:
+
+Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs:
+  BelongsOne:
+  BelongsTwo:
+  BelongsThree:
+
+Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary:
+  One:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner.DefinerOne
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs.BelongsOne
+    Sort: 3
+  Two:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner.DefinerOne
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs.BelongsTwo
+    Sort: 2
+  Three:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner.DefinerOne
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs.BelongsThree
+    Sort: 1
+  Four:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner.DefinerTwo
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs.BelongsTwo
+    Sort: 1
+  Five:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner.DefinerTwo
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs.BelongsThree
+    Sort: 2

@@ -148,6 +148,8 @@ class GridFieldOrderableRows extends RequestHandler implements
      * Checks to see if the relationship list is for a type of many_many
      *
      * @param SS_List $list
+     *
+     * @return bool
      */
     protected function isManyMany(SS_List $list)
     {
@@ -493,7 +495,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      */
     protected function executeReorder(GridField $grid, $sortedIDs)
     {
-        if (!is_array($sortedIDs)) {
+        if (!is_array($sortedIDs) || empty($sortedIDs)) {
             return false;
         }
         $sortField = $this->getSortField();
@@ -540,6 +542,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             $toRelationName = $manipulator->getLocalKey();
             $sortlist = DataList::create($joinClass)->filter([
                 $toRelationName => $items->column('ID'),
+                // first() is safe as there are earlier checks to ensure our list to sort is valid
                 $fromRelationName => $items->first()->getJoin()->$fromRelationName,
             ]);
             $current = $sortlist->map($toRelationName, $sortField)->toArray();
@@ -583,19 +586,19 @@ class GridFieldOrderableRows extends RequestHandler implements
         //   - Related item is versioned...
         //       - Through object is versioned: handle as versioned
         //       - Through object is NOT versioned: THROW an error.
-        $isManyMany = $this->isManyMany($list);
-        if ($isManyMany && $list instanceof ManyManyThroughList) {
+        if ($list instanceof ManyManyThroughList) {
             $listClassVersioned = $class::create()->hasExtension(Versioned::class);
             // We'll be updating the join class, not the relation class.
             $class = $this->getManyManyInspector($list)->getJoinClass();
             $isVersioned = $class::create()->hasExtension(Versioned::class);
 
+            // If one side of the relationship is versioned and the other is not, throw an error.
             if ($listClassVersioned xor $isVersioned) {
                 throw new Exception(
                     'ManyManyThrough cannot mismatch Versioning between join class and related class'
                 );
             }
-        } elseif (!$isManyMany) {
+        } elseif (!$this->isManyMany($list)) {
             $isVersioned = $class::create()->hasExtension(Versioned::class);
         }
 
@@ -712,12 +715,12 @@ class GridFieldOrderableRows extends RequestHandler implements
         }
 
         if ($this->isManyMany($list)) {
-            $intropector = $this->getManyManyInspector($list);
+            $introspector = $this->getManyManyInspector($list);
             $extra = $list instanceof ManyManyList ?
-                $intropector->getExtraFields() :
-                DataObjectSchema::create()->fieldSpecs($intropector->getJoinClass(), DataObjectSchema::DB_ONLY);
-            $key   = $intropector->getLocalKey();
-            $foreignKey = $intropector->getForeignKey();
+                $introspector->getExtraFields() :
+                DataObjectSchema::create()->fieldSpecs($introspector->getJoinClass(), DataObjectSchema::DB_ONLY);
+            $key   = $introspector->getLocalKey();
+            $foreignKey = $introspector->getForeignKey();
             $foreignID  = (int) $list->getForeignID();
 
             if ($extra && array_key_exists($this->getSortField(), $extra)) {
@@ -739,7 +742,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      * these functions are moved to ManyManyThroughQueryManipulator, but otherwise retain
      * the same signature.
      *
-     * @param ManyManyList|ManyManyThroughList
+     * @param ManyManyList|ManyManyThroughList $list
      *
      * @return ManyManyList|ManyManyThroughQueryManipulator
      */
