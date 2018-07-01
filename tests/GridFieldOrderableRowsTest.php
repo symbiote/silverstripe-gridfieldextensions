@@ -23,17 +23,11 @@ use Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs;
  */
 class GridFieldOrderableRowsTest extends SapphireTest
 {
-    /**
-     * @var string
-     */
     protected static $fixture_file = [
         'GridFieldOrderableRowsTest.yml',
         'OrderableRowsThroughTest.yml'
     ];
 
-    /**
-     * @var array
-     */
     protected static $extra_dataobjects = [
         StubParent::class,
         StubOrdered::class,
