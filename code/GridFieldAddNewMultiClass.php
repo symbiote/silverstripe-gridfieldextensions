@@ -174,7 +174,7 @@ class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URL
 		}
 
 		$unsanitisedClass = $this->unsanitiseClassName($class);
-		$handler = Object::create($this->itemRequestClass,
+		$handler = SS_Object::create($this->itemRequestClass,
 			$grid, $component, new $unsanitisedClass(), $grid->getForm()->getController(), 'add-multi-class'
 		);
 		$handler->setTemplate($component->getTemplate());
