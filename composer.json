@@ -23,9 +23,6 @@
 	},
 	"extra": {
 		"installer-name": "gridfieldextensions",
-		"branch-alias": {
-			"2.x-dev": "2.1.x-dev"
-		},
 		"screenshots": [
 			"docs/en/_images/editable-rows.png",
 			"docs/en/_images/add-existing-search.png"
