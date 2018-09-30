@@ -4,6 +4,8 @@ namespace Symbiote\GridFieldExtensions;
 
 use Exception;
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\GridField\GridField;
@@ -20,11 +22,11 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\DataObjectSchema;
 use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\ManyManyThroughList;
 use SilverStripe\ORM\ManyManyThroughQueryManipulator;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ViewableData;
 
@@ -295,7 +297,22 @@ class GridFieldOrderableRows extends RequestHandler implements
             $record->ID,
             $this->getSortField()
         );
-        $sortField = new HiddenField($sortFieldName, false, $record->getField($this->getSortField()));
+
+        // Default: Get the sort field directly from the current record
+        $currentSortValue = $record->getField($this->getSortField());
+
+        $list = $grid->getList();
+        if ($list instanceof ManyManyThroughList) {
+            // In a many many through list we should get the current sort order from the relationship
+            // if it exists, not directly from the record
+            $throughListSorts = $this->getSortValuesFromManyManyThroughList($list, $this->getSortField());
+
+            if (array_key_exists($record->ID, $throughListSorts)) {
+                $currentSortValue = $throughListSorts[$record->ID];
+            }
+        }
+
+        $sortField = HiddenField::create($sortFieldName, false, $currentSortValue);
         $sortField->addExtraClass('ss-orderable-hidden-sort');
         $sortField->setForm($grid->getForm());
 
@@ -345,17 +362,18 @@ class GridFieldOrderableRows extends RequestHandler implements
                 $sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
             }
             return $list->sort($sortterm);
-        } else {
-            return $list;
         }
+
+        return $list;
     }
 
     /**
      * Handles requests to reorder a set of IDs in a specific order.
      *
      * @param GridField $grid
-     * @param SS_HTTPRequest $request
-     * @return SS_HTTPResponse
+     * @param HTTPRequest $request
+     * @return string
+     * @throws HTTPResponse_Exception
      */
     public function handleReorder($grid, $request)
     {
@@ -536,16 +554,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 }
             }
         } elseif ($items instanceof ManyManyThroughList) {
-            $manipulator = $this->getManyManyInspector($list);
-            $joinClass = $manipulator->getJoinClass();
-            $fromRelationName = $manipulator->getForeignKey();
-            $toRelationName = $manipulator->getLocalKey();
-            $sortlist = DataList::create($joinClass)->filter([
-                $toRelationName => $items->column('ID'),
-                // first() is safe as there are earlier checks to ensure our list to sort is valid
-                $fromRelationName => $items->first()->getJoin()->$fromRelationName,
-            ]);
-            $current = $sortlist->map($toRelationName, $sortField)->toArray();
+            $current = $this->getSortValuesFromManyManyThroughList($list, $sortField);
         } else {
             $current = $items->map('ID', $sortField)->toArray();
         }
@@ -758,5 +767,31 @@ class GridFieldOrderableRows extends RequestHandler implements
             }
         }
         return $inspector;
+    }
+
+    /**
+     * Used to get sort orders from a many many through list relationship record, rather than the current
+     * record itself.
+     *
+     * @param ManyManyList|ManyManyThroughList $list
+     * @return int[] Sort orders for the
+     */
+    protected function getSortValuesFromManyManyThroughList($list, $sortField)
+    {
+        $manipulator = $this->getManyManyInspector($list);
+
+        // Find the foreign key name, ID and class to look up
+        $joinClass = $manipulator->getJoinClass();
+        $fromRelationName = $manipulator->getForeignKey();
+        $toRelationName = $manipulator->getLocalKey();
+
+        // Create a list of the MMTL relations
+        $sortlist = DataList::create($joinClass)->filter([
+            $toRelationName => $list->column('ID'),
+            // first() is safe as there are earlier checks to ensure our list to sort is valid
+            $fromRelationName => $list->first()->getJoin()->$fromRelationName,
+        ]);
+
+        return $sortlist->map($toRelationName, $sortField)->toArray();
     }
 }

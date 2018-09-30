@@ -12,7 +12,7 @@ use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
-class OrderableRowsThroughTest extends SapphireTest
+class OrderableRowsThroughVersionedTest extends SapphireTest
 {
     protected static $fixture_file = 'OrderableRowsThroughTest.yml';
 
@@ -105,7 +105,7 @@ class OrderableRowsThroughTest extends SapphireTest
             }
         }
         $this->assertTrue($differenceFound, 'All records should have changes in draft');
-        
+
         // Verify live stage has NOT reordered
         Versioned::set_stage(Versioned::LIVE);
         $sameOrder = $parent->$relationName()->sort($sortName)->column('ID');
