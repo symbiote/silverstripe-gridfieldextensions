@@ -664,12 +664,12 @@ class GridFieldOrderableRows extends RequestHandler implements
         $this->extend('onAfterReorderItems', $list, $values, $sortedIDs);
     }
 
-    protected function populateSortValues(DataList $list)
+    protected function populateSortValues(SS_List $list)
     {
         $list   = clone $list;
         $field  = $this->getSortField();
         $table  = $this->getSortTable($list);
-        $clause = sprintf('"%s"."%s" = 0', $table, $this->getSortField());
+        $clause = [sprintf('"%s"."%s"', $table, $this->getSortField()) =>  0];
         $now = DBDatetime::now()->Rfc2822();
         $additionalSQL = '';
         $baseTable = DataObject::getSchema()->baseDataTable($list->dataClass());
@@ -679,7 +679,14 @@ class GridFieldOrderableRows extends RequestHandler implements
             $additionalSQL = ", \"LastEdited\" = '$now'";
         }
 
-        foreach ($list->where($clause)->column('ID') as $id) {
+        // B/C support for DataList
+        if ($list instanceof DataList) {
+            $filteredList = $list->where($clause);
+        } else {
+            $filteredList = $list->filter($clause);
+        }
+
+        foreach ($filteredList->column('ID') as $id) {
             $max = DB::query(sprintf('SELECT MAX("%s") + 1 FROM "%s"', $field, $table));
             $max = $max->value();
 
@@ -710,12 +717,12 @@ class GridFieldOrderableRows extends RequestHandler implements
      * e.g. SortOrder = 5 AND RelatedThing.ID = 3
      * e.g. SortOrder IN(5, 8, 10) AND RelatedThing.ID = 3
      *
-     * @param DataList $list
+     * @param SS_List $list
      * @param int|string|array $ids a single number, or array of numbers
      *
      * @return string
      */
-    protected function getSortTableClauseForIds(DataList $list, $ids)
+    protected function getSortTableClauseForIds(SS_List $list, $ids)
     {
         if (is_array($ids)) {
             $value = 'IN (' . implode(', ', array_map('intval', $ids)) . ')';
