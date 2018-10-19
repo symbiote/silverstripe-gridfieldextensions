@@ -57,6 +57,14 @@ $grid->getConfig()->getComponentByType('GridFieldEditableColumns')->setDisplayFi
 Editing data contained in `many_many_extraFields` is supported - just treat it as you would any
 other field.
 
+**Please note:** If you are using a GridFieldConfig that is scaffolded by GridField by default,
+and adding GridFieldEditableColumns into it, you will probably want to add it before the edit and/or
+delete buttons:
+
+```php
+$gridFieldConfig->addComponent($editableColumns, GridFieldEditButton::class);
+```
+
 Multi Class Adding
 ------------------
 
