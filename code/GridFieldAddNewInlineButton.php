@@ -67,7 +67,9 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 			throw new Exception('Inline adding requires the editable columns component');
 		}
 
-		Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
+		if (!Director::is_ajax()) {
+			Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
+		}
 		GridFieldExtensions::include_requirements();
 
 		$data = new ArrayData(array(
