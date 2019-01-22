@@ -588,25 +588,11 @@ class GridFieldOrderableRows extends RequestHandler implements
         // Model has sort column and is versioned - handle as versioned
         // Model has sort column and is NOT versioned - handle as NOT versioned
         // Model doesn't have sort column because sort column is on ManyManyList - handle as NOT versioned
-        // Model doesn't have sort column because sort column is on ManyManyThroughList...
-        //   - Related item is not versioned:
-        //       - Through object is versioned: THROW an error.
-        //       - Through object is NOT versioned: handle as NOT versioned
-        //   - Related item is versioned...
-        //       - Through object is versioned: handle as versioned
-        //       - Through object is NOT versioned: THROW an error.
+        // Model doesn't have sort column because sort column is on ManyManyThroughList - inspect through object
         if ($list instanceof ManyManyThroughList) {
-            $listClassVersioned = $class::create()->hasExtension(Versioned::class);
             // We'll be updating the join class, not the relation class.
             $class = $this->getManyManyInspector($list)->getJoinClass();
             $isVersioned = $class::create()->hasExtension(Versioned::class);
-
-            // If one side of the relationship is versioned and the other is not, throw an error.
-            if ($listClassVersioned xor $isVersioned) {
-                throw new Exception(
-                    'ManyManyThrough cannot mismatch Versioning between join class and related class'
-                );
-            }
         } elseif (!$this->isManyMany($list)) {
             $isVersioned = $class::create()->hasExtension(Versioned::class);
         }
