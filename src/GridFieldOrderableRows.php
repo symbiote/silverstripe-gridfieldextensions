@@ -648,6 +648,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 if ($record->$sortField != $newSortValue) {
                     $record->$sortField = $newSortValue;
                     $record->write();
+                    $record->doPublish();
                 }
             }
         }
