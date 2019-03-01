@@ -290,33 +290,34 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
                 'title' => 'First',
                 'args' => array('first-shown' => 1),
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-left '
-                    . 'ss-gridfield-firstpage',
+                    . 'ss-gridfield-pagination-action ss-gridfield-firstpage',
                 'disable-previous' => ($this->getCurrentPage() == 1)
             ),
             'prev' => array(
                 'title' => 'Previous',
                 'args' => array('first-shown' => $arguments['first-shown'] - $this->getItemsPerPage()),
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-left '
-                    . 'ss-gridfield-previouspage',
+                    . 'ss-gridfield-pagination-action ss-gridfield-previouspage',
                 'disable-previous' => ($this->getCurrentPage() == 1)
             ),
             'next' => array(
                 'title' => 'Next',
                 'args' => array('first-shown' => $arguments['first-shown'] + $this->getItemsPerPage()),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-right ss-gridfield-nextpage',
+                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-right '
+                .'ss-gridfield-pagination-action  ss-gridfield-nextpage',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
             ),
             'last' => array(
                 'title' => 'Last',
                 'args' => array('first-shown' => ($this->getTotalPages() - 1) * $this->getItemsPerPage() + 1),
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-right '
-                    . 'ss-gridfield-lastpage',
+                    . 'ss-gridfield-pagination-action ss-gridfield-lastpage',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
             ),
             'pagesize' => array(
                 'title' => 'Page Size',
                 'args' => array('first-shown' => $arguments['first-shown']),
-                'extra-class' => 'ss-gridfield-pagesize-submit'
+                'extra-class' => 'ss-gridfield-pagination-action ss-gridfield-pagesize-submit'
             ),
         );
 
