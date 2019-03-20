@@ -90,7 +90,17 @@ class GridFieldOrderableRows extends RequestHandler implements
     protected $reorderColumnNumber = 0;
 
     /**
+     * If the items in the list are versioned and this is set to true, then
+     * we will check to see if the version we're sorting is the latest published
+     * version and if so then we will re-publish the item.
+     *
+     * @var boolean
+     */
+    protected $republishLiveRecords = false;
+
+    /**
      * @param string $sortField
+     * @param boolean $republishLiveRecords
      */
     public function __construct($sortField = 'Sort')
     {
@@ -135,6 +145,28 @@ class GridFieldOrderableRows extends RequestHandler implements
     public function setImmediateUpdate($bool)
     {
         $this->immediateUpdate = $bool;
+        return $this;
+    }
+
+    /**
+     * @see $republishLiveRecords
+     *
+     * @return boolean
+     */
+    public function getRepublishLiveRecords()
+    {
+        return $this->republishLiveRecords;
+    }
+
+    /**
+     * @see $republishLiveRecords
+     *
+     * @param boolean $bool
+     * @return GridFieldOrderableRows $this
+     */
+    public function setRepublishLiveRecords($bool)
+    {
+        $this->republishLiveRecords = $bool;
         return $this;
     }
 
@@ -656,7 +688,15 @@ class GridFieldOrderableRows extends RequestHandler implements
                 $record = $currentSortList[$targetRecordID];
                 if ($record->$sortField != $newSortValue) {
                     $record->$sortField = $newSortValue;
+
+                    // We need to do this before writing otherwith isLiveVersion() will always be false
+                    $shouldRepublish = $this->getRepublishLiveRecords() && $record->isLiveVersion();
+
+                    // Write our staged record and publish if required
                     $record->write();
+                    if ($shouldRepublish) {
+                        $record->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE, true);
+                    }
                 }
             }
         }
