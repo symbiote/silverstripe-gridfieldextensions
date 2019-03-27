@@ -43,7 +43,7 @@ $grid->getConfig()->getComponentByType('GridFieldEditableColumns')->setDisplayFi
 	},
 	'SecondField' => array(
 		'title' => 'Custom Title',
-		'field' => 'ReadonlyField'
+		'field' => ReadonlyField::class
 	),
 	'ThirdField' => array(
 		'title' => 'Custom Title Two',
