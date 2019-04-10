@@ -208,7 +208,7 @@
 			}
 		});
 
-		$(".ss-gridfield-delete-inline").entwine({
+		$(".grid-field .action.ss-gridfield-delete-inline").entwine({
 			onclick: function() {
 				var msg = ss.i18n._t("GridFieldExtensions.CONFIRMDEL", "Are you sure you want to delete this?");
 
