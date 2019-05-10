@@ -463,6 +463,9 @@ class GridFieldOrderableRows extends RequestHandler implements
 		if ($class == $this->getSortTable($list)) {
 			$isVersioned = $class::has_extension('Versioned');
 		}
+		if ($class::has_extension('Versioned')) {
+			$isVersioned = true;
+		}
 
 		// Loop through each item, and update the sort values which do not
 		// match to order the objects.
@@ -505,10 +508,14 @@ class GridFieldOrderableRows extends RequestHandler implements
 			// similar to the SiteTree where you change the position, and then
 			// you go into the record and publish it.
 			foreach($sortedIDs as $sortValue => $id) {
-				if($map[$id] != $sortValue) {
-					$record = $class::get()->byID($id);
+				$record = $class::get()->byID($id);
+				if ($map[$id] != $sortValue) {
 					$record->$sortField = $sortValue;
 					$record->write();
+				}
+				// Update stage to live only for published records
+				if ($record->isPublished()) {
+					$record->publish('Stage', 'Live');
 				}
 			}
 		}
