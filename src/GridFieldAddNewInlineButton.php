@@ -13,6 +13,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\ManyManyThroughList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use Exception;
@@ -189,9 +190,15 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         foreach ($value[self::POST_KEY] as $fields) {
             /** @var DataObject $item */
             $item  = $class::create();
+
+            // Add the item before the form is loaded so that the join-object is available
+            if ($list instanceof ManyManyThroughList) {
+                $list->add($item);
+            }
+
             $extra = array();
 
-            $form = $editable->getForm($grid, $record);
+            $form = $editable->getForm($grid, $item);
             $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
             $form->saveInto($item);
 
@@ -205,8 +212,12 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
                 $extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
             }
 
-            $item->write();
-            $list->add($item, $extra);
+            $item->write(false, false, false, true);
+
+            // Add non-through lists after the write. many_many_extraFields are added there too
+            if (!($list instanceof ManyManyThroughList)) {
+                $list->add($item, $extra);
+            }
         }
     }
 }
