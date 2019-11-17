@@ -35,10 +35,7 @@
         "expose": [
             "css",
             "javascript"
-        ],
-        "branch-alias": {
-            "dev-master": "4.x-dev"
-        }
+        ]
     },
     "replace": {
         "ajshort/silverstripe-gridfieldextensions": "self.version",
