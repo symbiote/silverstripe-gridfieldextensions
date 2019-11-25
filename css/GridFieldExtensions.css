@@ -42,6 +42,11 @@
   background: #DFD;
 }
 
+.grid-field__table .form-check-input.editable-column-field {
+  margin-top: .9rem;
+  position: relative;
+}
+
 /**
  * GridFieldAddNewMultiClass
  */

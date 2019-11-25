@@ -2,18 +2,17 @@
 
 namespace Symbiote\GridFieldExtensions\Tests\Stub;
 
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\FieldType\DBInt;
 use SilverStripe\Dev\TestOnly;
+use SilverStripe\ORM\DataObject;
 
 class ThroughIntermediary extends DataObject implements TestOnly
 {
     private static $table_name = 'IntermediaryThrough';
 
     private static $db = [
-        'Sort' => DBInt::class,
+        'Sort' => 'Int',
     ];
-    
+
     private static $has_one = [
         'Defining' => ThroughDefiner::class,
         'Belonging' => ThroughBelongs::class,

@@ -9,8 +9,10 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubOrderedVersioned;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubParent;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass;
+use Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubUnorderable;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary;
@@ -21,9 +23,6 @@ use Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs;
  */
 class GridFieldOrderableRowsTest extends SapphireTest
 {
-    /**
-     * @var string
-     */
     protected static $fixture_file = [
         'GridFieldOrderableRowsTest.yml',
         'OrderableRowsThroughTest.yml'
@@ -87,6 +86,40 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $newOrder = $parent->$relationName()->sort($sortName)->map($sortName, 'ID')->toArray();
 
         $this->assertEquals($desiredOrder, $newOrder);
+    }
+
+    public function testManyManyThroughListSortOrdersAreUsedForInitialRender()
+    {
+        /** @var ThroughDefiner $record */
+        $record = $this->objFromFixture(ThroughDefiner::class, 'DefinerOne');
+
+        $orderable = new GridFieldOrderableRows('Sort');
+        $config = new GridFieldConfig_RelationEditor();
+        $config->addComponent($orderable);
+
+        $grid = new GridField(
+            'Belongings',
+            'Testing Many Many',
+            $record->Belongings()->sort('Sort'),
+            $config
+        );
+
+        // Get the first record, which would be the first one to have column contents generated
+        /** @var ThroughIntermediary $expected */
+        $intermediary = $this->objFromFixture(ThroughIntermediary::class, 'One');
+
+        $result = $orderable->getColumnContent($grid, $record, 'irrelevant');
+
+        $this->assertContains(
+            'Belongings[GridFieldEditableColumns][' . $record->ID . '][Sort]',
+            $result,
+            'The field name is indexed under the record\'s ID'
+        );
+        $this->assertContains(
+            'value="' . $intermediary->Sort . '"',
+            $result,
+            'The value comes from the MMTL intermediary Sort value'
+        );
     }
 
     public function testSortableChildClass()
