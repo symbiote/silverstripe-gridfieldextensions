@@ -6,7 +6,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest As CoreGridFieldDetailForm_ItemRequest;
+use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest as CoreGridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\HTML;
@@ -16,7 +16,7 @@ use Symbiote\GridFieldExtensions\GridFieldExtensions;
 /**
  * @property CoreGridFieldDetailForm_ItemRequest $owner
  */
-class GridFieldDetailForm_ItemRequest extends Extension
+class GridFieldDetailFormItemRequestExtension extends Extension
 {
     /**
      * @param FieldList $actions
@@ -55,7 +55,15 @@ class GridFieldDetailForm_ItemRequest extends Extension
             'data-href-template' => Controller::join_links($grid->Link(), 'add-multi-class', '{class}'),
             'title' => _t(__CLASS__ . '.NEW', 'Add new record'),
             'aria-label' => _t(__CLASS__ . '.NEW', 'Add new record'),
-            'class' => 'btn btn-primary font-icon-plus-thin btn--circular action--new discard-confirmation action--new__multi-class',
+            'class' => implode(' ', array(
+                'btn',
+                'btn-primary',
+                'font-icon-plus-thin',
+                'btn--circular',
+                'action--new',
+                'discard-confirmation',
+                'action--new__multi-class',
+            )),
             'data-classes' => Convert::array2json($classes),
         ]);
     }

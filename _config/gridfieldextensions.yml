@@ -6,4 +6,4 @@ GridFieldAddNewMultiClass:
 
 SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
   extensions:
-    - Symbiote\GridFieldExtensions\Extensions\GridFieldDetailForm_ItemRequest
+    - Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension
