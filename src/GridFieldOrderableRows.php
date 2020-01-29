@@ -396,7 +396,12 @@ class GridFieldOrderableRows extends RequestHandler implements
         }
 
         // Get records from the `GridFieldEditableColumns` column
-        $data = $request->postVar($grid->getName());
+        $gridFieldName = $grid->getName();
+        if (strpos($gridFieldName, '.') !== false) {
+            $gridFieldName = str_replace('.', '_', $gridFieldName);
+        }
+
+        $data = $request->postVar($gridFieldName);
         $sortedIDs = $this->getSortedIDs($data);
         if (!$this->executeReorder($grid, $sortedIDs)) {
             $this->httpError(400);
