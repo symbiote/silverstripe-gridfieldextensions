@@ -7,6 +7,9 @@ use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild;
+use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MMapper;
+use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MParent;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrderedVersioned;
@@ -25,10 +28,14 @@ class GridFieldOrderableRowsTest extends SapphireTest
 {
     protected static $fixture_file = [
         'GridFieldOrderableRowsTest.yml',
-        'OrderableRowsThroughTest.yml'
+        'OrderableRowsThroughTest.yml',
+        // 'OrderablePolymorphicManyToMany.yml'  // TODO: introduce this tests in the next minor release
     ];
 
     protected static $extra_dataobjects = [
+        // PolymorphM2MChild::class,
+        // PolymorphM2MMapper::class,
+        // PolymorphM2MParent::class,
         StubParent::class,
         StubOrdered::class,
         StubSubclass::class,
@@ -46,6 +53,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         return [
             [StubParent::class . '.parent', 'MyManyMany', 'ManyManySort'],
             [ThroughDefiner::class . '.DefinerOne', 'Belongings', 'Sort'],
+            // [PolymorphM2MParent::class . '.ParentOne', 'Children', 'Sort']
         ];
     }
 
@@ -112,6 +120,40 @@ class GridFieldOrderableRowsTest extends SapphireTest
 
         $this->assertContains(
             'Belongings[GridFieldEditableColumns][' . $record->ID . '][Sort]',
+            $result,
+            'The field name is indexed under the record\'s ID'
+        );
+        $this->assertContains(
+            'value="' . $intermediary->Sort . '"',
+            $result,
+            'The value comes from the MMTL intermediary Sort value'
+        );
+    }
+
+    public function testPolymorphicManyManyListSortOrdersAreUsedForInitialRender()
+    {
+        $this->markTestSkipped('TODO: Introduce this test in the next minor release (3.3)');
+
+        $record = $this->objFromFixture(PolymorphM2MParent::class, 'ParentOne');
+
+        $orderable = new GridFieldOrderableRows('Sort');
+        $config = new GridFieldConfig_RelationEditor();
+        $config->addComponent($orderable);
+
+        $grid = new GridField(
+            'Children',
+            'Testing Polymorphic Many Many',
+            $record->Children()->sort('Sort'),
+            $config
+        );
+
+        // Get the first record, which would be the first one to have column contents generated
+        $intermediary = $this->objFromFixture(PolymorphM2MMapper::class, 'MapP1ToC1');
+
+        $result = $orderable->getColumnContent($grid, $record, 'irrelevant');
+
+        $this->assertContains(
+            'Children[GridFieldEditableColumns][' . $record->ID . '][Sort]',
             $result,
             'The field name is indexed under the record\'s ID'
         );
