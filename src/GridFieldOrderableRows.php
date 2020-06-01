@@ -460,28 +460,44 @@ class GridFieldOrderableRows extends RequestHandler implements
 
         if ($to == 'prev') {
             $swap = $list->limit(1, ($page - 1) * $per - 1)->first();
-            $values[$swap->ID] = $swap->$field;
+            $order[$swap->$field] = $id;
 
-            $order[] = $id;
-            $order[] = $swap->ID;
+            reset($existing);
+            $isMovingFirstItemOnPage = (key($existing) == $id);
+            $swappedItemNewSort = current($existing);
+            $order[$swappedItemNewSort] = $swap->ID;
 
-            foreach ($existing as $_id => $sort) {
-                if ($id != $_id) {
-                    $order[] = $_id;
+            // We want the item that's being swapped from the previous page to appear at the start
+            // of the current page, so we have to adjust the sort order of all the items between the
+            // start of the page and the location of the item we're moving
+            if (!$isMovingFirstItemOnPage) {
+                foreach ($existing as $_id => $sort) {
+                    if ($id == $_id) {
+                        break;
+                    }
+                    $order[$sort + 1] = $_id;
                 }
             }
         } elseif ($to == 'next') {
             $swap = $list->limit(1, $page * $per)->first();
-            $values[$swap->ID] = $swap->$field;
+            $order[$swap->$field] = $id;
 
-            foreach ($existing as $_id => $sort) {
-                if ($id != $_id) {
-                    $order[] = $_id;
+            end($existing);
+            $isMovingLastItemOnPage = (key($existing) == $id);
+            $swappedItemNewSort = current($existing);
+            $order[$swappedItemNewSort] = $swap->ID;
+
+            // We want the item that's being swapped from the next page to appear at the end
+            // of the current page, so we have to adjust the sort order of all the items between the
+            // end of the page and the location of the item we're moving
+            if (!$isMovingLastItemOnPage) {
+                foreach (array_reverse($existing, true) as $_id => $sort) {
+                    if ($id == $_id) {
+                        break;
+                    }
+                    $order[$sort - 1] = $_id;
                 }
             }
-
-            $order[] = $swap->ID;
-            $order[] = $id;
         } else {
             $this->httpError(400, 'Invalid page target');
         }
