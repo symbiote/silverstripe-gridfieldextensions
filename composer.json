@@ -3,7 +3,7 @@
     "description": "A collection of useful grid field components",
     "type": "silverstripe-vendormodule",
     "homepage": "http://github.com/symbiote/silverstripe-gridfieldextensions",
-    "keywords": ["silverstripe", "gridfield"],
+    "keywords": ["silverstripe", "gridfield", "sortable", "sort", "sort field"],
     "license": "BSD-3-Clause",
     "authors": [
         {
