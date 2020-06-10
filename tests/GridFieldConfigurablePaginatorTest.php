@@ -205,9 +205,9 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
             )
         );
 
-        $gridField = $this->getMockBuilder(GridField::class)->disableOriginalConstructor()->getMock();
         $paginator = new GridFieldConfigurablePaginator;
-        $result = $paginator->getPagerActions($controls, $gridField);
+        $paginator->setGridField($this->gridField);
+        $result = $paginator->getPagerActions($controls, $this->gridField);
 
         $this->assertCount(2, $result);
         $this->assertArrayHasKey('next', $result);
