@@ -24,6 +24,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\ManyManyThroughList;
 
 /**
  * Allows inline editing of grid field records without having to load a separate
@@ -81,7 +82,14 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             }
             $field = clone $field;
         } else {
-            $value  = $grid->getDataFieldValue($record, $col);
+            $value = $grid->getDataFieldValue($record, $col);
+            if (is_null($value)) {
+                // Try to find the value into the join record
+                $join = $record->getJoin();
+                if ($join) {
+                    $value = $grid->getDataFieldValue($join, $col);
+                }
+            }
             $rel = (strpos($col, '.') === false); // field references a relation value
             $field = ($rel) ? clone $fields->fieldByName($col) : new ReadonlyField($col);
 
@@ -150,7 +158,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 }
             }
 
-            if ($list instanceof ManyManyList) {
+            if ($list instanceof ManyManyList || $list instanceof ManyManyThroughList) {
                 $extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
             }
 
@@ -235,7 +243,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 }
             }
 
-            if (!$field && $list instanceof ManyManyList) {
+            if (!$field && ($list instanceof ManyManyList || $list instanceof ManyManyThroughList)) {
                 $extra = $list->getExtraFields();
 
                 if ($extra && array_key_exists($col, $extra)) {
