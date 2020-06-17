@@ -201,3 +201,25 @@
 .ss-gridfield-configurable-paginator .pagination-page-number input {
   text-align: center;
 }
+
+.grid-field-inline-new--multi-class-list {
+  display: none;
+  background-color: #008a00;
+  border-radius: 5px;
+  bottom: 3em;
+  list-style: none;
+  margin: 0;
+  right: 3em;
+  padding: 10px;
+  position: fixed;
+
+}
+.grid-field-inline-new--multi-class-list a {
+  color: #FFF;
+  display: block;
+  margin: 5px -10px;
+  padding: 0 10px;
+}
+.grid-field-inline-new--multi-class-list__visible {
+  display: block;
+}

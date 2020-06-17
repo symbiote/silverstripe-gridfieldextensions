@@ -237,6 +237,24 @@
 			}
 		});
 
+		$(".action--new__multi-class").entwine({
+			onmatch: function () {
+				const hrefTemplate = this.data('hrefTemplate');
+				const classes = this.data('classes');
+				const liHtml = Object.keys(classes).map(className => {
+					const link = hrefTemplate.replace('{class}', className);
+					return `<li><a href="${link}">Add: <i>${classes[className]}</i></a></li>`;
+				});
+
+				const listElement = $(`<ul class="grid-field-inline-new--multi-class-list">${liHtml.join('')}</ul>`);
+				listElement.insertBefore(this);
+
+				this.on('click', function () {
+					listElement.toggleClass('grid-field-inline-new--multi-class-list__visible');
+				});
+			},
+		});
+
 		$(".ss-gridfield-add-new-multi-class select").entwine({
 			onadd: function() {
 				this.update();
