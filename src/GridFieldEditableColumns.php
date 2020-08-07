@@ -56,10 +56,6 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
     public function getColumnContent($grid, $record, $col)
     {
-        if (!$record->canEdit()) {
-            return parent::getColumnContent($grid, $record, $col);
-        }
-
         $fields = $this->getForm($grid, $record)->Fields();
 
         if (!$this->displayFields) {
@@ -103,6 +99,10 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
         $field->setName($this->getFieldName($field->getName(), $grid, $record));
         $field->setValue($value);
+
+        if (!$record->canEdit()) {
+            $field = $field->performReadonlyTransformation();
+        }
 
         if ($field instanceof HtmlEditorField) {
             return $field->FieldHolder();
