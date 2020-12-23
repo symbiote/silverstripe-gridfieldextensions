@@ -37,13 +37,13 @@ You can customise the form fields that are used in the grid by calling `setDispl
 inline editing component. By default field scaffolding will be used.
 
 ```php
-$grid->getConfig()->getComponentByType('GridFieldEditableColumns')->setDisplayFields(array(
+$grid->getConfig()->getComponentByType(GridFieldEditableColumns::class)->setDisplayFields(array(
 	'FirstField'  => function($record, $column, $grid) {
 		return new TextField($column);
 	},
 	'SecondField' => array(
 		'title' => 'Custom Title',
-		'field' => 'ReadonlyField'
+		'field' => ReadonlyField::class
 	),
 	'ThirdField' => array(
 		'title' => 'Custom Title Two',
