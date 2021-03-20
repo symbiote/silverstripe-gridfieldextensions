@@ -1,0 +1,28 @@
+Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MParent:
+  ParentOne:
+  ParentTwo:
+
+Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild:
+  ChildOne:
+  ChildTwo:
+
+Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MMapper:
+  MapP1ToC1:
+    Parent: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MParent.ParentOne'
+    Child: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild.ChildOne'
+    Sort: 1
+
+  MapP1ToC2:
+    Parent: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MParent.ParentOne'
+    Child: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild.ChildTwo'
+    Sort: 2
+
+  MapP2ToC1:
+    Parent: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MParent.ParentTwo'
+    Child: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild.ChildOne'
+    Sort: 2
+
+  MapP2ToC2:
+    Parent: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MParent.ParentTwo'
+    Child: '=>Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild.ChildTwo'
+    Sort: 1

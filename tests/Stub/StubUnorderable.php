@@ -12,4 +12,16 @@ class StubUnorderable extends DataObject implements TestOnly
     ];
 
     private static $table_name = 'StubUnorderable';
+
+    private $canEdit = false;
+
+    public function setCanEdit($canEdit)
+    {
+        $this->canEdit = $canEdit;
+    }
+
+    public function canEdit($member = null)
+    {
+        return $this->canEdit;
+    }
 }

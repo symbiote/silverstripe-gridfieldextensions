@@ -1,0 +1,5 @@
+vendor/
+resources/
+composer.lock
+
+assets/
