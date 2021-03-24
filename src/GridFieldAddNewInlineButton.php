@@ -135,6 +135,9 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
                     $field->getName()
                 ));
 
+                if ($record && $record->hasField($column)) {
+                    $field->setValue($record->getField($column));
+                }
                 $content = $field->Field();
             } else {
                 $content = $grid->getColumnContent($record, $column);
