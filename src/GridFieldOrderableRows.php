@@ -8,6 +8,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
 use SilverStripe\Forms\GridField\GridField_DataManipulator;
@@ -359,7 +360,15 @@ class GridFieldOrderableRows extends RequestHandler implements
                 // Fix bug in 3.1.3+ where ArrayList doesn't account for quotes
                 $sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
             } else {
+                // If not an ArrayList it's definitely a DataList right?
+                // Or do we need another conditional here?
                 $sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+                $classname = $list->dataClass(); // DataLists have a dataClass
+                if (Config::inst()->get($list->dataClass(), 'default_sort')) {
+                    // Append the default sort to the end of the sort string
+                    // This may result in redundancy... but it seems to work
+                    $sortterm .= ', ' . Config::inst()->get($classname, 'default_sort');
+                }
             }
             return $list->sort($sortterm);
         }
