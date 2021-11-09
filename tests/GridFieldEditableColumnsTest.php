@@ -48,7 +48,7 @@ class GridFieldEditableColumnsTest extends SapphireTest
         $column = $component->getColumnContent($grid, $record, 'Title');
 
         $this->assertInstanceOf(DBHTMLText::class, $column);
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/<input type="text" name="TestGridField\[GridFieldEditableColumns\]\[100\]\[Title\]" value="foo"[^>]*>/',
             $column->getValue()
         );
@@ -64,7 +64,7 @@ class GridFieldEditableColumnsTest extends SapphireTest
         $column = $component->getColumnContent($grid, $record, 'Title');
 
         $this->assertInstanceOf(DBHTMLText::class, $column);
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/<span[^>]*>\s*testval\s*<\/span>/',
             $column->getValue()
         );
@@ -86,7 +86,7 @@ class GridFieldEditableColumnsTest extends SapphireTest
         $column = $component->getColumnContent($grid, $record, 'Title');
 
         $this->assertInstanceOf(DBHTMLText::class, $column);
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/<span[^>]*>\s*testval\s*<\/span>/',
             $column->getValue()
         );
