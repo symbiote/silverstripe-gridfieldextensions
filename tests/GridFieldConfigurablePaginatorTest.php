@@ -16,7 +16,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
      */
     protected $gridField;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -172,12 +172,10 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
         ), $paginator->getPageSizesAsList());
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage No GridField available yet for this request!
-     */
     public function testGetGridFieldThrowsExceptionWhenNotSet()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No GridField available yet for this request!');
         $paginator = new GridFieldConfigurablePaginator;
         $paginator->getGridField();
     }
