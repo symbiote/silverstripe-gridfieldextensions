@@ -8,6 +8,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
 use SilverStripe\Forms\GridField\GridField_DataManipulator;
@@ -360,7 +361,17 @@ class GridFieldOrderableRows extends RequestHandler implements
                 $sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
             } else {
                 $sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+
+                if ($list instanceof DataList) {
+                    $classname = $list->dataClass();
+                    if ($defaultSort = Config::inst()->get($classname, 'default_sort')) {
+                        // Append the default sort to the end of the sort string
+                        // This may result in redundancy... but it seems to work
+                        $sortterm .= ($sortterm ? ', ' : '') . $defaultSort;
+                    }
+                }
             }
+
             return $list->sort($sortterm);
         }
 
