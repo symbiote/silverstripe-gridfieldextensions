@@ -6,6 +6,7 @@ use ReflectionMethod;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\ORM\DataList;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild;
 use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MMapper;
@@ -20,6 +21,8 @@ use Symbiote\GridFieldExtensions\Tests\Stub\StubUnorderable;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs;
+use Symbiote\GridFieldExtensions\Tests\Stub\TitleObject;
+use Symbiote\GridFieldExtensions\Tests\Stub\TitleSortedObject;
 
 /**
  * Tests for the {@link GridFieldOrderableRows} component.
@@ -46,6 +49,8 @@ class GridFieldOrderableRowsTest extends SapphireTest
         ThroughDefiner::class,
         ThroughIntermediary::class,
         ThroughBelongs::class,
+        TitleObject::class,
+        TitleSortedObject::class,
     ];
 
     public function reorderItemsProvider()
@@ -295,5 +300,42 @@ class GridFieldOrderableRowsTest extends SapphireTest
         }
 
         $this->assertTrue($differenceFound);
+    }
+
+    public function testGetManipulatedDataWithoutDefaultSort()
+    {
+        $sortedList = $this->getTitleSortedListForManipuatedData(TitleObject::class, [
+            ['Title' => 'C'],
+            ['Title' => 'A'],
+            ['Title' => 'B'],
+        ]);
+        $this->assertSame(['A', 'B', 'C'], $sortedList->column('Title'));
+    }
+
+    public function testGetManipulatedDataWithDefaultSort()
+    {
+        $sortedList = $this->getTitleSortedListForManipuatedData(TitleSortedObject::class, [
+            ['Title' => 'Z', 'Iden' => 'C', 'DefaultSort' => 3],
+            ['Title' => 'Z', 'Iden' => 'A', 'DefaultSort' => 2],
+            ['Title' => 'Z', 'Iden' => 'B', 'DefaultSort' => 1],
+        ]);
+        $this->assertSame(['B', 'A', 'C'], $sortedList->column('Iden'));
+    }
+
+    private function getTitleSortedListForManipuatedData(string $dataClass, array $data): DataList
+    {
+        $list = new DataList($dataClass);
+        foreach ($data as $values) {
+            $item = new $dataClass();
+            $item->update($values);
+            $item->write();
+            $list->add($item);
+        }
+        $orderable = new GridFieldOrderableRows('Title');
+        $config = new GridFieldConfig_RelationEditor();
+        $config->addComponent($orderable);
+        $grid = new GridField('MyName', 'MyTitle', $list, $config);
+        $sortedList = $orderable->getManipulatedData($grid, $list);
+        return $sortedList;
     }
 }
