@@ -19,7 +19,7 @@
         "issues": "http://github.com/symbiote/silverstripe-gridfieldextensions/issues"
     },
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "silverstripe/vendor-plugin": "^1.0",
         "silverstripe/framework": "^4.10"
     },
