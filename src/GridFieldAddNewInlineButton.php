@@ -102,7 +102,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
         Requirements::javascript('symbiote/silverstripe-gridfieldextensions:javascript/tmpl.js');
         GridFieldExtensions::include_requirements();
 
-        $data = new ArrayData(array(
+        $data = ArrayData::create(array(
             'Title'  => $this->getTitle(),
         ));
 
@@ -114,7 +114,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 
     private function getRowTemplate(GridField $grid, GridFieldEditableColumns $editable)
     {
-        $columns = new ArrayList();
+        $columns = ArrayList::create();
         $handled = array_keys($editable->getDisplayFields($grid));
 
         if ($grid->getList()) {
@@ -161,7 +161,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
                 $attrs .= sprintf(' %s="%s"', $attr, Convert::raw2att($val));
             }
 
-            $columns->push(new ArrayData(array(
+            $columns->push(ArrayData::create(array(
                 'Content'    => $content,
                 'Attributes' => DBField::create_field('HTMLFragment', $attrs),
                 'IsActions'  => $column == 'Actions'

@@ -83,7 +83,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             // Fall back to previous logic
             if (!$field) {
                 $rel = (strpos($col, '.') === false); // field references a relation value
-                $field = ($rel) ? clone $fields->fieldByName($col) : new ReadonlyField($col);
+                $field = ($rel) ? clone $fields->fieldByName($col) : ReadonlyField::create($col);
             }
 
             if (!$field) {
@@ -211,7 +211,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     public function getFields(GridField $grid, DataObjectInterface $record)
     {
         $cols   = $this->getDisplayFields($grid);
-        $fields = new FieldList();
+        $fields = FieldList::create();
 
         /** @var DataList $list */
         $list   = $grid->getList();
@@ -263,12 +263,12 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                     if ($class && $obj = DataObject::singleton($class)->dbObject($colRelation[0])) {
                         $field = $obj->scaffoldFormField();
                     } else {
-                        $field = new ReadonlyField($colRelation[0]);
+                        $field = ReadonlyField::create($colRelation[0]);
                     }
                 } elseif ($class && $obj = DataObject::singleton($class)->dbObject($col)) {
                     $field = $obj->scaffoldFormField();
                 } else {
-                    $field = new ReadonlyField($col);
+                    $field = ReadonlyField::create($col);
                 }
             }
 
@@ -301,7 +301,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     {
         $fields = $this->getFields($grid, $record);
 
-        $form = new Form($grid, null, $fields, new FieldList());
+        $form = Form::create($grid, null, $fields, FieldList::create());
         $form->loadDataFrom($record);
 
         $form->setFormAction(Controller::join_links(

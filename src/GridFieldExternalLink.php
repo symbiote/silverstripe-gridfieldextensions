@@ -72,7 +72,7 @@ class GridFieldExternalLink extends GridFieldDataColumns
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        $data = new ArrayData(array(
+        $data = ArrayData::create(array(
             'Link' => $record->hasMethod('getExternalLink') ? $record->getExternalLink() : $record->ExternalLink,
             'Text' => $record->hasMethod('getExternalLinkText') ? $record->getExternalLinkText() : 'External Link'
         ));

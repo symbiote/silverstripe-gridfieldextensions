@@ -14,12 +14,12 @@ class GridFieldTitleHeader implements GridField_HTMLProvider
 
     public function getHTMLFragments($grid)
     {
-        $cols = new ArrayList();
+        $cols = ArrayList::create();
 
         foreach ($grid->getColumns() as $name) {
             $meta = $grid->getColumnMetadata($name);
 
-            $cols->push(new ArrayData(array(
+            $cols->push(ArrayData::create(array(
                 'Name'  => $name,
                 'Title' => $meta['title']
             )));
