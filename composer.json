@@ -21,7 +21,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "silverstripe/vendor-plugin": "^1.0",
-        "silverstripe/framework": "^4.10"
+        "silverstripe/framework": "^4.11"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

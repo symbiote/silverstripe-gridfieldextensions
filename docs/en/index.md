@@ -9,7 +9,7 @@ existing records than a basic autocomplete. It uses the search context construct
 class to provide the search form.
 
 ```php
-$grid->getConfig()->addComponent(new GridFieldAddExistingSearchButton());
+$grid->getConfig()->addComponent(GridFieldAddExistingSearchButton::create());
 ```
 
 Inline Editing
@@ -19,17 +19,17 @@ This example replaces the default data columns component with an inline editable
 default add new button with one that adds new records inline.
 
 ```php
-$grid = new GridField(
+$grid = GridField::create(
 	'ExampleGrid',
 	'Example Grid',
 	$this->Items(),
 	GridFieldConfig::create()
-		->addComponent(new GridFieldButtonRow('before'))
-		->addComponent(new GridFieldToolbarHeader())
-		->addComponent(new GridFieldTitleHeader())
-		->addComponent(new GridFieldEditableColumns())
-		->addComponent(new GridFieldDeleteAction())
-		->addComponent(new GridFieldAddNewInlineButton())
+		->addComponent(GridFieldButtonRow::create('before'))
+		->addComponent(GridFieldToolbarHeader::create())
+		->addComponent(GridFieldTitleHeader::create())
+		->addComponent(GridFieldEditableColumns::create())
+		->addComponent(GridFieldDeleteAction::create())
+		->addComponent(GridFieldAddNewInlineButton::create())
 );
 ```
 
@@ -39,7 +39,7 @@ inline editing component. By default field scaffolding will be used.
 ```php
 $grid->getConfig()->getComponentByType(GridFieldEditableColumns::class)->setDisplayFields(array(
 	'FirstField'  => function($record, $column, $grid) {
-		return new TextField($column);
+		return TextField::create($column);
 	},
 	'SecondField' => array(
 		'title' => 'Custom Title',
@@ -69,7 +69,7 @@ use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 
 $grid->getConfig()
      ->removeComponentsByType(GridFieldAddNewButton::class)
-     ->addComponent(new GridFieldAddNewMultiClass());
+     ->addComponent(GridFieldAddNewMultiClass::create());
 ```
 
 Orderable Rows
@@ -82,10 +82,10 @@ the relationship.
 
 ```php
 // Basic usage, defaults to "Sort" for the sort field.
-$grid->getConfig()->addComponent(new GridFieldOrderableRows());
+$grid->getConfig()->addComponent(GridFieldOrderableRows::create());
 
 // Specifying the sort field.
-$grid->getConfig()->addComponent(new GridFieldOrderableRows('SortField'));
+$grid->getConfig()->addComponent(GridFieldOrderableRows::create('SortField'));
 ```
 
 By default, when you create a new item, it is created with a sort order of "0" - that is, it is added
@@ -118,7 +118,7 @@ To use this component you should remove the original paginator component first:
 ```php
 $gridField->getConfig()
     ->removeComponentsByType('GridFieldPaginator')
-    ->addComponent(new GridFieldConfigurablePaginator());
+    ->addComponent(GridFieldConfigurablePaginator::create());
 ```
 
 You can configure the page sizes with the configuration system. Note that merging is the default strategy, so to replace
@@ -133,7 +133,7 @@ Config::inst()->update('GridFieldConfigurablePaginator', 'default_page_sizes', a
 You can also override these at call time:
 
 ```php
-$paginator = new GridFieldConfigurablePaginator(100, array(100, 200, 500));
+$paginator = GridFieldConfigurablePaginator::create(100, array(100, 200, 500));
 
 $paginator->setPageSizes(array(200, 500, 1000));
 $paginator->setItemsPerPage(500);
