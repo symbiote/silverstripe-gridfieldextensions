@@ -101,7 +101,6 @@ class GridFieldOrderableRows extends RequestHandler implements
 
     /**
      * @param string $sortField
-     * @param boolean $republishLiveRecords
      */
     public function __construct($sortField = 'Sort')
     {
