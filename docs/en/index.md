@@ -112,8 +112,7 @@ By default `GridFieldOrderableRows` will handle versioning but won't automatical
 You can configure the list to automatically publish a record if the record is the latest version and is already published. This won't publish any records which have draft changes.
 
 ```php
-$orderable = new GridFieldOrderableRows()
-    ->setRepublishLiveRecords(true);
+$orderable = GridFieldOrderableRows::create()->setRepublishLiveRecords(true);
 ```
 
 There are caveats with both approaches so consideration should be made for which approach best suits the requirements.

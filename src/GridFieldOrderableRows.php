@@ -101,6 +101,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 
     /**
      * @param string $sortField
+     * @param boolean $republishLiveRecords
      */
     public function __construct($sortField = 'Sort')
     {
@@ -689,7 +690,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 $record = $currentSortList[$targetRecordID];
                 if ($record->$sortField != $newSortValue) {
                     $record->$sortField = $newSortValue;
-                    
+
                     // We need to do this before writing otherwith isLiveVersion() will always be false
                     $shouldRepublish = $this->getRepublishLiveRecords() && $record->isLiveVersion();
 
