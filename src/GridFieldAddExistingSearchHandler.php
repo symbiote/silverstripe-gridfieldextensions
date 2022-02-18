@@ -96,7 +96,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
     {
         $list = $this->context->getQuery($data, false, false, $this->getSearchList());
         $list = $list->subtract($this->grid->getList());
-        $list = new PaginatedList($list, $this->request);
+        $list = PaginatedList::create($list, $this->request);
 
         $data = $this->customise(array(
             'SearchForm' => $form,
@@ -109,7 +109,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
     {
         $list = $this->getSearchList();
         $list = $list->subtract($this->grid->getList());
-        $list = new PaginatedList($list, $this->request);
+        $list = PaginatedList::create($list, $this->request);
 
         return $list;
     }

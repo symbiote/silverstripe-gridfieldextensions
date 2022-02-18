@@ -83,11 +83,11 @@ abstract class GridFieldRequestHandler extends RequestHandler
      */
     public function Form()
     {
-        $form = new Form(
+        $form = Form::create(
             $this,
             'SilverStripe\\Forms\\Form',
-            new FieldList($root = new TabSet('Root', new Tab('Main'))),
-            new FieldList()
+            FieldList::create($root = TabSet::create('Root', Tab::create('Main'))),
+            FieldList::create()
         );
 
         if ($this->getTopLevelController() instanceof LeftAndMain) {
@@ -136,7 +136,7 @@ abstract class GridFieldRequestHandler extends RequestHandler
         if ($controller->hasMethod('Breadcrumbs')) {
             return $controller->Breadcrumbs();
         } else {
-            return new ArrayList();
+            return ArrayList::create();
         }
     }
 
