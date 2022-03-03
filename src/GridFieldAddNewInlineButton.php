@@ -5,6 +5,7 @@ namespace Symbiote\GridFieldExtensions;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\Form;
+use SilverStripe\Forms\GridField\AbstractGridFieldComponent;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_SaveHandler;
@@ -21,7 +22,9 @@ use Exception;
 /**
  * Builds on the {@link GridFieldEditableColumns} component to allow creating new records.
  */
-class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_SaveHandler
+class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
+    GridField_HTMLProvider,
+    GridField_SaveHandler
 {
     /**
      * @skipUpgrade

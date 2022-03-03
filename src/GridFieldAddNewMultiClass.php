@@ -9,6 +9,7 @@ use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\GridField\AbstractGridFieldComponent;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
@@ -23,7 +24,9 @@ use Exception;
  * By default the list of classes that are createable is the grid field's model class, and any
  * subclasses. This can be customised using {@link setClasses()}.
  */
-class GridFieldAddNewMultiClass implements GridField_HTMLProvider, GridField_URLHandler
+class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
+    GridField_HTMLProvider,
+    GridField_URLHandler
 {
     /**
      * @skipUpgrade

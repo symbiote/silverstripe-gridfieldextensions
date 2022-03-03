@@ -2,6 +2,7 @@
 
 namespace Symbiote\GridFieldExtensions;
 
+use SilverStripe\Forms\GridField\AbstractGridFieldComponent;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\ORM\SS_List;
@@ -11,7 +12,9 @@ use SilverStripe\View\ArrayData;
  * A modal search dialog which uses search context to search for and add
  * existing records to a grid field.
  */
-class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridField_URLHandler
+class GridFieldAddExistingSearchButton extends AbstractGridFieldComponent implements
+    GridField_HTMLProvider,
+    GridField_URLHandler
 {
 
     private static $allowed_actions = array(
@@ -111,6 +114,6 @@ class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridFi
 
     public function handleSearch($grid, $request)
     {
-        return new GridFieldAddExistingSearchHandler($grid, $this);
+        return GridFieldAddExistingSearchHandler::create($grid, $this);
     }
 }
