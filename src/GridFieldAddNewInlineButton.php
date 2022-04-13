@@ -118,7 +118,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
     private function getRowTemplate(GridField $grid, GridFieldEditableColumns $editable)
     {
         $columns = ArrayList::create();
-        $handled = array_keys($editable->getDisplayFields($grid));
+        $handled = array_keys($editable->getDisplayFields($grid) ?? []);
 
         if ($grid->getList()) {
             $record = Injector::inst()->create($grid->getModelClass());
@@ -129,7 +129,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
         $fields = $editable->getFields($grid, $record);
 
         foreach ($grid->getColumns() as $column) {
-            if (in_array($column, $handled)) {
+            if (in_array($column, $handled ?? [])) {
                 $field = $fields->dataFieldByName($column);
                 $field->setName(sprintf(
                     '%s[%s][{%%=o.num%%}][%s]',
@@ -149,7 +149,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
                 $content = str_replace(
                     sprintf('[%s][0]', GridFieldEditableColumns::POST_KEY),
                     sprintf('[%s][{%%=o.num%%}]', self::POST_KEY),
-                    $content
+                    $content ?? ''
                 );
             }
 
@@ -215,7 +215,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
             }
 
             if ($list instanceof ManyManyList) {
-                $extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
+                $extra = array_intersect_key($form->getData() ?? [], (array) $list->getExtraFields());
             }
 
             $item->write(false, false, false, true);

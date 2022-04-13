@@ -61,7 +61,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         if (!$this->displayFields) {
             // If setDisplayFields() not used, utilize $summary_fields
             // in a way similar to base class
-            $colRelation = explode('.', $col);
+            $colRelation = explode('.', $col ?? '');
             $value = $grid->getDataFieldValue($record, $colRelation[0]);
             $field = $fields->fieldByName($colRelation[0]);
             if (!$field || $field->isReadonly() || $field->isDisabled()) {
@@ -82,7 +82,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
             // Fall back to previous logic
             if (!$field) {
-                $rel = (strpos($col, '.') === false); // field references a relation value
+                $rel = (strpos($col ?? '', '.') === false); // field references a relation value
                 $field = ($rel) ? clone $fields->fieldByName($col) : ReadonlyField::create($col);
             }
 
@@ -91,7 +91,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             }
         }
 
-        if (array_key_exists($col, $this->fieldCasting)) {
+        if (array_key_exists($col, $this->fieldCasting ?? [])) {
             $value = $grid->getCastedValue($value, $this->fieldCasting[$col]);
         }
 
@@ -157,7 +157,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             }
 
             if ($list instanceof ManyManyList) {
-                $extra = array_intersect_key($form->getData(), (array) $list->getExtraFields());
+                $extra = array_intersect_key($form->getData() ?? [], (array) $list->getExtraFields());
             }
 
             $item->write(false, false, false, true);
@@ -244,7 +244,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             if (!$field && $list instanceof ManyManyList) {
                 $extra = $list->getExtraFields();
 
-                if ($extra && array_key_exists($col, $extra)) {
+                if ($extra && array_key_exists($col, $extra ?? [])) {
                     $field = Injector::inst()->create($extra[$col], $col)->scaffoldFormField();
                 }
             }
@@ -259,7 +259,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                     // revert to looking good in cases where the field isn't
                     // available or is readonly
                     //
-                    $colRelation = explode('.', $col);
+                    $colRelation = explode('.', $col ?? '');
                     if ($class && $obj = DataObject::singleton($class)->dbObject($colRelation[0])) {
                         $field = $obj->scaffoldFormField();
                     } else {
