@@ -47,7 +47,7 @@ class GridFieldDetailFormItemRequestExtension extends Extension
 
         $classes = $component->getClasses($grid);
 
-        if (!count($classes)) {
+        if (!count($classes ?? [])) {
             return false;
         }
 

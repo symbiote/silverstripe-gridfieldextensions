@@ -69,7 +69,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $config = new GridFieldConfig_RelationEditor();
         $config->addComponent($orderable);
 
-        list($parentClass, $parentInstanceID) = explode('.', $fixtureID);
+        list($parentClass, $parentInstanceID) = explode('.', $fixtureID ?? '');
         $parent = $this->objFromFixture($parentClass, $parentInstanceID);
 
         $grid = new GridField(
@@ -83,7 +83,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $desiredOrder = [];
 
         // Make order non-contiguous, and 1-based
-        foreach (array_reverse($originalOrder) as $index => $id) {
+        foreach (array_reverse($originalOrder ?? []) as $index => $id) {
             $desiredOrder[$index * 2 + 1] = $id;
         }
 
@@ -183,7 +183,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         );
 
         $originalOrder = $parent->Children()->column('ID');
-        $desiredOrder = array_reverse($originalOrder);
+        $desiredOrder = array_reverse($originalOrder ?? []);
 
         $this->assertNotEquals($originalOrder, $desiredOrder);
 
@@ -270,7 +270,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $desiredOrder = [];
 
         // Make order non-contiguous, and 1-based
-        foreach (array_reverse($originalOrder) as $index => $id) {
+        foreach (array_reverse($originalOrder ?? []) as $index => $id) {
             $desiredOrder[$index * 2 + 1] = $id;
         }
 

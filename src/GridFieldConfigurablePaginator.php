@@ -171,7 +171,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
         $this->pageSizes = $pageSizes;
 
         // Reset items per page
-        $this->setItemsPerPage(current($pageSizes));
+        $this->setItemsPerPage(current($pageSizes ?? []));
 
         return $this;
     }
@@ -356,7 +356,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
             return array(
                 'footer' => $forTemplate->renderWith(
                     __CLASS__,
-                    array('Colspan' => count($gridField->getColumns()))
+                    array('Colspan' => count($gridField->getColumns() ?? []))
                 )
             );
         }

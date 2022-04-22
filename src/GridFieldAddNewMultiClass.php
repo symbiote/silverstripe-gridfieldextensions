@@ -124,7 +124,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
         $result = array();
 
         if (is_null($this->classes)) {
-            $classes = array_values(ClassInfo::subclassesFor($grid->getModelClass()));
+            $classes = array_values(ClassInfo::subclassesFor($grid->getModelClass()) ?? []);
             sort($classes);
         } else {
             $classes = $this->classes;
@@ -135,7 +135,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
             if (!is_string($class)) {
                 $class = $title;
             }
-            if (!class_exists($class)) {
+            if (!class_exists($class ?? '')) {
                 continue;
             }
             $is_abstract = (($reflection = new ReflectionClass($class)) && $reflection->isAbstract());
@@ -216,7 +216,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
             throw new Exception('The add new multi class component requires the detail form component.');
         }
 
-        if (!$class || !array_key_exists($class, $classes)) {
+        if (!$class || !array_key_exists($class, $classes ?? [])) {
             throw new HTTPResponse_Exception(400);
         }
 
@@ -241,7 +241,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
     {
         $classes = $this->getClasses($grid);
 
-        if (!count($classes)) {
+        if (!count($classes ?? [])) {
             return array();
         }
 
@@ -293,7 +293,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      */
     protected function sanitiseClassName($class)
     {
-        return str_replace('\\', '-', $class);
+        return str_replace('\\', '-', $class ?? '');
     }
 
     /**
@@ -304,6 +304,6 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      */
     protected function unsanitiseClassName($class)
     {
-        return str_replace('-', '\\', $class);
+        return str_replace('-', '\\', $class ?? '');
     }
 }

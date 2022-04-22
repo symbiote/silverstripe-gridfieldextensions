@@ -31,6 +31,6 @@ class GridFieldAddNewMultiClassHandler extends GridFieldDetailForm_ItemRequest
      */
     protected function sanitiseClassName($class)
     {
-        return str_replace('\\', '-', $class);
+        return str_replace('\\', '-', $class ?? '');
     }
 }

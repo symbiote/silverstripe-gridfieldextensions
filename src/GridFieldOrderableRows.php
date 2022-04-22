@@ -205,7 +205,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         if ($list instanceof ManyManyList) {
             $extra = $list->getExtraFields();
 
-            if ($extra && array_key_exists($field, $extra)) {
+            if ($extra && array_key_exists($field, $extra ?? [])) {
                 return;
             }
         } elseif ($list instanceof ManyManyThroughList) {
@@ -239,7 +239,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         if ($list instanceof ManyManyList) {
             $extra = $list->getExtraFields();
             $table = $list->getJoinTable();
-            if ($extra && array_key_exists($field, $extra)) {
+            if ($extra && array_key_exists($field, $extra ?? [])) {
                 return $table;
             }
         } elseif ($list instanceof ManyManyThroughList) {
@@ -277,8 +277,8 @@ class GridFieldOrderableRows extends RequestHandler implements
 
     public function augmentColumns($grid, &$cols)
     {
-        if (!in_array('Reorder', $cols) && $grid->getState()->GridFieldOrderableRows->enabled) {
-            array_splice($cols, $this->reorderColumnNumber, 0, 'Reorder');
+        if (!in_array('Reorder', $cols ?? []) && $grid->getState()->GridFieldOrderableRows->enabled) {
+            array_splice($cols, $this->reorderColumnNumber ?? 0, 0, 'Reorder');
         }
     }
 
@@ -308,7 +308,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             // if it exists, not directly from the record
             $throughListSorts = $this->getSortValuesFromManyManyThroughList($list, $this->getSortField());
 
-            if (array_key_exists($record->ID, $throughListSorts)) {
+            if (array_key_exists($record->ID, $throughListSorts ?? [])) {
                 $currentSortValue = $throughListSorts[$record->ID];
             }
         }
@@ -408,8 +408,8 @@ class GridFieldOrderableRows extends RequestHandler implements
 
         // Get records from the `GridFieldEditableColumns` column
         $gridFieldName = $grid->getName();
-        if (strpos($gridFieldName, '.') !== false) {
-            $gridFieldName = str_replace('.', '_', $gridFieldName);
+        if (strpos($gridFieldName ?? '', '.') !== false) {
+            $gridFieldName = str_replace('.', '_', $gridFieldName ?? '');
         }
 
         $data = $request->postVar($gridFieldName);
@@ -549,7 +549,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         $items = $list->filter('ID', $sortedIDs)->sort($sortterm);
 
         // Ensure that each provided ID corresponded to an actual object.
-        if (count($items) != count($sortedIDs)) {
+        if (count($items ?? []) != count($sortedIDs ?? [])) {
             return false;
         }
 
@@ -720,7 +720,7 @@ class GridFieldOrderableRows extends RequestHandler implements
     protected function getSortTableClauseForIds(DataList $list, $ids)
     {
         if (is_array($ids)) {
-            $value = 'IN (' . implode(', ', array_map('intval', $ids)) . ')';
+            $value = 'IN (' . implode(', ', array_map('intval', $ids ?? [])) . ')';
         } else {
             $value = '= ' . (int) $ids;
         }
@@ -734,7 +734,7 @@ class GridFieldOrderableRows extends RequestHandler implements
             $foreignKey = $this->getManyManyInspectorForeignKey($introspector);
             $foreignID  = (int) $list->getForeignID();
 
-            if ($extra && array_key_exists($this->getSortField(), $extra)) {
+            if ($extra && array_key_exists($this->getSortField(), $extra ?? [])) {
                 return sprintf(
                     '"%s" %s AND "%s" = %d',
                     $key,
