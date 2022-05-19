@@ -21,7 +21,10 @@
     "require": {
         "silverstripe/framework": "~4.0"
     },
-    "extra": {
+    "require-dev": {
+		"phpunit/phpunit": "^5.7"
+	},
+	"extra": {
         "installer-name": "gridfieldextensions",
         "screenshots": [
             "docs/en/_images/editable-rows.png",
