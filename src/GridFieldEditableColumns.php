@@ -19,10 +19,10 @@ use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
-use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\ManyManyList;
 
 /**
@@ -130,14 +130,23 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         /** @var GridFieldOrderableRows $sortable */
         $sortable = $grid->getConfig()->getComponentByType(GridFieldOrderableRows::class);
 
+        // Fetch the items before processing them
+        $ids = array_keys($value[self::POST_KEY]);
+        if (empty($ids)) {
+            return;
+        }
+        $itemsCollection = ArrayList::create($list->filter('ID', $ids)->toArray());
+
         foreach ($value[self::POST_KEY] as $id => $fields) {
             if (!is_numeric($id) || !is_array($fields)) {
                 continue;
             }
 
-            $item = $list->byID($id);
+            // Find the item from the fetched collection of items
+            $item = $itemsCollection->find('ID', $id);
 
-            if (!$item || !$item->canEdit()) {
+            // Skip not found item, or don't have any changed fields, or current user can't edit
+            if (!$item || !$this->isChanged($item, $fields) || !$item->canEdit()) {
                 continue;
             }
 
@@ -322,5 +331,19 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
             $record->ID,
             $name
         );
+    }
+
+    /**
+     * Whether or not an object in the grid field has changed data.
+     */
+    private function isChanged(DataObject $item, array $fields): bool
+    {
+        foreach ($fields as $name => $value) {
+            if ((string) $item->getField($name) !== (string) $value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
