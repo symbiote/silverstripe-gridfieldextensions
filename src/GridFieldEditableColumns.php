@@ -339,7 +339,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     private function isChanged(DataObject $item, array $fields): bool
     {
         foreach ($fields as $name => $value) {
-            if ((string) $item->getField($name) !== (string) $value) {
+            if ($item->getField($name) !== $value) {
                 return true;
             }
         }
