@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  # Every Sunday at 12:10pm UTC
+  schedule:
+    - cron: '10 12 * * 0'
+
+jobs:
+  ci:
+    name: CI
+    # Only run cron on the symbiote account
+    if: (github.event_name == 'schedule' && startsWith(github.repository, 'symbiote/')) || (github.event_name != 'schedule')
+    uses: silverstripe/gha-ci/.github/workflows/ci.yml@v1
