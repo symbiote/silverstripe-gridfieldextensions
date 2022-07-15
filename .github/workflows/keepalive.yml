@@ -1,0 +1,17 @@
+name: Keepalive
+
+on:
+  workflow_dispatch:
+  # The 7th of every month at 12:50pm UTC
+  schedule:
+    - cron: '50 12 7 * *'
+
+jobs:
+  keepalive:
+    name: Keepalive
+    # Only run cron on the symbiote account
+    if: (github.event_name == 'schedule' && startsWith(github.repository, 'symbiote/')) || (github.event_name != 'schedule')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Keepalive
+        uses: silverstripe/gha-keepalive@v1
