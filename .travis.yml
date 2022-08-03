@@ -1,4 +1,0 @@
-version: ~> 1.0
-
-import:
-  - silverstripe/silverstripe-travis-shared:config/provision/standard-jobs-range.yml
