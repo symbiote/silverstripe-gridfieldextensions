@@ -15,10 +15,12 @@ class StubParent extends DataObject implements TestOnly
 
     private static $many_many = [
         'MyManyMany' => StubOrdered::class,
+        'MyManyManyVersioned' => StubSubclassOrderedVersioned::class,
     ];
 
     private static $many_many_extraFields = [
         'MyManyMany' => ['ManyManySort' => 'Int'],
+        'MyManyManyVersioned' => ['ManyManySort' => 'Int'],
     ];
 
     private static $table_name = 'StubParent';

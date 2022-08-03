@@ -7,6 +7,7 @@ Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild:
     Sort: 3
   item4:
     Sort: 4
+
 Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered:
   item1:
     Sort: 1
@@ -26,6 +27,20 @@ Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered:
       - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild.item2
       - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild.item3
       - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild.item4
+
+Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass:
+  item1:
+    Sort: 1
+  item2:
+    Sort: 2
+  item3:
+    Sort: 3
+  item4:
+    Sort: 4
+  item5:
+    Sort: 5
+  item6:
+    Sort: 6
 
 Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned:
   item1:
@@ -56,6 +71,29 @@ Symbiote\GridFieldExtensions\Tests\Stub\StubParent:
         ManyManySort: 108
       - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered.item6:
         ManyManySort: 108
+    MyManyManyVersioned:
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned.item1:
+        ManyManySort: 1
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned.item2:
+        ManyManySort: 1
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned.item3:
+        ManyManySort: 108
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned.item4:
+        ManyManySort: 108
+    MyHasMany:
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered.item1
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered.item2
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered.item3
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered.item4
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered.item5
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered.item6
+    MyHasManySubclass:
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass.item1
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass.item2
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass.item3
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass.item4
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass.item5
+      - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass.item6
   parent-subclass-ordered-versioned:
     MyHasManySubclassOrderedVersioned:
       - =>Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned.item1

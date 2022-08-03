@@ -599,7 +599,8 @@ class GridFieldOrderableRows extends RequestHandler implements
         // sanity check.
         $this->validateSortField($list);
 
-        // ManyManyList models are not represented by the ORM, and so they need to be updated through an SQL Query
+        // ManyManyList extra fields aren't easily updated via the ORM, and so they need to be updated through an SQL
+        // Query
         if ($list instanceof ManyManyList) {
             $sortTable = $this->getSortTable($list);
 
