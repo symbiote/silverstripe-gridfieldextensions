@@ -587,9 +587,10 @@ class GridFieldOrderableRows extends RequestHandler implements
      */
     protected function reorderItems($list, array $values, array $sortedIDs)
     {
+        $this->extend('onBeforeReorderItems', $list, $values, $sortedIDs);
+
         // setup
         $sortField = $this->getSortField();
-        $class = $list->dataClass();
         // The problem is that $sortedIDs is a list of the _related_ item IDs, which causes trouble
         // with ManyManyThrough, where we need the ID of the _join_ item in order to set the value.
         $itemToSortReference = ($list instanceof ManyManyThroughList) ? 'getJoin' : 'Me';
@@ -598,53 +599,21 @@ class GridFieldOrderableRows extends RequestHandler implements
         // sanity check.
         $this->validateSortField($list);
 
-        $isVersioned = false;
-        // check if sort column is present on the model provided by dataClass() and if it's versioned
-        // cases:
-        // Model has sort column and is versioned - handle as versioned
-        // Model has sort column and is NOT versioned - handle as NOT versioned
-        // Model doesn't have sort column because sort column is on ManyManyList - handle as NOT versioned
-        // Model doesn't have sort column because sort column is on ManyManyThroughList - inspect through object
-        if ($list instanceof ManyManyThroughList) {
-            // We'll be updating the join class, not the relation class.
-            $class = $this->getManyManyInspector($list)->getJoinClass();
-            $isVersioned = $class::create()->hasExtension(Versioned::class);
-        } elseif (!$this->isManyMany($list)) {
-            $isVersioned = $class::create()->hasExtension(Versioned::class);
-        }
-
-        // Loop through each item, and update the sort values which do not
-        // match to order the objects.
-        if (!$isVersioned) {
+        // ManyManyList extra fields aren't easily updated via the ORM, and so they need to be updated through an SQL
+        // Query
+        if ($list instanceof ManyManyList) {
             $sortTable = $this->getSortTable($list);
-            $now = DBDatetime::now()->Rfc2822();
-            $additionalSQL = '';
-            $baseTable = DataObject::getSchema()->baseDataTable($class);
 
-            $isBaseTable = ($baseTable == $sortTable);
-            if (!$list instanceof ManyManyList && $isBaseTable) {
-                $additionalSQL = ", \"LastEdited\" = '$now'";
-            }
-
+            // Loop through each item, and update the sort values which do not match to order the objects.
             foreach ($sortedIDs as $newSortValue => $targetRecordID) {
                 if ($currentSortList[$targetRecordID]->$sortField != $newSortValue) {
                     DB::query(sprintf(
-                        'UPDATE "%s" SET "%s" = %d%s WHERE %s',
+                        'UPDATE "%s" SET "%s" = %d WHERE %s',
                         $sortTable,
                         $sortField,
                         $newSortValue,
-                        $additionalSQL,
                         $this->getSortTableClauseForIds($list, $targetRecordID)
                     ));
-
-                    if (!$isBaseTable && !$list instanceof ManyManyList) {
-                        DB::query(sprintf(
-                            'UPDATE "%s" SET "LastEdited" = \'%s\' WHERE %s',
-                            $baseTable,
-                            $now,
-                            $this->getSortTableClauseForIds($list, $targetRecordID)
-                        ));
-                    }
                 }
             }
         } else {
@@ -656,6 +625,7 @@ class GridFieldOrderableRows extends RequestHandler implements
                 // either the list data class (has_many, (belongs_)many_many)
                 // or the intermediary join class (many_many through)
                 $record = $currentSortList[$targetRecordID];
+
                 if ($record->$sortField != $newSortValue) {
                     $record->$sortField = $newSortValue;
                     $record->write();

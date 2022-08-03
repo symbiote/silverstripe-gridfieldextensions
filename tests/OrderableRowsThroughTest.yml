@@ -28,3 +28,34 @@ Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary:
     Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner.DefinerTwo
     Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs.BelongsThree
     Sort: 2
+
+Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned:
+  DefinerOne:
+  DefinerTwo:
+
+Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongsVersioned:
+  BelongsOne:
+  BelongsTwo:
+  BelongsThree:
+
+Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediaryVersioned:
+  One:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned.DefinerOne
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongsVersioned.BelongsOne
+    Sort: 3
+  Two:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned.DefinerOne
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongsVersioned.BelongsTwo
+    Sort: 2
+  Three:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned.DefinerOne
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongsVersioned.BelongsThree
+    Sort: 1
+  Four:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned.DefinerTwo
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongsVersioned.BelongsTwo
+    Sort: 1
+  Five:
+    Defining: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned.DefinerTwo
+    Belonging: =>Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongsVersioned.BelongsThree
+    Sort: 2

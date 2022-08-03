@@ -8,7 +8,6 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\ORM\DataList;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
-use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MChild;
 use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MMapper;
 use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MParent;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrderableChild;
@@ -18,11 +17,14 @@ use Symbiote\GridFieldExtensions\Tests\Stub\StubParent;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubSubclass;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubSubclassOrderedVersioned;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubUnorderable;
-use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner;
-use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongs;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughBelongsVersioned;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary;
 use Symbiote\GridFieldExtensions\Tests\Stub\TitleObject;
 use Symbiote\GridFieldExtensions\Tests\Stub\TitleSortedObject;
+use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediaryVersioned;
 
 /**
  * Tests for the {@link GridFieldOrderableRows} component.
@@ -51,13 +53,21 @@ class GridFieldOrderableRowsTest extends SapphireTest
         ThroughBelongs::class,
         TitleObject::class,
         TitleSortedObject::class,
+        ThroughDefinerVersioned::class,
+        ThroughIntermediaryVersioned::class,
+        ThroughBelongsVersioned::class,
     ];
 
     public function reorderItemsProvider()
     {
         return [
+            [StubParent::class . '.parent', 'MyHasMany', 'Sort'],
+            [StubParent::class . '.parent', 'MyHasManySubclass', 'Sort'],
+            [StubParent::class . '.parent-subclass-ordered-versioned', 'MyHasManySubclassOrderedVersioned', 'Sort'],
             [StubParent::class . '.parent', 'MyManyMany', 'ManyManySort'],
+            [StubParent::class . '.parent', 'MyManyManyVersioned', 'ManyManySort'],
             [ThroughDefiner::class . '.DefinerOne', 'Belongings', 'Sort'],
+            [ThroughDefinerVersioned::class . '.DefinerOne', 'Belongings', 'Sort'],
             // [PolymorphM2MParent::class . '.ParentOne', 'Children', 'Sort']
         ];
     }
