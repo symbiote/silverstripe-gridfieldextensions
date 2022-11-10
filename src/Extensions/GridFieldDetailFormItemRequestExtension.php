@@ -64,7 +64,7 @@ class GridFieldDetailFormItemRequestExtension extends Extension
                 'discard-confirmation',
                 'action--new__multi-class',
             )),
-            'data-classes' => Convert::array2json($classes),
+            'data-classes' => json_encode($classes),
         ]);
     }
 
