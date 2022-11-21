@@ -106,6 +106,17 @@ class Item extends DataObject {
 }
 ```
 
+### Versioning
+By default `GridFieldOrderableRows` will handle versioning but won't automatically publish any records. The user will need to go into each record and publish them manually which could get cumbersome for large lists.
+
+You can configure the list to automatically publish a record if the record is the latest version and is already published. This won't publish any records which have draft changes.
+
+```php
+$orderable = GridFieldOrderableRows::create()->setRepublishLiveRecords(true);
+```
+
+There are caveats with both approaches so consideration should be made for which approach best suits the requirements.
+
 **Please NOTE:** There is a limitation when using `GridFieldOrderableRows` on unsaved data objects; namely, that it doesn't work as without data being saved, the list of related objects has no context. Please check `$this->ID` before adding the `GridFieldOrderableRows` component to the grid field config (or even, before adding the gridfield at all). 
 
 Configurable Paginator
