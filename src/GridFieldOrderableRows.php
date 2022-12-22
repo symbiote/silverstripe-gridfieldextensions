@@ -396,6 +396,11 @@ class GridFieldOrderableRows extends RequestHandler implements
                 if ($list instanceof DataList) {
                     $classname = $list->dataClass();
                     if ($defaultSort = Config::inst()->get($classname, 'default_sort')) {
+                        if (is_array($defaultSort)) {
+                            $defaultSort = implode(',', array_map(function ($k, $v) {
+                                return $k . ' ' . $v;
+                            }, array_keys($defaultSort), array_values($defaultSort)));
+                        }
                         // Append the default sort to the end of the sort string
                         // This may result in redundancy... but it seems to work
                         $sortterm .= ($sortterm ? ', ' : '') . $defaultSort;
