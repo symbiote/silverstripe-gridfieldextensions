@@ -403,7 +403,11 @@ class GridFieldOrderableRows extends RequestHandler implements
                 }
             }
 
-            return $list->sort($sortterm);
+            if ($list instanceof DataList) {
+                return $list->orderBy($sortterm);
+            } elseif (method_exists($list, 'sort')) {
+                return $list->sort($sortterm);
+            }
         }
 
         return $list;
@@ -577,7 +581,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         }
         $list = $grid->getList();
         $sortterm .= '"'.$this->getSortTable($list).'"."'.$sortField.'"';
-        $items = $list->filter('ID', $sortedIDs)->sort($sortterm);
+        $items = $list->filter('ID', $sortedIDs)->orderBy($sortterm);
 
         // Ensure that each provided ID corresponded to an actual object.
         if (count($items ?? []) != count($sortedIDs ?? [])) {

@@ -6,6 +6,7 @@ use ReflectionMethod;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use Symbiote\GridFieldExtensions\Tests\Stub\PolymorphM2MMapper;
@@ -312,29 +313,12 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $this->assertTrue($differenceFound);
     }
 
-    public function testGetManipulatedDataWithoutDefaultSort()
+    /**
+     * @dataProvider provideGetManipulatedData
+     */
+    public function testGetManipulatedData(string $dataClass, string $listClass, array $data, array $expected)
     {
-        $sortedList = $this->getTitleSortedListForManipuatedData(TitleObject::class, [
-            ['Title' => 'C'],
-            ['Title' => 'A'],
-            ['Title' => 'B'],
-        ]);
-        $this->assertSame(['A', 'B', 'C'], $sortedList->column('Title'));
-    }
-
-    public function testGetManipulatedDataWithDefaultSort()
-    {
-        $sortedList = $this->getTitleSortedListForManipuatedData(TitleSortedObject::class, [
-            ['Title' => 'Z', 'Iden' => 'C', 'DefaultSort' => 3],
-            ['Title' => 'Z', 'Iden' => 'A', 'DefaultSort' => 2],
-            ['Title' => 'Z', 'Iden' => 'B', 'DefaultSort' => 1],
-        ]);
-        $this->assertSame(['B', 'A', 'C'], $sortedList->column('Iden'));
-    }
-
-    private function getTitleSortedListForManipuatedData(string $dataClass, array $data): DataList
-    {
-        $list = new DataList($dataClass);
+        $list = $listClass == DataList::class ? new DataList($dataClass) : new ArrayList();
         foreach ($data as $values) {
             $item = new $dataClass();
             $item->update($values);
@@ -346,6 +330,63 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $config->addComponent($orderable);
         $grid = new GridField('MyName', 'MyTitle', $list, $config);
         $sortedList = $orderable->getManipulatedData($grid, $list);
-        return $sortedList;
+        $col = $dataClass === TitleObject::class ? 'Title' : 'Iden';
+        $this->assertSame($expected, $sortedList->column($col));
+    }
+
+    public function provideGetManipulatedData(): array
+    {
+        return [
+            [
+                TitleObject::class,
+                ArrayList::class,
+                [
+                    ['Title' => 'C'],
+                    ['Title' => 'A'],
+                    ['Title' => 'B']
+                ],
+                ['A', 'B', 'C']
+            ],
+            [
+                TitleObject::class,
+                DataList::class,
+                [
+                    ['Title' => 'C'],
+                    ['Title' => 'A'],
+                    ['Title' => 'B'],
+                ],
+                ['A', 'B', 'C']
+            ],
+            [
+                TitleSortedObject::class,
+                ArrayList::class,
+                [
+                    ['Title' => '1', 'Iden' => 'C'],
+                    ['Title' => '2', 'Iden' => 'A'],
+                    ['Title' => '3', 'Iden' => 'B'],
+                ],
+                ['C', 'A', 'B']
+            ],
+            [
+                TitleSortedObject::class,
+                DataList::class,
+                [
+                    ['Title' => '1', 'Iden' => 'C'],
+                    ['Title' => '2', 'Iden' => 'A'],
+                    ['Title' => '3', 'Iden' => 'B'],
+                ],
+                ['C', 'A', 'B']
+            ],
+            [
+                TitleSortedObject::class,
+                DataList::class,
+                [
+                    ['Title' => 'Z', 'Iden' => 'C', 'DefaultSort' => 3],
+                    ['Title' => 'Z', 'Iden' => 'A', 'DefaultSort' => 2],
+                    ['Title' => 'Z', 'Iden' => 'B', 'DefaultSort' => 1],
+                ],
+                ['B', 'A', 'C']
+            ],
+        ];
     }
 }
