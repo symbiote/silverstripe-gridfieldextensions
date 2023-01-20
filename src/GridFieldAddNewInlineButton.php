@@ -26,9 +26,6 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
     GridField_HTMLProvider,
     GridField_SaveHandler
 {
-    /**
-     * @skipUpgrade
-     */
     const POST_KEY = 'GridFieldAddNewInlineButton';
 
     private $fragment;
