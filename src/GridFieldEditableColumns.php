@@ -40,9 +40,6 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     GridField_SaveHandler,
     GridField_URLHandler
 {
-    /**
-     * @skipUpgrade
-     */
     const POST_KEY = 'GridFieldEditableColumns';
 
     private static $allowed_actions = array(
