@@ -1,0 +1,6 @@
+{
+    "GridFieldExtensions.CONFIRMDEL": "Are you sure you want to delete this?",
+    "GridFieldExtensions.ADD_CLASS": "Add: <i>{classname}</i>",
+    "GridFieldExtensions.OPEN_SEARCH_FILTER": "Open search and filter",
+    "GridFieldExtensions.SAVE_PUBLISH": "Save & publish"
+}
