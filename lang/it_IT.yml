@@ -1,9 +1,9 @@
 it_IT:
   GridFieldAddExistingSearchHandler.ss:
     NOITEMS: 'Nessun elemento.'
-    RESULTS: 'Risultati'
+    RESULTS: Risultati
   GridFieldExtensions:
-    ADD: 'Aggiungi'
+    ADD: Aggiungi
     ADDEXISTING: 'Aggiungi esistente'
-    SEARCH: 'Cerca'
+    SEARCH: Cerca
     SELECTTYPETOCREATE: '(Seleziona tipo per creare)'

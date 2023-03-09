@@ -10,5 +10,7 @@ en:
     RESULTS: Results
     SEARCH: Search
     SELECTTYPETOCREATE: '(Select type to create)'
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Add new record'
   Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
     SHOW: Show
