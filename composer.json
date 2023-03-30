@@ -35,7 +35,8 @@
         ],
         "expose": [
             "css",
-            "javascript"
+            "javascript",
+            "client/lang"
         ]
     },
     "replace": {
