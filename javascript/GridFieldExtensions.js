@@ -243,7 +243,11 @@
 				const classes = this.data('classes');
 				const liHtml = Object.keys(classes).map(className => {
 					const link = hrefTemplate.replace('{class}', className);
-					return `<li><a href="${link}">Add: <i>${classes[className]}</i></a></li>`;
+					const linkText = ss.i18n.inject(
+						ss.i18n._t('GridFieldExtensions.ADD_CLASS', 'Add: <i>{classname}</i>'),
+						{classname: classes[className]}
+					);
+					return `<li><a href="${link}">${linkText}</a></li>`;
 				});
 
 				const listElement = $(`<ul class="grid-field-inline-new--multi-class-list">${liHtml.join('')}</ul>`);
@@ -336,7 +340,8 @@
                 content = '<span class="non-sortable"></span>';
                 self.addClass('show-filter').find('.grid-field__filter-header').show();
               } else {
-                content = '<button type="button" title="Open search and filter" name="showFilter" class="btn btn-secondary font-icon-search btn--no-text btn--icon-large grid-field__filter-open"></button>';
+                const contentTitle = ss.i18n._t('GridFieldExtensions.OPEN_SEARCH_FILTER', 'Open search and filter');
+                content = `<button type="button" title="${contentTitle}" name="showFilter" class="btn btn-secondary font-icon-search btn--no-text btn--icon-large grid-field__filter-open"></button>`;
                 self.removeClass('show-filter').find('.grid-field__filter-header').hide();
               }
 
@@ -364,7 +369,7 @@
               publish.removeClass('font-icon-tick');
               publish.addClass('btn-primary');
               publish.addClass('font-icon-rocket');
-              publish.find('.btn__title').html('Save & publish');
+              publish.find('.btn__title').html(ss.i18n._t('GridFieldExtensions.SAVE_PUBLISH', 'Save & publish'));
             }
           },
           error: function (e) {
