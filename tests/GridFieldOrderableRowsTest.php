@@ -24,6 +24,7 @@ use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefinerVersioned;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediary;
 use Symbiote\GridFieldExtensions\Tests\Stub\TitleObject;
 use Symbiote\GridFieldExtensions\Tests\Stub\TitleSortedObject;
+use Symbiote\GridFieldExtensions\Tests\Stub\TitleArraySortedObject;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediaryVersioned;
 
 /**
@@ -53,6 +54,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         ThroughBelongs::class,
         TitleObject::class,
         TitleSortedObject::class,
+        TitleArraySortedObject::class,
         ThroughDefinerVersioned::class,
         ThroughIntermediaryVersioned::class,
         ThroughBelongsVersioned::class,
@@ -330,6 +332,17 @@ class GridFieldOrderableRowsTest extends SapphireTest
             ['Title' => 'Z', 'Iden' => 'B', 'DefaultSort' => 1],
         ]);
         $this->assertSame(['B', 'A', 'C'], $sortedList->column('Iden'));
+    }
+
+
+    public function testGetManipulatedDataWithDefaultSortArray()
+    {
+        $sortedList = $this->getTitleSortedListForManipuatedData(TitleArraySortedObject::class, [
+            ['Title' => 'X', 'Iden' => 'C', 'OtherSort' => 3],
+            ['Title' => 'Z', 'Iden' => 'A', 'OtherSort' => 2],
+            ['Title' => 'Z', 'Iden' => 'B', 'OtherSort' => 1],
+        ]);
+        $this->assertSame(['C', 'B', 'A'], $sortedList->column('Iden'));
     }
 
     private function getTitleSortedListForManipuatedData(string $dataClass, array $data): DataList
