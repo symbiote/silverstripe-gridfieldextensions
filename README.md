@@ -19,13 +19,10 @@ This module provides a number of useful grid field components:
 * `GridFieldTitleHeader` - a simple header which displays column titles.
 * `GridFieldConfigurablePaginator` - a paginator for GridField that allows customisable page sizes.
 
-This branch will aim for compatibility with Silverstripe 4.x. 
-
 ## Installation
-```bash
-composer require symbiote/silverstripe-gridfieldextensions:^3
-```
 
-For Silverstripe 3.x, please see the [compatible branch](https://github.com/symbiote/silverstripe-gridfieldextensions/tree/2).
+```sh
+composer require symbiote/silverstripe-gridfieldextensions
+```
 
 See [docs/en/index.md](docs/en/index.md) for documentation and examples.
