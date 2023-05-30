@@ -1,0 +1,16 @@
+sl:
+  GridFieldExtensions:
+    ADD: Dodaj
+    ADDEXISTING: 'Dodaj obstoječe'
+    BACK: Nazaj
+    CURRENT: (trenutno)
+    NOITEMS: 'Ni nobenih elementov.'
+    Next: Naslednja
+    PREVIOUS: Prejšnja
+    RESULTS: Rezultati
+    SEARCH: Iskanje
+    SELECTTYPETOCREATE: '(Izberite tip, ki ga želite ustvariti)'
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Dodaj zapis'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Prikaži
