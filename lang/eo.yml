@@ -1,0 +1,16 @@
+eo:
+  GridFieldExtensions:
+    ADD: Aldoni
+    ADDEXISTING: 'Aldoni ekzistantan'
+    BACK: Antaŭa
+    CURRENT: (aktuala)
+    NOITEMS: 'Mankas elementoj'
+    Next: Sekva
+    PREVIOUS: Antaŭa
+    RESULTS: Rezultoj
+    SEARCH: Serĉi
+    SELECTTYPETOCREATE: '(Elektu tipon kreotan)'
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Aldoni novan rikordon'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Vidigi
