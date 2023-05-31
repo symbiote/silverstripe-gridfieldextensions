@@ -7,3 +7,13 @@ nl_NL:
     ADDEXISTING: 'Bestaande toevoegen'
     SEARCH: Zoeken
     SELECTTYPETOCREATE: '(Selecteer type om te creeën)'
+    BACK: Terug
+    CURRENT: (huidige)
+    NOITEMS: 'Er zijn geen items.'
+    Next: Volgende
+    PREVIOUS: Vorige
+    RESULTS: Resultaten
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Nieuw item maken'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Toon
