@@ -1,0 +1,16 @@
+sv:
+  GridFieldExtensions:
+    ADD: 'Lägg till'
+    ADDEXISTING: 'Lägg till existerande'
+    BACK: Tillbaka
+    CURRENT: (befintliga)
+    NOITEMS: 'Hittade ingen data.'
+    Next: Nästa
+    PREVIOUS: Föregående
+    RESULTS: Resultat
+    SEARCH: Sök
+    SELECTTYPETOCREATE: '(Välj för att skapa)'
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Lägg till ny rad'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Visa
