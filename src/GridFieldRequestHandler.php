@@ -24,9 +24,9 @@ use SilverStripe\ORM\ArrayList;
  */
 abstract class GridFieldRequestHandler extends RequestHandler
 {
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'Form'
-    );
+    ];
 
     protected GridField $grid;
     protected GridFieldComponent $component;
@@ -49,9 +49,9 @@ abstract class GridFieldRequestHandler extends RequestHandler
         if ($request->isAjax()) {
             return $result;
         } else {
-            return $this->getTopLevelController()->customise(array(
+            return $this->getTopLevelController()->customise([
                 'Content' => $result
-            ));
+            ]);
         }
     }
 

@@ -51,10 +51,10 @@ class GridFieldOrderableRows extends RequestHandler implements
      */
     private static $default_immediate_update = true;
 
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'handleReorder',
         'handleMoveToPage'
-    );
+    ];
 
     /**
      * The database field which specifies the sort, defaults to "Sort".
@@ -286,10 +286,10 @@ class GridFieldOrderableRows extends RequestHandler implements
 
     public function getURLHandlers($grid)
     {
-        return array(
+        return [
             'POST reorder'    => 'handleReorder',
             'POST movetopage' => 'handleMoveToPage'
-        );
+        ];
     }
 
     /**
@@ -314,7 +314,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 
     public function getColumnsHandled($grid)
     {
-        return array('Reorder');
+        return ['Reorder'];
     }
 
     public function getColumnContent($grid, $record, $col)
@@ -347,23 +347,23 @@ class GridFieldOrderableRows extends RequestHandler implements
         $sortField->addExtraClass('ss-orderable-hidden-sort');
         $sortField->setForm($grid->getForm());
 
-        return ViewableData::create()->customise(array(
+        return ViewableData::create()->customise([
             'SortField' => $sortField
-        ))->renderWith('Symbiote\\GridFieldExtensions\\GridFieldOrderableRowsDragHandle');
+        ])->renderWith('Symbiote\\GridFieldExtensions\\GridFieldOrderableRowsDragHandle');
     }
 
     public function getColumnAttributes($grid, $record, $col)
     {
-        return array('class' => 'col-reorder');
+        return ['class' => 'col-reorder'];
     }
 
     public function getColumnMetadata($grid, $col)
     {
         if ($fieldLabels = singleton($grid->getModelClass())->fieldLabels()) {
-            return array('title' => isset($fieldLabels['Reorder']) ? $fieldLabels['Reorder'] : '');
+            return ['title' => isset($fieldLabels['Reorder']) ? $fieldLabels['Reorder'] : ''];
         }
 
-        return array('title' => '');
+        return ['title' => ''];
     }
 
     public function getManipulatedData(GridField $grid, SS_List $list)
@@ -493,7 +493,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 
         $existing = $manip->map('ID', $field)->toArray();
         $values   = $existing;
-        $order    = array();
+        $order    = [];
 
         $id = isset($move['id']) ? (int) $move['id'] : null;
         $to = isset($move['page']) ? $move['page'] : null;
@@ -592,7 +592,7 @@ class GridFieldOrderableRows extends RequestHandler implements
 
         // Generate the current sort values.
         if ($items instanceof ManyManyList) {
-            $current = array();
+            $current = [];
             foreach ($items->toArray() as $record) {
                 // NOTE: _SortColumn0 is the first ->sort() field
                 //         used by SS when functions are detected in a SELECT

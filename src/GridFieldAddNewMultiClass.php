@@ -33,9 +33,9 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      */
     private const POST_KEY = 'GridFieldAddNewMultiClass';
 
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'handleAdd'
-    );
+    ];
 
     // Should we add an empty string to the add class dropdown?
     private static $showEmptyString = true;
@@ -108,7 +108,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      */
     public function getClasses(GridField $grid): array
     {
-        $result = array();
+        $result = [];
 
         if (is_null($this->classes)) {
             $classes = array_values(ClassInfo::subclassesFor($grid->getModelClass()) ?? []);
@@ -117,7 +117,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
             $classes = $this->classes;
         }
 
-        $kill_ancestors = array();
+        $kill_ancestors = [];
         foreach ($classes as $class => $title) {
             if (!is_string($class)) {
                 $class = $title;
@@ -147,7 +147,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
             }
         }
 
-        $sanitised = array();
+        $sanitised = [];
         foreach ($result as $class => $title) {
             $sanitised[$this->sanitiseClassName($class)] = $title;
         }
@@ -229,7 +229,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
         $classes = $this->getClasses($grid);
 
         if (!count($classes ?? [])) {
-            return array();
+            return [];
         }
 
         GridFieldExtensions::include_requirements();
@@ -245,11 +245,11 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
         }
         $field->addExtraClass('no-change-track');
 
-        $data = ArrayData::create(array(
+        $data = ArrayData::create([
             'Title'      => $this->getTitle(),
             'Link'       => Controller::join_links($grid->Link(), 'add-multi-class', '{class}'),
             'ClassField' => $field
-        ));
+        ]);
 
         return [
             $this->getFragment() => $data->renderWith(__CLASS__)
@@ -261,9 +261,9 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      */
     public function getURLHandlers($grid)
     {
-        return array(
+        return [
             'add-multi-class/$ClassName!' => 'handleAdd'
-        );
+        ];
     }
 
     public function setItemRequestClass($class)

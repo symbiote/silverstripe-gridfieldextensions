@@ -21,25 +21,25 @@ class GridFieldAddNewMultiClassTest extends SapphireTest
         $component = new GridFieldAddNewMultiClass();
 
         $this->assertEquals(
-            array(
+            [
                 'Symbiote-GridFieldExtensions-Tests-Stub-StubA' => 'A',
                 'Symbiote-GridFieldExtensions-Tests-Stub-StubB' => 'B',
                 'Symbiote-GridFieldExtensions-Tests-Stub-StubC' => 'C'
-            ),
+            ],
             $component->getClasses($grid),
             'Subclasses are populated by default and sorted'
         );
 
-        $component->setClasses(array(
+        $component->setClasses([
             StubB::class => 'Custom Title',
             StubA::class
-        ));
+        ]);
 
         $this->assertEquals(
-            array(
+            [
                 'Symbiote-GridFieldExtensions-Tests-Stub-StubB' => 'Custom Title',
                 'Symbiote-GridFieldExtensions-Tests-Stub-StubA' => 'A'
-            ),
+            ],
             $component->getClasses($grid),
             'Sorting and custom titles can be specified'
         );

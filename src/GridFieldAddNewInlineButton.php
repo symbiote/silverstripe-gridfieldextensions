@@ -87,10 +87,10 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
         return $this;
     }
 
-    public function getHTMLFragments($grid)
+    public function getHTMLFragments($grid): array
     {
         if ($grid->getList() && !singleton($grid->getModelClass())->canCreate()) {
-            return array();
+            return [];
         }
 
         $fragment = $this->getFragment();
@@ -104,14 +104,14 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
         Requirements::javascript('symbiote/silverstripe-gridfieldextensions:javascript/tmpl.js');
         GridFieldExtensions::include_requirements();
 
-        $data = ArrayData::create(array(
+        $data = ArrayData::create([
             'Title'  => $this->getTitle(),
-        ));
+        ]);
 
-        return array(
+        return [
             $fragment => $data->renderWith(__CLASS__),
             'after'   => $this->getRowTemplate($grid, $editable)
-        );
+        ];
     }
 
     private function getRowTemplate(GridField $grid, GridFieldEditableColumns $editable)
@@ -163,11 +163,11 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
                 $attrs .= sprintf(' %s="%s"', $attr, Convert::raw2att($val));
             }
 
-            $columns->push(ArrayData::create(array(
+            $columns->push(ArrayData::create([
                 'Content'    => $content,
                 'Attributes' => DBField::create_field('HTMLFragment', $attrs),
                 'IsActions'  => $column == 'Actions'
-            )));
+            ]));
         }
 
         return $columns->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddNewInlineRow');
@@ -201,7 +201,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
                 $list->add($item);
             }
 
-            $extra = array();
+            $extra = [];
 
             $form = $editable->getForm($grid, $item);
             $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);

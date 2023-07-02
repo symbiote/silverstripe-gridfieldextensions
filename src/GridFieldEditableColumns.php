@@ -45,14 +45,14 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
      */
     private const POST_KEY = 'GridFieldEditableColumns';
 
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'handleForm'
-    );
+    ];
 
     /**
      * @var Form[]
      */
-    protected $forms = array();
+    protected $forms = [];
 
     public function getColumnContent($grid, $record, $col)
     {
@@ -150,7 +150,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 continue;
             }
 
-            $extra = array();
+            $extra = [];
 
             $form = $this->getForm($grid, $item);
             $form->loadDataFrom($fields, Form::MERGE_CLEAR_MISSING);
@@ -204,9 +204,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 
     public function getURLHandlers($grid)
     {
-        return array(
+        return [
             'editable/form/$ID' => 'handleForm'
-        );
+        ];
     }
 
     /**

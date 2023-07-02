@@ -19,10 +19,10 @@ class GridFieldTitleHeader extends AbstractGridFieldComponent implements GridFie
         foreach ($grid->getColumns() as $name) {
             $meta = $grid->getColumnMetadata($name);
 
-            $cols->push(ArrayData::create(array(
+            $cols->push(ArrayData::create([
                 'Name'  => $name,
                 'Title' => $meta['title']
-            )));
+            ]));
         }
 
         return [

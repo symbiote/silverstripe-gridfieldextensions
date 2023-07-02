@@ -33,7 +33,7 @@ class GridFieldExternalLink extends GridFieldDataColumns
      */
     public function getColumnAttributes($gridField, $record, $columnName)
     {
-        return array('class' => 'col-buttons');
+        return ['class' => 'col-buttons'];
     }
 
     /**
@@ -46,9 +46,9 @@ class GridFieldExternalLink extends GridFieldDataColumns
     public function getColumnMetadata($gridField, $columnName)
     {
         if ($columnName == 'Actions') {
-            return array('title' => '');
+            return ['title' => ''];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -59,7 +59,7 @@ class GridFieldExternalLink extends GridFieldDataColumns
      */
     public function getColumnsHandled($gridField)
     {
-        return array('Actions');
+        return ['Actions'];
     }
 
     /**
@@ -71,10 +71,10 @@ class GridFieldExternalLink extends GridFieldDataColumns
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        $data = ArrayData::create(array(
+        $data = ArrayData::create([
             'Link' => $record->hasMethod('getExternalLink') ? $record->getExternalLink() : $record->ExternalLink,
             'Text' => $record->hasMethod('getExternalLinkText') ? $record->getExternalLinkText() : 'External Link'
-        ));
+        ]);
 
         return $data->renderWith('GridFieldExternalLink');
     }

@@ -43,13 +43,13 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
     /**
      * @var int[]
      */
-    protected $pageSizes = array();
+    protected array $pageSizes = [];
 
     /**
      * @param int $itemsPerPage  How many items should be displayed per page
      * @param int $pageSizes The page sizes to show in the dropdown
      */
-    public function __construct($itemsPerPage = null, $pageSizes = null)
+    public function __construct(?int $itemsPerPage = null, ?int $pageSizes = null)
     {
         $this->setPageSizes($pageSizes ?: $this->config()->get('default_page_sizes'));
 
@@ -65,7 +65,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return int
      */
-    public function getTotalRecords()
+    public function getTotalRecords(): int
     {
         return (int) $this->getGridField()->getList()->count();
     }
@@ -75,7 +75,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return int
      */
-    public function getFirstShown()
+    public function getFirstShown(): int
     {
         $firstShown = $this->getGridPagerState()->firstShown ?: 1;
         // Prevent visiting a page with an offset higher than the total number of items
@@ -102,7 +102,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return int
      */
-    public function getLastShown()
+    public function getLastShown(): int
     {
         return min($this->getTotalRecords(), $this->getFirstShown() + $this->getItemsPerPage() - 1);
     }
@@ -114,7 +114,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return int
      */
-    public function getTotalPages()
+    public function getTotalPages(): int
     {
         // Pages before
         $pages = ceil(($this->getFirstShown() - 1) / $this->getItemsPerPage());
@@ -135,7 +135,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return int
      */
-    public function getCurrentPage()
+    public function getCurrentPage(): int
     {
         return (int) ceil(($this->getFirstShown() - 1) / $this->getItemsPerPage()) + 1;
     }
@@ -145,7 +145,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return int
      */
-    public function getNextPage()
+    public function getNextPage(): int
     {
         return min($this->getTotalPages(), $this->getCurrentPage() + 1);
     }
@@ -155,7 +155,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return int
      */
-    public function getPreviousPage()
+    public function getPreviousPage(): int
     {
         return max(1, $this->getCurrentPage() - 1);
     }
@@ -166,7 +166,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      * @param array $pageSizes
      * @return $this
      */
-    public function setPageSizes(array $pageSizes)
+    public function setPageSizes(array $pageSizes): self
     {
         $this->pageSizes = $pageSizes;
 
@@ -181,7 +181,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      *
      * @return array
      */
-    public function getPageSizes()
+    public function getPageSizes(): array
     {
         return $this->pageSizes;
     }
@@ -196,10 +196,10 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
         $pageSizes = ArrayList::create();
         $perPage = $this->getItemsPerPage();
         foreach ($this->getPageSizes() as $pageSize) {
-            $pageSizes->push(array(
+            $pageSizes->push([
                 'Size' => $pageSize,
                 'Selected' => $pageSize == $perPage
-            ));
+            ]);
         }
         return $pageSizes;
     }
@@ -285,41 +285,41 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
         }
 
         // Define a list of the FormActions that should be generated for pager controls (see getPagerActions())
-        $controls = array(
-            'first' => array(
+        $controls = [
+            'first' => [
                 'title' => 'First',
-                'args' => array('first-shown' => 1),
+                'args' => ['first-shown' => 1],
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-left '
                     . 'ss-gridfield-pagination-action ss-gridfield-firstpage',
                 'disable-previous' => ($this->getCurrentPage() == 1)
-            ),
-            'prev' => array(
+            ],
+            'prev' => [
                 'title' => 'Previous',
-                'args' => array('first-shown' => $arguments['first-shown'] - $this->getItemsPerPage()),
+                'args' => ['first-shown' => $arguments['first-shown'] - $this->getItemsPerPage()],
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-left '
                     . 'ss-gridfield-pagination-action ss-gridfield-previouspage',
                 'disable-previous' => ($this->getCurrentPage() == 1)
-            ),
-            'next' => array(
+            ],
+            'next' => [
                 'title' => 'Next',
-                'args' => array('first-shown' => $arguments['first-shown'] + $this->getItemsPerPage()),
+                'args' => ['first-shown' => $arguments['first-shown'] + $this->getItemsPerPage()],
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-right '
                 . 'ss-gridfield-pagination-action  ss-gridfield-nextpage',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
-            ),
-            'last' => array(
+            ],
+            'last' => [
                 'title' => 'Last',
-                'args' => array('first-shown' => ($this->getTotalPages() - 1) * $this->getItemsPerPage() + 1),
+                'args' => ['first-shown' => ($this->getTotalPages() - 1) * $this->getItemsPerPage() + 1],
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-right '
                     . 'ss-gridfield-pagination-action ss-gridfield-lastpage',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
-            ),
-            'pagesize' => array(
+            ],
+            'pagesize' => [
                 'title' => 'Page Size',
-                'args' => array('first-shown' => $arguments['first-shown']),
+                'args' => ['first-shown' => $arguments['first-shown']],
                 'extra-class' => 'ss-gridfield-pagination-action ss-gridfield-pagesize-submit'
-            ),
-        );
+            ],
+        ];
 
         if ($controls['prev']['args']['first-shown'] < 1) {
             $controls['prev']['args']['first-shown'] = 1;
@@ -328,7 +328,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
         $actions = $this->getPagerActions($controls, $gridField);
 
         // Render in template
-        return ArrayData::create(array(
+        return ArrayData::create([
             'OnlyOnePage' => ($arguments['total-pages'] == 1),
             'FirstPage' => $actions['first'],
             'PreviousPage' => $actions['prev'],
@@ -342,7 +342,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
             'NumRecords' => $arguments['total-rows'],
             'PageSizes' => $this->getPageSizesAsList(),
             'PageSizesName' => $gridField->getName() . '[page-sizes]',
-        ));
+        ]);
     }
 
     public function getHTMLFragments($gridField)
@@ -353,12 +353,12 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
 
         $forTemplate = $this->getTemplateParameters($gridField);
         if ($forTemplate) {
-            return array(
+            return [
                 'footer' => $forTemplate->renderWith(
                     __CLASS__,
-                    array('Colspan' => count($gridField->getColumns() ?? []))
+                    ['Colspan' => count($gridField->getColumns() ?? [])]
                 )
-            );
+            ];
         }
     }
 
@@ -369,13 +369,13 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      */
     protected function getPagerArguments()
     {
-        return array(
+        return [
             'total-rows' => $this->getTotalRecords(),
             'total-pages' => $this->getTotalPages(),
             'items-per-page' => $this->getItemsPerPage(),
             'first-shown' => $this->getFirstShown(),
             'last-shown' => $this->getLastShown(),
-        );
+        ];
     }
 
     /**
@@ -387,7 +387,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      */
     public function getPagerActions(array $controls, GridField $gridField)
     {
-        $actions = array();
+        $actions = [];
 
         foreach ($controls as $key => $arguments) {
             $action = GridField_FormAction::create(
@@ -416,7 +416,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
 
     public function getActions($gridField)
     {
-        return array('paginate');
+        return ['paginate'];
     }
 
     /**

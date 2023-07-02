@@ -23,9 +23,9 @@ class GridFieldAddNewMultiClassWithNamespacesTest extends SapphireTest
         $component = new GridFieldAddNewMultiClass();
 
         $this->assertEquals(
-            array(
+            [
                 'Symbiote-GridFieldExtensions-Tests-Stub-NamespacedClass' => 'NamespacedClass'
-            ),
+            ],
             $component->getClasses($grid),
             'Namespaced classes are sanitised'
         );
@@ -39,7 +39,7 @@ class GridFieldAddNewMultiClassWithNamespacesTest extends SapphireTest
         $grid->setForm(Form::create(Controller::create(), 'test', FieldList::create(), FieldList::create()));
 
         $request = new HTTPRequest('POST', 'test');
-        $request->setRouteParams(array('ClassName' => 'Symbiote-GridFieldExtensions-Tests-Stub-NamespacedClass'));
+        $request->setRouteParams(['ClassName' => 'Symbiote-GridFieldExtensions-Tests-Stub-NamespacedClass']);
 
         $component = new GridFieldAddNewMultiClass();
         $response = $component->handleAdd($grid, $request);

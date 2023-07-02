@@ -18,11 +18,11 @@ use SilverStripe\ORM\Search\SearchContext;
  */
 class GridFieldAddExistingSearchHandler extends RequestHandler
 {
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'index',
         'add',
         'SearchForm'
-    );
+    ];
 
     protected GridField $grid;
     protected GridFieldAddExistingSearchButton $button;
@@ -83,10 +83,10 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
         $list = $list->subtract($this->grid->getList());
         $list = PaginatedList::create($list, $this->request);
 
-        $data = $this->customise(array(
+        $data = $this->customise([
             'SearchForm' => $form,
             'Items'      => $list
-        ));
+        ]);
         return $data->index();
     }
 

@@ -55,7 +55,7 @@ class GridFieldDetailFormItemRequestExtension extends Extension
             'data-href-template' => Controller::join_links($grid->Link(), 'add-multi-class', '{class}'),
             'title' => _t(__CLASS__ . '.NEW', 'Add new record'),
             'aria-label' => _t(__CLASS__ . '.NEW', 'Add new record'),
-            'class' => implode(' ', array(
+            'class' => implode(' ', [
                 'btn',
                 'btn-primary',
                 'font-icon-plus-thin',
@@ -63,7 +63,7 @@ class GridFieldDetailFormItemRequestExtension extends Extension
                 'action--new',
                 'discard-confirmation',
                 'action--new__multi-class',
-            )),
+            ]),
             'data-classes' => json_encode($classes),
         ]);
     }
