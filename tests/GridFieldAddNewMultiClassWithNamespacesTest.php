@@ -5,7 +5,6 @@ namespace Symbiote\GridFieldExtensions\Tests;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;

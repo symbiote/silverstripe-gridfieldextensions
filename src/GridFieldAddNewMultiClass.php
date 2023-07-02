@@ -42,7 +42,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
 
     private string $fragment;
     private string $title;
-    private array $classes;
+    private array $classes = [];
     private string $defaultClass;
     protected string $itemRequestClass = 'Symbiote\\GridFieldExtensions\\GridFieldAddNewMultiClassHandler';
 

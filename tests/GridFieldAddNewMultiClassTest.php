@@ -3,12 +3,10 @@
 namespace Symbiote\GridFieldExtensions\Tests;
 
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\GridField\GridField;
 use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubA;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubB;
-use Symbiote\GridFieldExtensions\Tests\Stub\StubC;
 
 /**
  * Tests for {@link GridFieldAddNewMultiClass}.

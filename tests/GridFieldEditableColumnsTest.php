@@ -6,7 +6,6 @@ use Symbiote\GridFieldExtensions\Tests\Stub\TestController;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubUnorderable;
 use Symbiote\GridFieldExtensions\GridFieldEditableColumns;
 use SilverStripe\ORM\FieldType\DBHTMLText;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FieldList;
