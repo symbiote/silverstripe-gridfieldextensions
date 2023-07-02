@@ -25,13 +25,13 @@
         "issues": "http://github.com/symbiote/silverstripe-gridfieldextensions/issues"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
-        "silverstripe/vendor-plugin": "^1.0 || ^2",
-        "silverstripe/framework": "^4.11 || ^5"
+        "php": "^8.1",
+        "silverstripe/vendor-plugin": "^2",
+        "silverstripe/framework": "^5"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.0",
-        "silverstripe/versioned": "^1 || ^2",
+        "silverstripe/versioned": "^2",
         "silverstripe/recipe-testing": "^3.0"
     },
     "extra": {
