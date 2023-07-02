@@ -62,7 +62,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      * @see setSortField()
      * @var string
      */
-    protected $sortField;
+    protected string $sortField;
 
     /**
      * If set to true, when an item is re-ordered, it will update on the
@@ -71,7 +71,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      *
      * @var boolean
      */
-    protected $immediateUpdate;
+    protected bool $immediateUpdate;
 
     /**
      * Extra sort fields to apply before the sort field.
@@ -88,7 +88,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      *
      * @var boolean
      */
-    protected $republishLiveRecords = false;
+    protected bool $republishLiveRecords = false;
 
     /**
      * The number of the column containing the reorder handles
@@ -96,12 +96,12 @@ class GridFieldOrderableRows extends RequestHandler implements
      * @see setReorderColumnNumber()
      * @var int
      */
-    protected $reorderColumnNumber = 0;
+    protected int $reorderColumnNumber = 0;
 
     /**
      * @param string $sortField
      */
-    public function __construct($sortField = 'Sort')
+    public function __construct(string $sortField = 'Sort')
     {
         parent::__construct();
         $this->sortField = $sortField;
@@ -111,7 +111,7 @@ class GridFieldOrderableRows extends RequestHandler implements
     /**
      * @return string
      */
-    public function getSortField()
+    public function getSortField(): string
     {
         return $this->sortField;
     }
@@ -122,7 +122,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      * @param string $sortField
      * @return GridFieldOrderableRows $this
      */
-    public function setSortField($field)
+    public function setSortField(string $field): self
     {
         $this->sortField = $field;
         return $this;

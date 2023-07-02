@@ -31,8 +31,7 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.0",
-        "silverstripe/versioned": "^2",
-        "silverstripe/recipe-testing": "^3.0"
+        "silverstripe/versioned": "^2"
     },
     "extra": {
         "screenshots": [
