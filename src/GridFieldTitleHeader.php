@@ -12,7 +12,6 @@ use SilverStripe\View\ArrayData;
  */
 class GridFieldTitleHeader extends AbstractGridFieldComponent implements GridField_HTMLProvider
 {
-
     public function getHTMLFragments($grid)
     {
         $cols = ArrayList::create();

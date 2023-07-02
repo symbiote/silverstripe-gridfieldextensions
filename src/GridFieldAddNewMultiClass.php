@@ -40,24 +40,11 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
     // Should we add an empty string to the add class dropdown?
     private static $showEmptyString = true;
 
-    private $fragment;
-
-    private $title;
-
-    /**
-     * @var array
-     */
-    private $classes;
-
-    /**
-     * @var string
-     */
-    private $defaultClass;
-
-    /**
-     * @var string
-     */
-    protected $itemRequestClass = 'Symbiote\\GridFieldExtensions\\GridFieldAddNewMultiClassHandler';
+    private string $fragment;
+    private string $title;
+    private array $classes;
+    private string $defaultClass;
+    protected string $itemRequestClass = 'Symbiote\\GridFieldExtensions\\GridFieldAddNewMultiClassHandler';
 
     /**
      * @param string $fragment the fragment to render the button in
@@ -73,7 +60,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      *
      * @return string
      */
-    public function getFragment()
+    public function getFragment(): string
     {
         return $this->fragment;
     }
@@ -84,7 +71,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      * @param string $fragment
      * @return GridFieldAddNewMultiClass $this
      */
-    public function setFragment($fragment)
+    public function setFragment(string $fragment): self
     {
         $this->fragment = $fragment;
         return $this;
@@ -95,7 +82,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -106,7 +93,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      * @param string $title
      * @return GridFieldAddNewMultiClass $this
      */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
@@ -119,7 +106,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      * @param GridField $grid
      * @return array a map of class name to title
      */
-    public function getClasses(GridField $grid)
+    public function getClasses(GridField $grid): array
     {
         $result = array();
 
@@ -175,7 +162,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      * @param string $default
      * @return GridFieldAddNewMultiClass $this
      */
-    public function setClasses(array $classes, $default = null)
+    public function setClasses(array $classes, $default = null): self
     {
         $this->classes = $classes;
         if ($default) {
@@ -190,7 +177,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      * @param string $default the class name to use as default
      * @return GridFieldAddNewMultiClass $this
      */
-    public function setDefaultClass($default)
+    public function setDefaultClass($default): self
     {
         $this->defaultClass = $default;
         return $this;
@@ -205,7 +192,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
      * @throws Exception
      * @throws HTTPResponse_Exception
      */
-    public function handleAdd($grid, $request)
+    public function handleAdd(GridField $grid, HTTPRequest $request)
     {
         $class     = $request->param('ClassName');
         $classes   = $this->getClasses($grid);
@@ -237,7 +224,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
     /**
      * {@inheritDoc}
      */
-    public function getHTMLFragments($grid)
+    public function getHTMLFragments($grid): array
     {
         $classes = $this->getClasses($grid);
 
@@ -264,9 +251,9 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
             'ClassField' => $field
         ));
 
-        return array(
+        return [
             $this->getFragment() => $data->renderWith(__CLASS__)
-        );
+        ];
     }
 
     /**

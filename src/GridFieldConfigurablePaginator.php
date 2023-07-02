@@ -304,7 +304,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
                 'title' => 'Next',
                 'args' => array('first-shown' => $arguments['first-shown'] + $this->getItemsPerPage()),
                 'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-right '
-                .'ss-gridfield-pagination-action  ss-gridfield-nextpage',
+                . 'ss-gridfield-pagination-action  ss-gridfield-nextpage',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
             ),
             'last' => array(

@@ -31,9 +31,8 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
      */
     const POST_KEY = 'GridFieldAddNewInlineButton';
 
-    private $fragment;
-
-    private $title;
+    private string $fragment;
+    private string $title;
 
     /**
      * @param string $fragment the fragment to render the button in
@@ -60,7 +59,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
      * @param string $fragment
      * @return GridFieldAddNewInlineButton $this
      */
-    public function setFragment($fragment)
+    public function setFragment(string $fragment): self
     {
         $this->fragment = $fragment;
         return $this;
@@ -71,7 +70,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -82,7 +81,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
      * @param string $title
      * @return GridFieldAddNewInlineButton $this
      */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;

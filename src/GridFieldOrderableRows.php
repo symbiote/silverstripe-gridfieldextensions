@@ -45,7 +45,6 @@ class GridFieldOrderableRows extends RequestHandler implements
     GridField_URLHandler,
     GridField_SaveHandler
 {
-
     /**
      * @see $immediateUpdate
      * @var boolean
@@ -384,14 +383,14 @@ class GridFieldOrderableRows extends RequestHandler implements
                         $sortterm .= "$col $dir, ";
                     }
                 } else {
-                    $sortterm = $this->extraSortFields.', ';
+                    $sortterm = $this->extraSortFields . ', ';
                 }
             }
             if ($list instanceof ArrayList) {
                 // Fix bug in 3.1.3+ where ArrayList doesn't account for quotes
-                $sortterm .= $this->getSortTable($list).'.'.$this->getSortField();
+                $sortterm .= $this->getSortTable($list) . '.' . $this->getSortField();
             } else {
-                $sortterm .= '"'.$this->getSortTable($list).'"."'.$this->getSortField().'"';
+                $sortterm .= '"' . $this->getSortTable($list) . '"."' . $this->getSortField() . '"';
 
                 if ($list instanceof DataList) {
                     $classname = $list->dataClass();
@@ -579,11 +578,11 @@ class GridFieldOrderableRows extends RequestHandler implements
                     $sortterm .= "$col $dir, ";
                 }
             } else {
-                $sortterm = $this->extraSortFields.', ';
+                $sortterm = $this->extraSortFields . ', ';
             }
         }
         $list = $grid->getList();
-        $sortterm .= '"'.$this->getSortTable($list).'"."'.$sortField.'"';
+        $sortterm .= '"' . $this->getSortTable($list) . '"."' . $sortField . '"';
         $items = $list->filter('ID', $sortedIDs)->sort($sortterm);
 
         // Ensure that each provided ID corresponded to an actual object.

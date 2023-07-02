@@ -18,27 +18,15 @@ use SilverStripe\ORM\Search\SearchContext;
  */
 class GridFieldAddExistingSearchHandler extends RequestHandler
 {
-
     private static $allowed_actions = array(
         'index',
         'add',
         'SearchForm'
     );
 
-    /**
-     * @var GridField
-     */
-    protected $grid;
-
-    /**
-     * @var GridFieldAddExistingSearchButton
-     */
-    protected $button;
-
-    /**
-     * @var SearchContext
-     */
-    protected $context;
+    protected GridField $grid;
+    protected GridFieldAddExistingSearchButton $button;
+    protected SearchContext $context;
 
     public function __construct($grid, $button)
     {
@@ -70,10 +58,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
         $list->add($item);
     }
 
-    /**
-     * @return Form
-     */
-    public function SearchForm()
+    public function SearchForm(): Form
     {
         $form = Form::create(
             $this,
@@ -119,10 +104,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
         return Controller::join_links($this->grid->Link(), 'add-existing-search', $action);
     }
 
-    /**
-     * @return DataList
-     */
-    protected function getSearchList()
+    protected function getSearchList(): DataList
     {
         return $this->button->getSearchList() ?: DataList::create($this->grid->getList()->dataClass());
     }

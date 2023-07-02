@@ -16,14 +16,13 @@ class GridFieldAddExistingSearchButton extends AbstractGridFieldComponent implem
     GridField_HTMLProvider,
     GridField_URLHandler
 {
-
     private static $allowed_actions = array(
         'handleSearch'
     );
 
-    protected $title;
-    protected $fragment;
-    protected $searchList;
+    protected string $title;
+    protected string $fragment;
+    protected SS_List $searchList;
 
     /**
      * @param string $fragment
@@ -76,7 +75,7 @@ class GridFieldAddExistingSearchButton extends AbstractGridFieldComponent implem
      * @param SS_List $list
      * @return GridFieldAddExistingSearchButton $this
      */
-    public function setSearchList(SS_List $list)
+    public function setSearchList(SS_List $list): self
     {
         $this->searchList = $list;
         return $this;
@@ -85,12 +84,12 @@ class GridFieldAddExistingSearchButton extends AbstractGridFieldComponent implem
     /**
      * @return SS_List|null
      */
-    public function getSearchList()
+    public function getSearchList(): SS_List
     {
         return $this->searchList;
     }
 
-    public function getHTMLFragments($grid)
+    public function getHTMLFragments($grid): array
     {
         GridFieldExtensions::include_requirements();
 
@@ -105,7 +104,7 @@ class GridFieldAddExistingSearchButton extends AbstractGridFieldComponent implem
         ];
     }
 
-    public function getURLHandlers($grid)
+    public function getURLHandlers($grid): array
     {
         return array(
             'add-existing-search' => 'handleSearch'

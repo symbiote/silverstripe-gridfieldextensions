@@ -24,7 +24,6 @@ use SilverStripe\ORM\ArrayList;
  */
 abstract class GridFieldRequestHandler extends RequestHandler
 {
-
     private static $allowed_actions = array(
         'Form'
     );

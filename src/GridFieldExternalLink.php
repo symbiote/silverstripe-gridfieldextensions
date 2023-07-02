@@ -10,7 +10,6 @@ use SilverStripe\View\ArrayData;
  */
 class GridFieldExternalLink extends GridFieldDataColumns
 {
-
     /**
      * Add a column for the actions
      *
