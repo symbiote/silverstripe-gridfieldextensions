@@ -3,7 +3,13 @@
     "description": "A collection of useful grid field components",
     "type": "silverstripe-vendormodule",
     "homepage": "http://github.com/symbiote/silverstripe-gridfieldextensions",
-    "keywords": ["silverstripe", "gridfield", "sortable", "sort", "sort field"],
+    "keywords": [
+        "silverstripe",
+        "gridfield",
+        "sortable",
+        "sort",
+        "sort field"
+    ],
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -24,9 +30,9 @@
         "silverstripe/framework": "^4.11 || ^5"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.0",
-        "silverstripe/versioned": "^1 || ^2"
+        "silverstripe/versioned": "^1 || ^2",
+        "silverstripe/recipe-testing": "^3.0"
     },
     "extra": {
         "screenshots": [
@@ -37,6 +43,10 @@
             "css",
             "javascript",
             "client/lang"
+        ],
+        "project-files-installed": [
+            "behat.yml",
+            "phpunit.xml.dist"
         ]
     },
     "replace": {
@@ -50,5 +60,12 @@
         }
     },
     "prefer-stable": true,
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/recipe-plugin": true,
+            "silverstripe/vendor-plugin": true
+        }
+    }
 }
