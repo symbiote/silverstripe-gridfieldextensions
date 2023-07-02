@@ -1,16 +1,16 @@
 name: Keepalive
 
 on:
-  workflow_dispatch:
-  # The 7th of every month at 12:50pm UTC
+  # The 4th of every month at 10:50am UTC
   schedule:
-    - cron: '50 12 7 * *'
+    - cron: '50 10 4 * *'
+  workflow_dispatch:
 
 jobs:
   keepalive:
     name: Keepalive
-    # Only run cron on the symbiote account
-    if: (github.event_name == 'schedule' && github.repository_owner == 'symbiote') || (github.event_name != 'schedule')
+    # Only run cron on the silverstripe account
+    if: (github.event_name == 'schedule' && github.repository_owner == 'silverstripe') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
     steps:
       - name: Keepalive
