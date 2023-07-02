@@ -29,7 +29,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
     /**
      * @skipUpgrade
      */
-    const POST_KEY = 'GridFieldAddNewInlineButton';
+    private const POST_KEY = 'GridFieldAddNewInlineButton';
 
     private string $fragment;
     private string $title;

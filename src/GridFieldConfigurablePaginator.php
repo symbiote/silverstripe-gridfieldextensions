@@ -28,7 +28,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      * @config
      * @var int
      */
-    private static $default_page_sizes = array(15, 30, 60);
+    private static $default_page_sizes = [15, 30, 60];
 
     /**
      * @var GridField

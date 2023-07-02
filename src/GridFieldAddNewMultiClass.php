@@ -31,7 +31,7 @@ class GridFieldAddNewMultiClass extends AbstractGridFieldComponent implements
     /**
      * @skipUpgrade
      */
-    const POST_KEY = 'GridFieldAddNewMultiClass';
+    private const POST_KEY = 'GridFieldAddNewMultiClass';
 
     private static $allowed_actions = array(
         'handleAdd'

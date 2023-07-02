@@ -43,7 +43,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     /**
      * @skipUpgrade
      */
-    const POST_KEY = 'GridFieldEditableColumns';
+    private const POST_KEY = 'GridFieldEditableColumns';
 
     private static $allowed_actions = array(
         'handleForm'

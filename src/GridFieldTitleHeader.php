@@ -12,7 +12,7 @@ use SilverStripe\View\ArrayData;
  */
 class GridFieldTitleHeader extends AbstractGridFieldComponent implements GridField_HTMLProvider
 {
-    public function getHTMLFragments($grid)
+    public function getHTMLFragments($grid): array
     {
         $cols = ArrayList::create();
 
@@ -25,8 +25,8 @@ class GridFieldTitleHeader extends AbstractGridFieldComponent implements GridFie
             )));
         }
 
-        return array(
+        return [
             'header' => $cols->renderWith(__CLASS__)
-        );
+        ];
     }
 }

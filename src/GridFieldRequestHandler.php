@@ -28,27 +28,12 @@ abstract class GridFieldRequestHandler extends RequestHandler
         'Form'
     );
 
-    /**
-     * @var GridField
-     */
-    protected $grid;
+    protected GridField $grid;
+    protected GridFieldComponent $component;
+    protected string $name;
+    protected string $template = __CLASS__;
 
-    /**
-     * @var GridFieldComponent
-     */
-    protected $component;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $template = __CLASS__;
-
-    public function __construct(GridField $grid, GridFieldComponent $component, $name)
+    public function __construct(GridField $grid, GridFieldComponent $component, string $name)
     {
         $this->grid = $grid;
         $this->component = $component;
@@ -112,7 +97,7 @@ abstract class GridFieldRequestHandler extends RequestHandler
     /**
      * @param string $template
      */
-    public function setTemplate($template)
+    public function setTemplate(string $template)
     {
         $this->template = $template;
     }
@@ -120,7 +105,7 @@ abstract class GridFieldRequestHandler extends RequestHandler
     /**
      * @return string
      */
-    public function getTemplate()
+    public function getTemplate(): string
     {
         return $this->template;
     }
@@ -128,7 +113,7 @@ abstract class GridFieldRequestHandler extends RequestHandler
     /**
      * @return ArrayList
      */
-    public function getBreadcrumbs()
+    public function getBreadcrumbs(): ArrayList
     {
         $controller = $this->getController();
 
@@ -142,7 +127,7 @@ abstract class GridFieldRequestHandler extends RequestHandler
     /**
      * @return string
      */
-    protected function getBackLink()
+    protected function getBackLink(): string
     {
         $controller = $this->getTopLevelController();
 
