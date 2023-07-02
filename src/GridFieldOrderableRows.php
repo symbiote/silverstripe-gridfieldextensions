@@ -386,26 +386,22 @@ class GridFieldOrderableRows extends RequestHandler implements
                     $sortterm = $this->extraSortFields . ', ';
                 }
             }
-            if ($list instanceof ArrayList) {
-                // Fix bug in 3.1.3+ where ArrayList doesn't account for quotes
-                $sortterm .= $this->getSortTable($list) . '.' . $this->getSortField();
-            } else {
-                $sortterm .= '"' . $this->getSortTable($list) . '"."' . $this->getSortField() . '"';
 
-                if ($list instanceof DataList) {
-                    $classname = $list->dataClass();
-                    if ($defaultSort = Config::inst()->get($classname, 'default_sort')) {
-                        if (is_array($defaultSort)) {
-                            $defaultSortArray = [];
-                            foreach ($defaultSort as $column => $direction) {
-                                $defaultSortArray[] = "\"$column\" $direction";
-                            }
-                            $defaultSort = implode(', ', $defaultSortArray);
+            $sortterm .= '"' . $this->getSortField() . '"';
+
+            if ($list instanceof DataList) {
+                $classname = $list->dataClass();
+                if ($defaultSort = Config::inst()->get($classname, 'default_sort')) {
+                    if (is_array($defaultSort)) {
+                        $defaultSortArray = [];
+                        foreach ($defaultSort as $column => $direction) {
+                            $defaultSortArray[] = "\"$column\" $direction";
                         }
-                        // Append the default sort to the end of the sort string
-                        // This may result in redundancy... but it seems to work
-                        $sortterm .= ($sortterm ? ', ' : '') . $defaultSort;
+                        $defaultSort = implode(', ', $defaultSortArray);
                     }
+                    // Append the default sort to the end of the sort string
+                    // This may result in redundancy... but it seems to work
+                    $sortterm .= ($sortterm ? ', ' : '') . $defaultSort;
                 }
             }
 
@@ -468,10 +464,10 @@ class GridFieldOrderableRows extends RequestHandler implements
     protected function getSortedIDs($data)
     {
         if (empty($data['GridFieldEditableColumns'])) {
-            return array();
+            return [];
         }
 
-        $sortedIDs = array();
+        $sortedIDs = [];
         foreach ($data['GridFieldEditableColumns'] as $id => $recordData) {
             $sortValue = $recordData[$this->sortField];
             $sortedIDs[$sortValue] = $id;
@@ -582,7 +578,8 @@ class GridFieldOrderableRows extends RequestHandler implements
             }
         }
         $list = $grid->getList();
-        $sortterm .= '"' . $this->getSortTable($list) . '"."' . $sortField . '"';
+        $sortterm .= '"' . $sortField . '"';
+
         $items = $list->filter('ID', $sortedIDs)->sort($sortterm);
 
         // Ensure that each provided ID corresponded to an actual object.
