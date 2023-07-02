@@ -16,7 +16,6 @@ use Symbiote\GridFieldExtensions\Tests\Stub\NamespacedClass;
 
 class GridFieldAddNewMultiClassWithNamespacesTest extends SapphireTest
 {
-
     public function testGetClassesWithNamespaces()
     {
         $grid = new GridField('TestGridField');

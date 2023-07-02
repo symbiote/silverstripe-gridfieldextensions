@@ -8,7 +8,7 @@ use SilverStripe\Dev\TestOnly;
 class ThroughDefiner extends DataObject implements TestOnly
 {
     private static $table_name = 'ManyThrough';
-    
+
     private static $many_many = [
         'Belongings' => [
             'through' => ThroughIntermediary::class,

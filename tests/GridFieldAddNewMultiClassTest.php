@@ -15,7 +15,6 @@ use Symbiote\GridFieldExtensions\Tests\Stub\StubC;
  */
 class GridFieldAddNewMultiClassTest extends SapphireTest
 {
-
     public function testGetClasses()
     {
         $grid = new GridField('TestGridField');

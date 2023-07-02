@@ -19,7 +19,7 @@ class StubOrdered extends DataObject implements TestOnly
         'Children' => StubOrderableChild::class,
     );
 
-    private static $belongs_many_many =array(
+    private static $belongs_many_many = array(
         'MyManyMany' => StubParent::class,
     );
 

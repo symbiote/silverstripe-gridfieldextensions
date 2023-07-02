@@ -31,7 +31,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
 
     public function testGetTotalRecords()
     {
-        $paginator = new GridFieldConfigurablePaginator;
+        $paginator = new GridFieldConfigurablePaginator();
         $paginator->setGridField($this->gridField);
 
         $this->assertSame(130, $paginator->getTotalRecords());
@@ -39,7 +39,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
 
     public function testGetFirstShown()
     {
-        $paginator = new GridFieldConfigurablePaginator;
+        $paginator = new GridFieldConfigurablePaginator();
         $paginator->setGridField($this->gridField);
 
         // No state
@@ -157,7 +157,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
         $this->assertSame(array(10, 20, 30), $paginator->getPageSizes());
 
         // Via default configuration
-        $paginator = new GridFieldConfigurablePaginator;
+        $paginator = new GridFieldConfigurablePaginator();
         $default = Config::inst()->get(GridFieldConfigurablePaginator::class, 'default_page_sizes');
         $this->assertSame($default, $paginator->getPageSizes());
     }
@@ -176,7 +176,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No GridField available yet for this request!');
-        $paginator = new GridFieldConfigurablePaginator;
+        $paginator = new GridFieldConfigurablePaginator();
         $paginator->getGridField();
     }
 
@@ -203,7 +203,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
             )
         );
 
-        $paginator = new GridFieldConfigurablePaginator;
+        $paginator = new GridFieldConfigurablePaginator();
         $paginator->setGridField($this->gridField);
         $result = $paginator->getPagerActions($controls, $this->gridField);
 
