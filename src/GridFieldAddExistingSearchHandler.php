@@ -94,7 +94,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
 
     public function doSearch($data, $form)
     {
-        $list = $this->context->getQuery($data, false, false, $this->getSearchList());
+        $list = $this->context->getQuery($data, false, null, $this->getSearchList());
         $list = $list->subtract($this->grid->getList());
         $list = PaginatedList::create($list, $this->request);
 
