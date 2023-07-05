@@ -8,8 +8,8 @@ on:
 jobs:
   dispatch-ci:
     name: Dispatch CI
-    # Only run cron on the silverstripe account
-    if: (github.event_name == 'schedule' && github.repository_owner == 'silverstripe') || (github.event_name != 'schedule')
+    # Only run cron on the symbiote account
+    if: (github.event_name == 'schedule' && github.repository_owner == 'symbiote') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch CI
