@@ -6,8 +6,8 @@ if (typeof(ss) === 'undefined' || typeof(ss.i18n) === 'undefined') {
   }
 } else {
   ss.i18n.addDictionary('eo', {
-    "GridFieldExtensions.CONFIRMDEL": "Ĉu vi certas ke vi volas forigi tion?",
     "GridFieldExtensions.ADD_CLASS": "Aldoni: <i>{classname}</i>",
+    "GridFieldExtensions.CONFIRMDEL": "Ĉu vi certas ke vi volas forigi tion?",
     "GridFieldExtensions.OPEN_SEARCH_FILTER": "Malfermi serĉon kaj filtrilon",
     "GridFieldExtensions.SAVE_PUBLISH": "Konservi kaj publikigi"
 });

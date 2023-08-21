@@ -6,8 +6,8 @@ if (typeof(ss) === 'undefined' || typeof(ss.i18n) === 'undefined') {
   }
 } else {
   ss.i18n.addDictionary('sl', {
-    "GridFieldExtensions.CONFIRMDEL": "Res želite to izbrisati?",
     "GridFieldExtensions.ADD_CLASS": "Dodaj: <i>{classname}</i>",
+    "GridFieldExtensions.CONFIRMDEL": "Res želite to izbrisati?",
     "GridFieldExtensions.OPEN_SEARCH_FILTER": "Prikaži iskalnik in filtre",
     "GridFieldExtensions.SAVE_PUBLISH": "Shrani in objavi"
 });

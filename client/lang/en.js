@@ -6,8 +6,8 @@ if (typeof(ss) === 'undefined' || typeof(ss.i18n) === 'undefined') {
   }
 } else {
   ss.i18n.addDictionary('en', {
-    "GridFieldExtensions.CONFIRMDEL": "Are you sure you want to delete this?",
     "GridFieldExtensions.ADD_CLASS": "Add: <i>{classname}</i>",
+    "GridFieldExtensions.CONFIRMDEL": "Are you sure you want to delete this?",
     "GridFieldExtensions.OPEN_SEARCH_FILTER": "Open search and filter",
     "GridFieldExtensions.SAVE_PUBLISH": "Save & publish"
 });
