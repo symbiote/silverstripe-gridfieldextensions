@@ -5,14 +5,14 @@ nl_NL:
   GridFieldExtensions:
     ADD: Toevoegen
     ADDEXISTING: 'Bestaande toevoegen'
-    SEARCH: Zoeken
-    SELECTTYPETOCREATE: '(Selecteer type om te creeën)'
     BACK: Terug
     CURRENT: (huidige)
     NOITEMS: 'Er zijn geen items.'
     Next: Volgende
     PREVIOUS: Vorige
     RESULTS: Resultaten
+    SEARCH: Zoeken
+    SELECTTYPETOCREATE: '(Selecteer type om te creeën)'
   Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
     NEW: 'Nieuw item maken'
   Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
