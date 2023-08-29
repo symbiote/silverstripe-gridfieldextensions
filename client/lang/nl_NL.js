@@ -6,8 +6,8 @@ if (typeof(ss) === 'undefined' || typeof(ss.i18n) === 'undefined') {
   }
 } else {
   ss.i18n.addDictionary('nl_NL', {
-    "GridFieldExtensions.CONFIRMDEL": "Weet je zeker dat je dit wil verwijderen?",
     "GridFieldExtensions.ADD_CLASS": "Toevoegen: <i>{classname}</i>",
+    "GridFieldExtensions.CONFIRMDEL": "Weet je zeker dat je dit wil verwijderen?",
     "GridFieldExtensions.OPEN_SEARCH_FILTER": "Open zoeken en filteren",
     "GridFieldExtensions.SAVE_PUBLISH": "Opslaan & Publiceren"
 });

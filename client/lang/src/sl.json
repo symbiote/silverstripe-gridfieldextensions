@@ -1,6 +1,6 @@
 {
-    "GridFieldExtensions.CONFIRMDEL": "Res želite to izbrisati?",
     "GridFieldExtensions.ADD_CLASS": "Dodaj: <i>{classname}</i>",
+    "GridFieldExtensions.CONFIRMDEL": "Res želite to izbrisati?",
     "GridFieldExtensions.OPEN_SEARCH_FILTER": "Prikaži iskalnik in filtre",
     "GridFieldExtensions.SAVE_PUBLISH": "Shrani in objavi"
 }
