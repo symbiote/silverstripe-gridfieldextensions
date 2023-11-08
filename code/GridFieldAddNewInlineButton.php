@@ -85,7 +85,7 @@ class GridFieldAddNewInlineButton implements GridField_HTMLProvider, GridField_S
 		$handled = array_keys($editable->getDisplayFields($grid));
 
 		if($grid->getList()) {
-			$record = Object::create($grid->getModelClass());
+			$record = SS_Object::create($grid->getModelClass());
 		} else {
 			$record = null;
 		}

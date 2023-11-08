@@ -1,8 +1,8 @@
 {
-	"name": "silverstripe-australia/gridfieldextensions",
+	"name": "mademedia/gridfieldextensions",
 	"description": "A collection of useful grid field components",
 	"type": "silverstripe-module",
-	"homepage": "http://github.com/silverstripe-australia/silverstripe-gridfieldextensions",
+	"homepage": "http://github.com/MadeHQ/silverstripe-gridfieldextensions",
 	"keywords": ["silverstripe", "gridfield"],
 	"license": "BSD-3-Clause",
 	"authors": [

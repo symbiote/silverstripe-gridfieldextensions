@@ -196,7 +196,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
 				$extra = $list->getExtraFields();
 
 				if($extra && array_key_exists($col, $extra)) {
-					$field = Object::create_from_string($extra[$col], $col)->scaffoldFormField();
+					$field = SS_Object::create_from_string($extra[$col], $col)->scaffoldFormField();
 				}
 			}
 
