@@ -215,7 +215,7 @@
 
 }
 .grid-field-inline-new--multi-class-list a {
-  color: #FFF;
+  color: #FFF !important;
   display: block;
   margin: 5px -10px;
   padding: 0 10px;
