@@ -1,15 +1,15 @@
 name: Dispatch CI
 
 on:
-  # At 12:10 PM UTC, only on Sunday and Monday
+  # At 1:05 PM UTC, only on Sunday and Monday
   schedule:
-    - cron: '10 12 * * 0,1'
+    - cron: '5 13 * * 0,1'
 
 jobs:
   dispatch-ci:
     name: Dispatch CI
-    # Only run cron on the silverstripe account
-    if: (github.event_name == 'schedule' && github.repository_owner == 'silverstripe') || (github.event_name != 'schedule')
+    # Only run cron on the symbiote account
+    if: (github.event_name == 'schedule' && github.repository_owner == 'symbiote') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch CI
