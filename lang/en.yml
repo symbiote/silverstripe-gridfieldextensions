@@ -3,6 +3,7 @@ en:
     ADD: Add
     ADDEXISTING: 'Add Existing'
     BACK: Back
+    CLICKTOADD: 'Click a record to add it'
     CURRENT: (current)
     NOITEMS: 'There are no items.'
     Next: Next

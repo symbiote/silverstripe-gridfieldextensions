@@ -1,6 +1,6 @@
 $SearchForm
 
-<h3><%t GridFieldExtensions.RESULTS "Results" %></h3>
+<h3><%t GridFieldExtensions.RESULTS "Results" %> - <%t GridFieldExtensions.CLICKTOADD "Click a record to add it" %></h3>
 <div class="add-existing-search-results">
 	<% if $Items %>
 		<ul class="list-group add-existing-search-items" data-add-link="$Link('add')">
