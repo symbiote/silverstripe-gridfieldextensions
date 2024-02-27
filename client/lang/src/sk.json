@@ -1,0 +1,6 @@
+{
+    "GridFieldExtensions.ADD_CLASS": "Pridať: <i>{classname}</i>",
+    "GridFieldExtensions.CONFIRMDEL": "Naozaj to chcete odstrániť?",
+    "GridFieldExtensions.OPEN_SEARCH_FILTER": "Otvorte vyhľadávanie a filter",
+    "GridFieldExtensions.SAVE_PUBLISH": "Uložiť a zverejniť"
+}
