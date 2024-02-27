@@ -460,7 +460,10 @@ class GridFieldOrderableRows extends RequestHandler implements
             $this->httpError(400);
         }
 
-        Controller::curr()->getResponse()->addHeader('X-Status', rawurlencode('Records reordered.'));
+        Controller::curr()->getResponse()->addHeader(
+            'X-Status',
+            rawurlencode(_t(__CLASS__ . '.REORDERED', 'Records reordered.'))
+        );
         return $grid->FieldHolder();
     }
 
