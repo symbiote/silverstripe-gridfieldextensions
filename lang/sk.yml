@@ -5,5 +5,15 @@ sk:
   GridFieldExtensions:
     ADD: Pridať
     ADDEXISTING: 'Pridať existujúci'
+    BACK: Späť
+    CURRENT: (aktuálny)
+    NOITEMS: 'Nie sú k dispozícii žiadne položky.'
+    Next: Ďalší
+    PREVIOUS: Predchádzajúci
+    RESULTS: Výsledky
     SEARCH: Hľadať
-    SELECTTYPETOCREATE: '(Prosím, vyberte typ)'
+    SELECTTYPETOCREATE: '(Vyberte typ na vytvorenie)'
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Pridať nový záznam'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Zobraziť
