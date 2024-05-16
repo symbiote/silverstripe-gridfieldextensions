@@ -21,7 +21,7 @@ class GridFieldDetailFormItemRequestExtension extends Extension
     /**
      * @param FieldList $actions
      */
-    public function updateFormActions(FieldList &$actions)
+    protected function updateFormActions(FieldList &$actions)
     {
         $grid = $this->owner->getGridField();
         $gridFieldConfig = $grid->getConfig();
