@@ -152,3 +152,46 @@ $paginator->setItemsPerPage(500);
 
 The first shown record will be maintained across page size changes, and the number of pages and current page will be
 recalculated on each request, based on the current first shown record and page size.
+
+Nested GridFields
+-----------------
+
+The `GridFieldNestedForm` component allows you to nest GridFields in the UI. It can be used with `DataObject` subclasses
+with the `Hierarchy` extension, or by specifying the relation used for nesting.
+
+```php
+// Basic usage, defaults to the Children-method for Hierarchy objects.
+$grid->getConfig()->addComponent(GridFieldNestedForm::create());
+
+// Usage with custom relation
+$grid->getConfig()->addComponent(GridFieldNestedForm::create()->setRelationName('MyRelation'));
+```
+
+You can define your own custom GridField config for the nested GridField configuration by implementing a `getNestedConfig`
+on your nested model (should return a `GridField_Config` object).
+```php
+class NestedObject extends DataObject
+{
+	private static $has_one = [
+		'Parent' => ParentObject::class
+	];
+
+	public function getNestedConfig(): GridFieldConfig
+	{
+		$config = new GridFieldConfig_RecordViewer();
+		return $config;
+	}
+}
+```
+
+You can also modify the default config (a `GridFieldConfig_RecordEditor`) via an extension to the nested model class, by implementing
+`updateNestedConfig`, which will get the config object as the first parameter.
+```php
+class NestedObjectExtension extends DataExtension
+{
+	public function updateNestedConfig(GridFieldConfig &$config)
+	{
+		$config->removeComponentsByType(GridFieldPaginator::class);
+	}
+}
+```

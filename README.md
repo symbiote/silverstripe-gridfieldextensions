@@ -18,6 +18,8 @@ This module provides a number of useful grid field components:
   features.
 * `GridFieldTitleHeader` - a simple header which displays column titles.
 * `GridFieldConfigurablePaginator` - a paginator for GridField that allows customisable page sizes.
+* `GridFieldNestedForm` - allows nesting of GridFields for managing relation records directly within
+  a parent GridField.
 
 ## Installation
 

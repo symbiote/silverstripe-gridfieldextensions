@@ -1,0 +1,19 @@
+Symbiote\GridFieldExtensions\Tests\Stub\StubHierarchy:
+  item1: 
+    Title: 'Item 1'
+  item1_1:
+    Title: 'Item 1.1'
+    ParentID: =>Symbiote\GridFieldExtensions\Tests\Stub\StubHierarchy.item1
+  item1_1_1:
+    Title: 'Item 1.1.1'
+    ParentID: =>Symbiote\GridFieldExtensions\Tests\Stub\StubHierarchy.item1_1
+Symbiote\GridFieldExtensions\Tests\Stub\StubParent:
+  parent1:
+    Title: 'Parent 1'
+Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered:
+  child1:
+    Title: 'Child 1'
+    ParentID: =>Symbiote\GridFieldExtensions\Tests\Stub\StubParent.parent1
+  child2:
+    Title: 'Child 2'
+    ParentID: =>Symbiote\GridFieldExtensions\Tests\Stub\StubParent.parent1

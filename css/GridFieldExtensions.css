@@ -223,3 +223,27 @@
 .grid-field-inline-new--multi-class-list__visible {
   display: block;
 }
+
+/**
+ * GridFieldNestedForm
+ */
+.grid-field tr.nested-gridfield td.gridfield-holder {
+  padding-left: 60px;
+}
+
+.grid-field.nested.empty-title .grid-field__title-row th {
+  padding: 0;
+}
+
+.grid-field.nested table tbody tr:not(.nested-gridfield) {
+  border-left: 1px solid #dbe0e9;
+}
+
+.grid-field.nested table tbody tr:not(.nested-gridfield).last {
+  border-bottom: 1px solid #dbe0e9;
+}
+
+.ss-gridfield-orderable.has-nested > .grid-field__table > .ss-gridfield-items > .ss-gridfield-item.ui-droppable-active.ui-state-highlight {
+  border: 0;
+  background-color: #fbf9ee;
+}

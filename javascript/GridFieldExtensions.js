@@ -1,4 +1,7 @@
 (function($) {
+	let preventReorderUpdate = false;
+	let updateTimeouts = [];
+
 	$.entwine("ss", function($) {
 		/**
 		 * GridFieldAddExistingSearchButton
@@ -510,5 +513,173 @@
                 this.parent().find('.ss-gridfield-pagesize-submit').trigger('click');
             }
         });
+
+		/**
+		 * GridFieldNestedForm
+		 */
+		$('.grid-field .col-listChildrenLink button').entwine({
+			onclick: function(e) {
+				let gridField = $(this).closest('.grid-field');
+				let currState = gridField.getState();
+				let toggleState = false;
+				let pjaxTarget = $(this).attr('data-pjax-target');
+				if ($(this).hasClass('font-icon-right-dir')) {
+					toggleState = true;
+				}
+				if (typeof currState['GridFieldNestedForm'] == 'undefined' || currState['GridFieldNestedForm'] == null) {
+					currState['GridFieldNestedForm'] = {};
+				}
+				currState['GridFieldNestedForm'][$(this).attr('data-pjax-target')] = toggleState;
+				gridField.setState('GridFieldNestedForm', currState['GridFieldNestedForm']);
+				if (toggleState) {
+					if (!$(this).closest('tr').next('.nested-gridfield').length) {
+                        // add loading indicator until the nested gridfield is loaded
+                        let colspan = gridField.find('.grid-field__title-row th').attr('colspan');
+                        let loadingCell = $('<td />')
+                            .addClass('ss-gridfield-item loading')
+                            .attr('colspan', colspan);
+                        $(this).closest('tr').after($('<tr class="nested-gridfield" />').append(loadingCell));
+
+						let data = {};
+						let stateInput = gridField.find('input.gridstate').first();
+						data[stateInput.attr('name')] = JSON.stringify(currState);
+						if (window.location.search) {
+							let searchParams = window.location.search.replace('?', '').split('&');
+							for (let i = 0; i < searchParams.length; i++) {
+								let parts = searchParams[i].split('=');
+								data[parts[0]] = parts[1];
+							}
+						}
+						$.ajax({
+							type: 'POST',
+							url: $(this).attr('data-url'),
+							data: data,
+							headers: {
+								'X-Pjax': pjaxTarget
+							},
+							success: function(data) {
+								if (data && data[pjaxTarget]) {
+									gridField.find(`[data-pjax-fragment="${pjaxTarget}"]`).replaceWith(data[pjaxTarget]);
+								}
+							}
+						});
+					}
+					else {
+						$(this).closest('tr').next('.nested-gridfield').show();
+						$.ajax({
+							url: $(this).attr('data-toggle')+'1'
+						});
+					}
+					$(this).removeClass('font-icon-right-dir');
+					$(this).addClass('font-icon-down-dir');
+					$(this).attr('aria-expanded', 'true');
+				}
+				else {
+					$.ajax({
+						url: $(this).attr('data-toggle')+'0'
+					});
+					$(this).closest('tr').next('.nested-gridfield').hide();
+					$(this).removeClass('font-icon-down-dir');
+					$(this).addClass('font-icon-right-dir');
+					$(this).attr('aria-expanded', 'false');
+				}
+				e.preventDefault();
+				e.stopPropagation();
+				return false;
+			}
+		});
+		
+		// move nested gridfields onto their own rows below this row, to make it look nicer
+		$('.col-listChildrenLink > .grid-field.nested').entwine({
+			onadd: function() {
+				let nrOfColumns = $(this).closest('tr').children('td').length;
+				let evenOrOdd = 'even';
+				if ($(this).closest('tr').hasClass('odd')) {
+					evenOrOdd = 'odd';
+				}
+				if ($(this).closest('.grid-field').hasClass('editable-gridfield')) {
+					$(this).find('tr').removeClass('even').removeClass('odd').addClass(evenOrOdd);
+				}
+
+				if ($(this).closest('tr').next('tr.nested-gridfield').length) {
+					$(this).closest('tr').next('tr.nested-gridfield').remove();
+				}
+
+				// add a new table row, with one table cell which spans all columns
+				$(this).closest('tr').after('<tr class="nested-gridfield '+evenOrOdd+'"><td class="gridfield-holder" colspan="'+nrOfColumns+'"></td></tr>');
+				// move this field into the newly created row
+				$(this).appendTo($(this).closest('tr').next('tr').find('td').first());
+				$(this).show();
+				this._super();
+			}
+		});
+
+		$('.ss-gridfield-orderable.has-nested > .grid-field__table > tbody, .ss-gridfield-orderable.nested > .grid-field__table > tbody').entwine({
+			onadd: function() {
+				this._super();
+				let gridField = this.getGridField();
+				if (gridField.data("url-movetoparent")) {
+					let parentID = 0;
+					let parentItem = gridField.closest('.nested-gridfield').prev('.ss-gridfield-item');
+					if (parentItem && parentItem.length) {
+						parentID = parentItem.attr('data-id');
+					}
+					this.sortable('option', 'connectWith', '.ss-gridfield-orderable tbody');
+					this.sortable('option', 'start', function(e, ui) {
+						if (ui.item.find('.col-listChildrenLink').length && ui.item.next('.ui-sortable-placeholder').next('.nested-gridfield').length) {
+							if (ui.item.find('.col-listChildrenLink a').hasClass('font-icon-down-dir')) {
+								ui.item.find('.col-listChildrenLink a').removeClass('font-icon-down-dir');
+								ui.item.find('.col-listChildrenLink a').addClass('font-icon-right-dir');
+							}
+							ui.item.next('.ui-sortable-placeholder').next('.nested-gridfield').remove();
+							let pjaxFragment = ui.item.find('.col-listChildrenLink a').attr('data-pjax-target');
+							ui.item.find('.col-listChildrenLink').append(`<div class="nested-container" data-pjax-fragment="${pjaxFragment}" style="display:none;"></div>`);
+						}
+					});
+					this.sortable('option', 'receive', function(e, ui) {
+						preventReorderUpdate = true;
+						while (updateTimeouts.length) {
+							let timeout = updateTimeouts.shift();
+							window.clearTimeout(timeout);
+						}
+						let childID = ui.item.attr('data-id');
+						let parentIntoChild = $(e.target).closest('.grid-field[data-name*="-GridFieldNestedForm-'+childID+'"]').length;
+						if (parentIntoChild) {
+							// parent dragged into child, cancel sorting
+							ui.sender.sortable("cancel");
+							e.preventDefault();
+							e.stopPropagation();
+							window.setTimeout(function() {
+								preventReorderUpdate = false;
+							}, 500);
+							return false;
+						}
+						let sortInput = ui.item.find('input.ss-orderable-hidden-sort');
+						let sortName = sortInput.attr('name');
+						let index = sortName.indexOf('[GridFieldEditableColumns]');
+						sortInput.attr('name', gridField.attr('data-name')+sortName.substring(index));
+						gridField.find('> .grid-field__table > tbody').rebuildSort();
+						gridField.reload({
+							url: gridField.data("url-movetoparent"),
+							data: [
+								{ name: "move[id]", value: childID},
+								{ name: "move[parent]", value: parentID}
+							]
+						}, function() {
+							preventReorderUpdate = false;
+						});
+					});
+					let updateCallback = this.sortable('option', 'update');
+					this.sortable('option', 'update', function(e, ui) {
+						if (!preventReorderUpdate) {
+							let timeout = window.setTimeout(function() {
+								updateCallback(e, ui);
+							}, 500);
+							updateTimeouts.push(timeout);
+						}
+					});
+				}
+			}
+		});
 	});
 })(jQuery);
