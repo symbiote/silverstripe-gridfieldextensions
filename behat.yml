@@ -1,0 +1,31 @@
+# Run silverstripe-gridfieldextensions behat tests with this command
+# Note that silverstripe-gridfieldextensions behat tests require CMS module
+# ========================================================================= #
+# chromedriver
+# vendor/bin/behat @silverstripe-gridfieldextensions
+# ========================================================================= #
+default:
+  suites:
+    silverstripe-gridfieldextensions:
+      paths:
+        - '%paths.modules.silverstripe-gridfieldextensions%/tests/behat/features'
+      contexts:
+        - SilverStripe\Framework\Tests\Behaviour\FeatureContext
+        - SilverStripe\Framework\Tests\Behaviour\CmsFormsContext
+        - SilverStripe\Framework\Tests\Behaviour\CmsUiContext
+        - SilverStripe\BehatExtension\Context\BasicContext
+        - SilverStripe\BehatExtension\Context\LoginContext
+        - SilverStripe\BehatExtension\Context\FixtureContext:
+            - '%paths.modules.silverstripe-gridfieldextensions%/tests/behat/features/files/'
+
+  extensions:
+    SilverStripe\BehatExtension\MinkExtension:
+      default_session: facebook_web_driver
+      javascript_session: facebook_web_driver
+      facebook_web_driver:
+        browser: chrome
+        wd_host: "http://127.0.0.1:9515" #chromedriver port
+
+    SilverStripe\BehatExtension\Extension:
+      screenshot_path: '%paths.base%/artifacts/screenshots'
+      bootstrap_file: vendor/silverstripe/framework/tests/behat/serve-bootstrap.php
