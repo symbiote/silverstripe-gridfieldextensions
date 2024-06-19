@@ -121,7 +121,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         $list  = $grid->getList();
         $value = $grid->Value();
 
-        if (!isset($value[self::POST_KEY]) || !is_array($value[self::POST_KEY])) {
+        if (!isset($value[GridFieldEditableColumns::POST_KEY])
+            || !is_array($value[GridFieldEditableColumns::POST_KEY])
+        ) {
             return;
         }
 
@@ -129,13 +131,13 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         $sortable = $grid->getConfig()->getComponentByType(GridFieldOrderableRows::class);
 
         // Fetch the items before processing them
-        $ids = array_keys($value[self::POST_KEY]);
+        $ids = array_keys($value[GridFieldEditableColumns::POST_KEY]);
         if (empty($ids)) {
             return;
         }
         $itemsCollection = ArrayList::create($list->filter('ID', $ids)->toArray());
 
-        foreach ($value[self::POST_KEY] as $id => $fields) {
+        foreach ($value[GridFieldEditableColumns::POST_KEY] as $id => $fields) {
             if (!is_numeric($id) || !is_array($fields)) {
                 continue;
             }
@@ -325,7 +327,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         return sprintf(
             '%s[%s][%s][%s]',
             $grid->getName(),
-            self::POST_KEY,
+            GridFieldEditableColumns::POST_KEY,
             $record->ID,
             $name
         );

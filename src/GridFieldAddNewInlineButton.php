@@ -131,7 +131,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
                 $field->setName(sprintf(
                     '%s[%s][{%%=o.num%%}][%s]',
                     $grid->getName(),
-                    self::POST_KEY,
+                    GridFieldAddNewInlineButton::POST_KEY,
                     $field->getName()
                 ));
 
@@ -145,7 +145,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
                 // Convert GridFieldEditableColumns to the template format
                 $content = str_replace(
                     sprintf('[%s][0]', GridFieldEditableColumns::POST_KEY),
-                    sprintf('[%s][{%%=o.num%%}]', self::POST_KEY),
+                    sprintf('[%s][{%%=o.num%%}]', GridFieldAddNewInlineButton::POST_KEY),
                     $content ?? ''
                 );
             }
@@ -176,7 +176,9 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
         $list  = $grid->getList();
         $value = $grid->Value();
 
-        if (!isset($value[self::POST_KEY]) || !is_array($value[self::POST_KEY])) {
+        if (!isset($value[GridFieldAddNewInlineButton::POST_KEY])
+            || !is_array($value[GridFieldAddNewInlineButton::POST_KEY])
+        ) {
             return;
         }
 
@@ -190,7 +192,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
             return;
         }
 
-        foreach ($value[self::POST_KEY] as $fields) {
+        foreach ($value[GridFieldAddNewInlineButton::POST_KEY] as $fields) {
             /** @var DataObject $item */
             $item  = $class::create();
 
