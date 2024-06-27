@@ -550,34 +550,30 @@
 								data[parts[0]] = parts[1];
 							}
 						}
-						$.ajax({
-							type: 'POST',
-							url: $(this).attr('data-url'),
-							data: data,
+						fetch($(this).attr('data-url'), {
+							method: 'POST',
+							body: JSON.stringify(data),
 							headers: {
 								'X-Pjax': pjaxTarget
-							},
-							success: function(data) {
+							}
+						})
+							.then(response => response.json())
+							.then(data => {
 								if (data && data[pjaxTarget]) {
 									gridField.find(`[data-pjax-fragment="${pjaxTarget}"]`).replaceWith(data[pjaxTarget]);
 								}
-							}
-						});
+							});
 					}
 					else {
 						$(this).closest('tr').next('.nested-gridfield').show();
-						$.ajax({
-							url: $(this).attr('data-toggle')+'1'
-						});
+						fetch($(this).attr('data-toggle')+'1');
 					}
 					$(this).removeClass('font-icon-right-dir');
 					$(this).addClass('font-icon-down-dir');
 					$(this).attr('aria-expanded', 'true');
 				}
 				else {
-					$.ajax({
-						url: $(this).attr('data-toggle')+'0'
-					});
+					fetch($(this).attr('data-toggle')+'0');
 					$(this).closest('tr').next('.nested-gridfield').hide();
 					$(this).removeClass('font-icon-down-dir');
 					$(this).addClass('font-icon-right-dir');
