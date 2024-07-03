@@ -230,7 +230,7 @@ class MySecurityAdminExtension extends Extension
 
 ```yml
 SilverStripe\Admin\SecurityAdmin:
-extensions:
+  extensions:
     - App\Extensions\MySecurityAdminExtension
 ```
 
