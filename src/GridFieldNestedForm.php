@@ -41,7 +41,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
     GridField_DataManipulator
 {
     use Configurable, GridFieldStateAware;
-    
+
     /**
      * The key used in the post data to identify nested form data
      */
@@ -55,7 +55,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
      * The default max nesting level. Nesting further than this will throw an exception.
      */
     private static int $default_max_nesting_level = 10;
-    
+
     private string $name;
 
     private bool $expandNested = false;
@@ -74,12 +74,12 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
     private $canExpandCallback = null;
 
     private int $maxNestingLevel = 0;
-    
+
     public function __construct($name = 'NestedForm')
     {
         $this->name = $name;
     }
-    
+
     /**
      * Get the grid field that this component is attached to
      */
@@ -95,7 +95,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
     {
         return $this->relationName;
     }
-    
+
     /**
      * Set the relation name to use for the nested grid fields
      */
@@ -121,7 +121,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         $this->inlineEditable = $editable;
         return $this;
     }
-    
+
     /**
      * Set whether the nested grid fields should be expanded by default
      */
@@ -255,7 +255,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
             ])->renderWith('Symbiote\GridFieldExtensions\GridFieldNestedForm');
         }
     }
-    
+
     public function getURLHandlers($gridField)
     {
         return [
@@ -349,7 +349,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         }
         return $gridField->FieldHolder();
     }
-    
+
     /**
      * Handle the request to show a nested item
      */
@@ -424,7 +424,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         $stateRelation = $className.'-'.$record->ID.'-'.$this->getRelationName();
         $state->$stateRelation = (int)$request->getVar('toggle');
     }
-    
+
     /**
      * Get the link for the nested grid field
      */
@@ -444,10 +444,10 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         $manager = $this->getStateManager();
         return $manager->addStateToURL($this->gridField, $link);
     }
-    
+
     public function handleSave(GridField $gridField, DataObjectInterface $record)
     {
-        $postKey = self::POST_KEY;
+        $postKey = GridFieldNestedForm::POST_KEY;
         $value = $gridField->Value();
         if (isset($value['GridState']) && $value['GridState']) {
             // set grid state from value, to store open/closed toggle state for nested forms
