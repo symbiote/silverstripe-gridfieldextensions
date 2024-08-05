@@ -1,0 +1,17 @@
+de:
+  GridFieldExtensions:
+    ADD: Hinzufügen
+    ADDEXISTING: 'Bestehenden Eintrag hinzufügen'
+    BACK: Zurück
+    CURRENT: (aktuell)
+    Next: Nächste
+    PREVIOUS: Vorherige
+    RESULTS: Ergebnisse
+    SEARCH: Suche
+    SELECTTYPETOCREATE: '(Bitte Typ auswählen)'
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Neuen Eintrag hinzufügen'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Anzeigen
+  Symbiote\GridFieldExtensions\GridFieldOrderableRows:
+    REORDERED: 'Einträge neu sortiert.'

@@ -14,3 +14,5 @@ eo:
     NEW: 'Aldoni novan rikordon'
   Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
     SHOW: Vidigi
+  Symbiote\GridFieldExtensions\GridFieldOrderableRows:
+    REORDERED: 'Reordigis rikordojn.'
