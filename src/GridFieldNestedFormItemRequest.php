@@ -103,6 +103,7 @@ class GridFieldNestedFormItemRequest extends GridFieldDetailForm_ItemRequest
 
         $this->record->invokeWithExtensions('updateNestedConfig', $config);
 
+        /** @phpstan-ignore translation.key (we need the key to be dynamic here) */
         $title = _t(get_class($this->record).'.'.strtoupper($relationName), ' ');
 
         $fields = new FieldList(
