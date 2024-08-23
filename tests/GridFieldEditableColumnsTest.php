@@ -5,8 +5,6 @@ namespace Symbiote\GridFieldExtensions\Tests;
 use Symbiote\GridFieldExtensions\Tests\Stub\TestController;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubUnorderable;
 use Symbiote\GridFieldExtensions\GridFieldEditableColumns;
-use SilverStripe\ORM\FieldType\DBHTMLText;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FieldList;
@@ -47,10 +45,9 @@ class GridFieldEditableColumnsTest extends SapphireTest
         $record->setCanEdit(true);
         $column = $component->getColumnContent($grid, $record, 'Title');
 
-        $this->assertInstanceOf(DBHTMLText::class, $column);
         $this->assertMatchesRegularExpression(
             '/<input type="text" name="TestGridField\[GridFieldEditableColumns\]\[100\]\[Title\]" value="foo"[^>]*>/',
-            $column->getValue()
+            $column
         );
     }
 
@@ -63,10 +60,9 @@ class GridFieldEditableColumnsTest extends SapphireTest
         $record->setCanEdit(false);
         $column = $component->getColumnContent($grid, $record, 'Title');
 
-        $this->assertInstanceOf(DBHTMLText::class, $column);
         $this->assertMatchesRegularExpression(
             '/<span[^>]*>\s*testval\s*<\/span>/',
-            $column->getValue()
+            $column
         );
     }
 
@@ -85,10 +81,9 @@ class GridFieldEditableColumnsTest extends SapphireTest
 
         $column = $component->getColumnContent($grid, $record, 'Title');
 
-        $this->assertInstanceOf(DBHTMLText::class, $column);
         $this->assertMatchesRegularExpression(
             '/<span[^>]*>\s*testval\s*<\/span>/',
-            $column->getValue()
+            $column
         );
     }
 }
