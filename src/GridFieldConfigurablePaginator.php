@@ -8,11 +8,11 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_FormAction;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridState_Data;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\Limitable;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\List\Limitable;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\ORM\UnsavedRelationList;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\ArrayData;
 
 /**
  * GridFieldConfigurablePaginator paginates the {@link GridField} list and adds controls to the bottom of

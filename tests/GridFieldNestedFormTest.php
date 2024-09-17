@@ -8,7 +8,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 use Symbiote\GridFieldExtensions\GridFieldNestedForm;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubHierarchy;
 use Symbiote\GridFieldExtensions\Tests\Stub\StubOrdered;

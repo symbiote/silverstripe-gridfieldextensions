@@ -335,7 +335,7 @@ There is also the possibility to use Nested GridField with the data structure Ar
 namespace App\Models;
 
 use MyDataObject;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 use SilverStripe\ORM\DataObject;
 
 class MyDataSet extends DataObject

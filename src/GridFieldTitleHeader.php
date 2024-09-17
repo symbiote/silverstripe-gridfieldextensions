@@ -4,8 +4,8 @@ namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Forms\GridField\AbstractGridFieldComponent;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\ArrayData;
 
 /**
  * A simple header which displays column titles.

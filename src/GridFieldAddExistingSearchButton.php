@@ -5,8 +5,8 @@ namespace Symbiote\GridFieldExtensions;
 use SilverStripe\Forms\GridField\AbstractGridFieldComponent;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
-use SilverStripe\ORM\SS_List;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\List\SS_List;
+use SilverStripe\Model\ArrayData;
 
 /**
  * A modal search dialog which uses search context to search for and add

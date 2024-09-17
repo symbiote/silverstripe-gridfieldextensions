@@ -6,7 +6,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_FormAction;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 use Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator;
 
 class GridFieldConfigurablePaginatorTest extends SapphireTest

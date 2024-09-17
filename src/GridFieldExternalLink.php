@@ -3,7 +3,7 @@
 namespace Symbiote\GridFieldExtensions;
 
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\ArrayData;
 
 /**
  * Displays a link to an external source referenced 'external link'
