@@ -27,6 +27,7 @@ use Symbiote\GridFieldExtensions\Tests\Stub\TitleObject;
 use Symbiote\GridFieldExtensions\Tests\Stub\TitleSortedObject;
 use Symbiote\GridFieldExtensions\Tests\Stub\TitleArraySortedObject;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughIntermediaryVersioned;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests for the {@link GridFieldOrderableRows} component.
@@ -61,7 +62,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         ThroughBelongsVersioned::class,
     ];
 
-    public function reorderItemsProvider()
+    public static function reorderItemsProvider()
     {
         return [
             [StubParent::class . '.parent', 'MyHasMany', 'Sort'],
@@ -75,9 +76,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         ];
     }
 
-    /**
-     * @dataProvider reorderItemsProvider
-     */
+    #[DataProvider('reorderItemsProvider')]
     public function testReorderItems($fixtureID, $relationName, $sortName)
     {
         $orderable = new GridFieldOrderableRows($sortName);
@@ -212,9 +211,6 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $this->assertEquals($desiredOrder, $newOrder);
     }
 
-    /**
-     * @covers \Symbiote\GridFieldExtensions\GridFieldOrderableRows::getSortTable
-     */
     public function testGetSortTable()
     {
         $orderable = new GridFieldOrderableRows();
@@ -315,9 +311,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $this->assertTrue($differenceFound);
     }
 
-    /**
-     * @dataProvider provideGetManipulatedData
-     */
+    #[DataProvider('provideGetManipulatedData')]
     public function testGetManipulatedData(string $dataClass, string $listClass, array $data, array $expected)
     {
         $list = $listClass == DataList::class ? new DataList($dataClass) : new ArrayList();
@@ -336,7 +330,7 @@ class GridFieldOrderableRowsTest extends SapphireTest
         $this->assertSame($expected, $sortedList->column($col));
     }
 
-    public function provideGetManipulatedData(): array
+    public static function provideGetManipulatedData(): array
     {
         return [
             [
