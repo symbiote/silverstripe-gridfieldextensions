@@ -14,7 +14,7 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\GridField\GridFieldDetailForm;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\ArrayData;
 use ReflectionClass;
 use Exception;
 

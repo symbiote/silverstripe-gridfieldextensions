@@ -12,7 +12,7 @@ use SilverStripe\Forms\GridField\GridFieldComponent;
 use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 
 /**
  * A base utility class for request handlers which present a grid field detail

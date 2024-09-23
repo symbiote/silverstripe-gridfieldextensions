@@ -17,7 +17,7 @@ use SilverStripe\Forms\GridField\GridField_SaveHandler;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\HiddenField;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
@@ -27,9 +27,9 @@ use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\ManyManyThroughList;
 use SilverStripe\ORM\ManyManyThroughQueryManipulator;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\Versioned\Versioned;
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\ModelData;
 
 /**
  * Allows grid field rows to be re-ordered via drag and drop. Both normal data
@@ -348,7 +348,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         $sortField->addExtraClass('ss-orderable-hidden-sort');
         $sortField->setForm($grid->getForm());
 
-        return ViewableData::create()->customise(array(
+        return ModelData::create()->customise(array(
             'SortField' => $sortField
         ))->renderWith('Symbiote\\GridFieldExtensions\\GridFieldOrderableRowsDragHandle');
     }

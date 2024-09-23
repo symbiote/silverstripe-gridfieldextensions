@@ -23,11 +23,11 @@ use SilverStripe\Forms\GridField\GridFieldStateAware;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
-use SilverStripe\ORM\Filterable;
+use SilverStripe\Model\List\Filterable;
 use SilverStripe\ORM\Hierarchy\Hierarchy;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\Versioned\Versioned;
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\ModelData;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
@@ -246,7 +246,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
 
             GridFieldExtensions::include_requirements();
 
-            return ViewableData::create()->customise([
+            return ModelData::create()->customise([
                 'Toggle' => $toggle,
                 'Link' => $this->Link($record->ID),
                 'ToggleLink' => $this->ToggleLink($record->ID),
@@ -356,7 +356,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
     public function handleNestedItem(
         GridField $gridField,
         HTTPRequest|null $request = null,
-        ViewableData|null $record = null
+        ModelData|null $record = null
     ): HTTPResponse|RequestHandler|Form {
         if ($this->atMaxNestingLevel($gridField)) {
             throw new Exception('Max nesting level reached');
@@ -408,7 +408,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
     public function toggleNestedItem(
         GridField $gridField,
         HTTPRequest|null $request = null,
-        ViewableData|null $record = null
+        ModelData|null $record = null
     ) {
         $list = $gridField->getList();
         if (!$record && $request && $list instanceof Filterable) {
