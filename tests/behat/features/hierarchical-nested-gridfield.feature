@@ -51,6 +51,7 @@ I want to see all children of hierarchical relational data in nested GridField
       And I should see "Tom" in the ".nested-gridfield.odd .ss-gridfield-item.last.even" element
       When I click on the ".nested-gridfield.odd .ss-gridfield-item.first.odd" element
       And I fill in "Name" with "John"
+      And I fill in "Email" with "john@example.com"
       And I press the "Save" button
       Then I click on the ".toolbar__back-button" element
       Then I click on the ".nested-gridfield.odd button[value='Surname']" element
