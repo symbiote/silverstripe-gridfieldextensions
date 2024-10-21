@@ -9,7 +9,6 @@ use SilverStripe\Forms\GridField\GridField_FormAction;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridState_Data;
 use SilverStripe\Model\List\ArrayList;
-use SilverStripe\Model\List\Limitable;
 use SilverStripe\Model\List\SS_List;
 use SilverStripe\ORM\UnsavedRelationList;
 use SilverStripe\Model\ArrayData;
@@ -256,7 +255,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
             $this->setItemsPerPage($state->pageSize);
         }
 
-        if (!($dataList instanceof Limitable) || ($dataList instanceof UnsavedRelationList)) {
+        if (!($dataList instanceof SS_List) || ($dataList instanceof UnsavedRelationList)) {
             return $dataList;
         }
 
