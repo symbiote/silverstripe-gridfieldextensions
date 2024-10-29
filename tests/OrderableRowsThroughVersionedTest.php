@@ -4,7 +4,7 @@ namespace Symbiote\GridFieldExtensions\Tests;
 
 use ReflectionMethod;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Versioned\Versioned;
+use SilverStripe\Versioned\Mode\Versioned;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use Symbiote\GridFieldExtensions\Tests\Stub\ThroughDefiner;

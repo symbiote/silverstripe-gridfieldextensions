@@ -26,7 +26,7 @@ use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\Model\List\Filterable;
 use SilverStripe\ORM\Hierarchy\Hierarchy;
 use SilverStripe\Model\List\SS_List;
-use SilverStripe\Versioned\Versioned;
+use SilverStripe\Versioned\Mode\Versioned;
 use SilverStripe\Model\ModelData;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
