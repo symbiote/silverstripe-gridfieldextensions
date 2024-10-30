@@ -23,7 +23,6 @@ use SilverStripe\Forms\GridField\GridFieldStateAware;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
-use SilverStripe\Model\List\Filterable;
 use SilverStripe\ORM\Hierarchy\Hierarchy;
 use SilverStripe\Model\List\SS_List;
 use SilverStripe\Versioned\Versioned;
@@ -362,7 +361,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
             throw new Exception('Max nesting level reached');
         }
         $list = $gridField->getList();
-        if (!$record && $request && $list instanceof Filterable) {
+        if (!$record && $request && $list instanceof SS_List) {
             $recordID = $request->param('RecordID');
             $record = $list->byID($recordID);
         }
@@ -411,7 +410,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         ModelData|null $record = null
     ) {
         $list = $gridField->getList();
-        if (!$record && $request && $list instanceof Filterable) {
+        if (!$record && $request && $list instanceof SS_List) {
             $recordID = $request->param('RecordID');
             $record = $list->byID($recordID);
         }
@@ -460,7 +459,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         }
         foreach ($request->postVars() as $key => $val) {
             $list = $gridField->getList();
-            if ($list instanceof Filterable
+            if ($list instanceof SS_List
                 && preg_match("/{$gridField->getName()}-{$postKey}-(\d+)/", $key, $matches)
             ) {
                 $recordID = $matches[1];
@@ -482,7 +481,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
             && is_a($gridField->getModelClass(), DataObject::class, true)
             && DataObject::has_extension($gridField->getModelClass(), Hierarchy::class)
             && $gridField->getForm()->getController() instanceof ModelAdmin
-            && $dataList instanceof Filterable
+            && $dataList instanceof SS_List
         ) {
             $dataList = $dataList->filter('ParentID', 0);
         }
