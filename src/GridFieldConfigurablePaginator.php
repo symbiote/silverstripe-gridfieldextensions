@@ -424,7 +424,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      * @param  GridField $gridField Not used, but present for parent method compatibility
      * @return GridState_Data
      */
-    protected function getGridPagerState(GridField $gridField = null)
+    protected function getGridPagerState(?GridField $gridField = null)
     {
         if (!$this->gridFieldState) {
             $state = $this->getGridField()->State->GridFieldConfigurablePaginator;
