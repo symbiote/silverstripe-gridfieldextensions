@@ -119,7 +119,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     {
         /** @var DataList $list */
         $list  = $grid->getList();
-        $value = $grid->Value();
+        $value = $grid->getValue();
 
         if (!isset($value[GridFieldEditableColumns::POST_KEY])
             || !is_array($value[GridFieldEditableColumns::POST_KEY])

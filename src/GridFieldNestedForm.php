@@ -447,7 +447,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
     public function handleSave(GridField $gridField, DataObjectInterface $record)
     {
         $postKey = GridFieldNestedForm::POST_KEY;
-        $value = $gridField->Value();
+        $value = $gridField->getValue();
         if (isset($value['GridState']) && $value['GridState']) {
             // set grid state from value, to store open/closed toggle state for nested forms
             $gridField->getState(false)->setValue($value['GridState']);

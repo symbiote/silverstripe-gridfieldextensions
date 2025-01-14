@@ -575,7 +575,7 @@ class GridFieldOrderableRows extends RequestHandler implements
     public function handleSave(GridField $grid, DataObjectInterface $record)
     {
         if (!$this->immediateUpdate) {
-            $value = $grid->Value();
+            $value = $grid->getValue();
             $sortedIDs = $this->getSortedIDs($value);
             if ($sortedIDs) {
                 $this->executeReorder($grid, $sortedIDs);
