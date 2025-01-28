@@ -20,7 +20,7 @@ $SearchForm
 				<li class="page-item">
                     <a class="page-link" href="$Items.PrevLink">
                         <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only"><%t GridFieldExtensions.PREVIOUS "Previous" %></span>
+                        <span class="visually-hidden"><%t GridFieldExtensions.PREVIOUS "Previous" %></span>
                     </a>
                 </li>
 			<% end_if %>
@@ -29,7 +29,7 @@ $SearchForm
 				<% if $CurrentBool %>
 					<li class="page-item active">
                         <a class="page-link" href="#">
-                            $PageNum <span class="sr-only"><%t GridFieldExtensions.CURRENT "(current)" %></span>
+                            $PageNum <span class="visually-hidden"><%t GridFieldExtensions.CURRENT "(current)" %></span>
                         </a>
                     </li>
 				<% else_if $Link %>
@@ -48,7 +48,7 @@ $SearchForm
 			<% if $Items.NotLastPage %>
                 <a class="page-link" href="$Items.NextLink">
                     <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only"><%t GridFieldExtensions.Next "Next" %></span>
+                    <span class="visually-hidden"><%t GridFieldExtensions.Next "Next" %></span>
                 </a>
 			<%end_if %>
 		</ul>
