@@ -20,7 +20,6 @@ use SilverStripe\Forms\HiddenField;
 use SilverStripe\Model\List\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\DataObjectSchema;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBDatetime;
@@ -572,7 +571,7 @@ class GridFieldOrderableRows extends RequestHandler implements
      * Handle saving when 'immediateUpdate' is disabled, otherwise this isn't
      * necessary for the default sort mode.
      */
-    public function handleSave(GridField $grid, DataObjectInterface $record)
+    public function handleSave(GridField $grid, DataObject $record)
     {
         if (!$this->immediateUpdate) {
             $value = $grid->getValue();

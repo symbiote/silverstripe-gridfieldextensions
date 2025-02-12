@@ -11,7 +11,6 @@ use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_SaveHandler;
 use SilverStripe\Model\List\ArrayList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\ManyManyThroughList;
@@ -171,7 +170,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
         return $columns->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddNewInlineRow');
     }
 
-    public function handleSave(GridField $grid, DataObjectInterface $record)
+    public function handleSave(GridField $grid, DataObject $record)
     {
         $list  = $grid->getList();
         $value = $grid->getValue();

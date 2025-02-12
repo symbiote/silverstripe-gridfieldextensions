@@ -22,7 +22,6 @@ use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Model\List\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\ManyManyThroughList;
 
@@ -115,7 +114,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         $grid->addExtraClass('ss-gridfield-editable');
     }
 
-    public function handleSave(GridField $grid, DataObjectInterface $record)
+    public function handleSave(GridField $grid, DataObject $record)
     {
         /** @var DataList $list */
         $list  = $grid->getList();
@@ -212,12 +211,10 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     /**
      * Gets the field list for a record.
      *
-     * @param GridField $grid
-     * @param DataObjectInterface $record
      * @return FieldList
      * @throws Exception
      */
-    public function getFields(GridField $grid, DataObjectInterface $record)
+    public function getFields(GridField $grid, DataObject $record)
     {
         $cols   = $this->getDisplayFields($grid);
         $fields = FieldList::create();
@@ -302,11 +299,9 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
     /**
      * Gets the form instance for a record.
      *
-     * @param GridField $grid
-     * @param DataObjectInterface $record
      * @return Form
      */
-    public function getForm(GridField $grid, DataObjectInterface $record)
+    public function getForm(GridField $grid, DataObject $record)
     {
         $fields = $this->getFields($grid, $record);
 
@@ -322,7 +317,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         return $form;
     }
 
-    protected function getFieldName($name, GridField $grid, DataObjectInterface $record)
+    protected function getFieldName($name, GridField $grid, DataObject $record)
     {
         return sprintf(
             '%s[%s][%s][%s]',

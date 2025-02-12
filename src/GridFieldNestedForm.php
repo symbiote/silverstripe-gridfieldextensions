@@ -22,7 +22,6 @@ use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\GridField\GridFieldStateAware;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\Hierarchy\Hierarchy;
 use SilverStripe\Model\List\SS_List;
 use SilverStripe\Versioned\Versioned;
@@ -444,7 +443,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         return $manager->addStateToURL($this->gridField, $link);
     }
 
-    public function handleSave(GridField $gridField, DataObjectInterface $record)
+    public function handleSave(GridField $gridField, DataObject $record)
     {
         $postKey = GridFieldNestedForm::POST_KEY;
         $value = $gridField->getValue();
