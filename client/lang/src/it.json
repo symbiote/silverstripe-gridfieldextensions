@@ -1,0 +1,6 @@
+{
+    "GridFieldExtensions.ADD_CLASS": "Aggiungi: <i>{classname}</i>",
+    "GridFieldExtensions.CONFIRMDEL": "Sei sicuro di volerlo eliminare?",
+    "GridFieldExtensions.OPEN_SEARCH_FILTER": "Apri ricerca e filtraggio",
+    "GridFieldExtensions.SAVE_PUBLISH": "Salva & pubblica"
+}
