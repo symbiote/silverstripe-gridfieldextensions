@@ -174,7 +174,7 @@ class GridFieldAddNewInlineButton extends AbstractGridFieldComponent implements
     public function handleSave(GridField $grid, DataObjectInterface $record)
     {
         $list  = $grid->getList();
-        $value = $grid->Value();
+        $value = $grid->getValue();
 
         if (!isset($value[GridFieldAddNewInlineButton::POST_KEY])
             || !is_array($value[GridFieldAddNewInlineButton::POST_KEY])
