@@ -1,0 +1,18 @@
+it:
+  GridFieldExtensions:
+    ADD: Aggiungi
+    ADDEXISTING: 'Aggiungi Esistente'
+    BACK: Indietro
+    CURRENT: (attuale)
+    NOITEMS: 'Non ci sono elementi.'
+    Next: Prossimo
+    PREVIOUS: Precedente
+    RESULTS: Risultati
+    SEARCH: Ricerca
+    SELECTTYPETOCREATE: '(Seleziona tipo per creare)'
+  Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension:
+    NEW: 'Aggiungi nuovo record'
+  Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator:
+    SHOW: Mostra
+  Symbiote\GridFieldExtensions\GridFieldOrderableRows:
+    REORDERED: 'Record riordinati.'
