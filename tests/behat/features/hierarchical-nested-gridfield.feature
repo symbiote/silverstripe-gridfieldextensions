@@ -4,6 +4,7 @@ I want to see all children of hierarchical relational data in nested GridField
 
   Background:
     Given I add an extension "SilverStripe\FrameworkTest\Fields\NestedGridField\SecurityAdminExtension" to the "SilverStripe\Admin\SecurityAdmin" class
+    And I add an extension "SilverStripe\BehatExtension\Extensions\ActivateSudoModeServiceExtension" to the "SilverStripe\Security\SudoMode\SudoModeService" class
     And there are the following SilverStripe\Security\Member records
     """
     Adam:
