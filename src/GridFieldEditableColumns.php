@@ -8,6 +8,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Validation\ValidationException;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormField;
@@ -25,6 +26,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\ManyManyThroughList;
+use SilverStripe\Core\Validation\ValidationResult;
 
 /**
  * Allows inline editing of grid field records without having to load a separate
@@ -169,7 +171,15 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 $extra = array_intersect_key($form->getData() ?? [], (array) $list->getExtraFields());
             }
 
-            $item->write(false, false, false, true);
+            // Update the namespaces on the validation result so that if a field being managed on the GridField
+            // fails validation, it will not be confused with a field on the parent record which has the same name
+            // e.g. parent is userform page, and the gridfield is managing a userform field record
+            try {
+                $item->write(false, false, false, true);
+            } catch (ValidationException $e) {
+                $namespaceException = $this->createValidationExceptionWithNamespaces($e, $grid, $item);
+                throw $namespaceException;
+            }
             $list->add($item, $extra);
         }
     }
@@ -345,5 +355,36 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
         }
 
         return false;
+    }
+
+    private function createValidationExceptionWithNamespaces(
+        ValidationException $valdationException,
+        GridField $gridField,
+        DataObject $record
+    ): ValidationException {
+        $validationResult = $valdationException->getResult();
+        // Create a new ValidationResult with namespaced fields
+        $signatures = [];
+        $validationResultWithNameSpaces = ValidationResult::create();
+        foreach ($validationResult->getMessages() as $message) {
+            // ensure there are no duplicates
+            $signature = md5(implode(',', array_values($message)));
+            if (array_key_exists($signature, $signatures)) {
+                continue;
+            }
+            $messageText = $message['message'] ?? '';
+            $messageFieldName = $message['fieldName'] ?? '';
+            $messageType = $message['messageType'] ?? ValidationResult::TYPE_ERROR;
+            $messageCast = $message['messageCast'] ?? ValidationResult::CAST_TEXT;
+            if ($messageFieldName) {
+                $fieldName = $this->getFieldName($messageFieldName, $gridField, $record);
+                $params = [$fieldName, $messageText, $messageType, '', $messageCast];
+                $validationResultWithNameSpaces->addFieldError(...$params);
+            } else {
+                $validationResultWithNameSpaces->addError($messageText, $messageType, '', $messageCast);
+            }
+            $signatures[$signature] = $message;
+        }
+        return ValidationException::create($validationResultWithNameSpaces);
     }
 }
