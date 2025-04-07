@@ -500,7 +500,7 @@ class GridFieldOrderableRows extends RequestHandler implements
         $move  = $request->postVar('move');
         $field = $this->getSortField();
 
-        $list  = $grid->getList();
+        $list  = $grid->getList()->sort($field);
         $manip = $grid->getManipulatedList();
 
         $existing = $manip->map('ID', $field)->toArray();
