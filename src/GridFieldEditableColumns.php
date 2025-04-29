@@ -169,7 +169,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 $extra = array_intersect_key($form->getData() ?? [], (array) $list->getExtraFields());
             }
 
-            $item->write(false, false, false, true);
+            $item->write(false, false, false);
             $list->add($item, $extra);
         }
     }
