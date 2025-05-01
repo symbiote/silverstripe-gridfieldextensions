@@ -2,7 +2,7 @@
 
 namespace Symbiote\GridFieldExtensions;
 
-use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Admin\AdminController;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
@@ -90,7 +90,7 @@ abstract class GridFieldRequestHandler extends RequestHandler
             FieldList::create()
         );
 
-        if ($this->getTopLevelController() instanceof LeftAndMain) {
+        if ($this->getTopLevelController() instanceof AdminController) {
             $form->setTemplate('LeftAndMain_EditForm');
             $form->addExtraClass('cms-content cms-edit-form cms-tabset center');
             $form->setAttribute('data-pjax-fragment', 'CurrentForm Content');
