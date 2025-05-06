@@ -4,6 +4,7 @@ namespace Symbiote\GridFieldExtensions;
 
 use Exception;
 use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_FormAction;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
@@ -45,6 +46,8 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      */
     protected $pageSizes = array();
 
+    private bool $haveCheckedCount = false;
+
     /**
      * @param int $itemsPerPage  How many items should be displayed per page
      * @param int $pageSizes The page sizes to show in the dropdown
@@ -64,10 +67,21 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      * Get the total number of records in the list
      *
      * @return int
+     * @deprecated 4.1.1 Use getTotalItems() instead.
      */
     public function getTotalRecords()
     {
-        return (int) $this->getGridField()->getList()->count();
+        Deprecation::notice('4.1.1', 'Use getTotalItems() instead.');
+        return $this->getTotalItems();
+    }
+
+    public function getTotalItems(): int
+    {
+        if (!$this->haveCheckedCount) {
+            $this->totalItems = (int) $this->getGridField()->getList()->count();
+            $this->haveCheckedCount = true;
+        }
+        return $this->totalItems;
     }
 
     /**
@@ -79,7 +93,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
     {
         $firstShown = $this->getGridPagerState()->firstShown ?: 1;
         // Prevent visiting a page with an offset higher than the total number of items
-        if ($firstShown > $this->getTotalRecords()) {
+        if ($firstShown > $this->getTotalItems()) {
             $this->getGridPagerState()->firstShown = $firstShown = 1;
         }
         return $firstShown;
@@ -104,7 +118,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      */
     public function getLastShown()
     {
-        return min($this->getTotalRecords(), $this->getFirstShown() + $this->getItemsPerPage() - 1);
+        return min($this->getTotalItems(), $this->getFirstShown() + $this->getItemsPerPage() - 1);
     }
 
     /**
@@ -123,7 +137,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
         $pages++;
 
         // Pages after
-        $pages += ceil(($this->getTotalRecords() - $this->getLastShown()) / $this->getItemsPerPage());
+        $pages += ceil(($this->getTotalItems() - $this->getLastShown()) / $this->getItemsPerPage());
 
         return (int) $pages;
     }
@@ -370,7 +384,7 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
     protected function getPagerArguments()
     {
         return array(
-            'total-rows' => $this->getTotalRecords(),
+            'total-rows' => $this->getTotalItems(),
             'total-pages' => $this->getTotalPages(),
             'items-per-page' => $this->getItemsPerPage(),
             'first-shown' => $this->getFirstShown(),
