@@ -29,12 +29,12 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
         $this->gridField = GridField::create('Mock', null, $data);
     }
 
-    public function testGetTotalRecords()
+    public function testGetTotalItems()
     {
         $paginator = new GridFieldConfigurablePaginator;
         $paginator->setGridField($this->gridField);
 
-        $this->assertSame(130, $paginator->getTotalRecords());
+        $this->assertSame(130, $paginator->getTotalItems());
     }
 
     public function testGetFirstShown()
