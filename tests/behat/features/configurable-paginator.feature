@@ -3,8 +3,8 @@ As a content editor
 I want to use the functionality in GridFieldConfigurablePaginator
 
   Background:
-    Given I add an extension "Symbiote\GridFieldExtensions\Tests\Stub\Extension\ConfigurablePaginatorExtension" to the "SilverStripe\FrameworkTest\Model\Company" class
-    And I add an extension "Symbiote\GridFieldExtensions\Tests\Stub\Extension\NoCoworkersExtension" to the "SilverStripe\FrameworkTest\Model\Employee" class
+    Given I add an extension "Symbiote\GridFieldExtensions\Tests\Stub\Extension\ConfigurablePaginatorExtension" to the "SilverStripe\FrameworkTest\Model\Company" class without dev-build
+    And I add an extension "Symbiote\GridFieldExtensions\Tests\Stub\Extension\NoCoworkersExtension" to the "SilverStripe\FrameworkTest\Model\Employee" class without dev-build
     And there are the following SilverStripe\FrameworkTest\Model\Employee records
     """
     employee1:
