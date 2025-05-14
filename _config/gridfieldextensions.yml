@@ -6,4 +6,8 @@ GridFieldAddNewMultiClass:
 
 SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
   extensions:
-    - Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension
+    - 'Symbiote\GridFieldExtensions\Extensions\GridFieldDetailFormItemRequestExtension'
+
+SilverStripe\Forms\GridField\GridField:
+  default_readonly_components:
+    - 'Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator'
