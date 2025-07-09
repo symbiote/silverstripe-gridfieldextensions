@@ -11,12 +11,12 @@ permissions: {}
 jobs:
   merge-up:
     name: Merge-up
-    # Only run cron on the symbiote account
-    if: (github.event_name == 'schedule' && github.repository_owner == 'symbiote') || (github.event_name != 'schedule')
+    # Only run cron on the silverstripe account
+    if: (github.event_name == 'schedule' && github.repository_owner == 'silverstripe') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
     permissions:
       contents: write
       actions: write
     steps:
       - name: Merge-up
-        uses: silverstripe/gha-merge-up@v1
+        uses: silverstripe/gha-merge-up@v2
