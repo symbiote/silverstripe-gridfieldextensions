@@ -6,7 +6,11 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridField_FormAction;
+use SilverStripe\Forms\GridField\GridFieldFilterHeader;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\Search\BasicSearchContext;
+use SilverStripe\View\ArrayData;
 use Symbiote\GridFieldExtensions\GridFieldConfigurablePaginator;
 
 class GridFieldConfigurablePaginatorTest extends SapphireTest
@@ -27,6 +31,7 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
         }
 
         $this->gridField = GridField::create('Mock', null, $data);
+        $this->gridField->getConfig()->removeComponentsByType(GridFieldPaginator::class);
     }
 
     public function testGetTotalItems()
@@ -35,6 +40,18 @@ class GridFieldConfigurablePaginatorTest extends SapphireTest
         $paginator->setGridField($this->gridField);
 
         $this->assertSame(130, $paginator->getTotalItems());
+    }
+
+    public function testGetTotalItemsDuringFilter(): void
+    {
+        $paginator = new GridFieldConfigurablePaginator;
+        $this->gridField->getConfig()->addComponent($paginator);
+        $this->gridField->getConfig()->getComponentByType(GridFieldFilterHeader::class)
+            ->setSearchContext(new BasicSearchContext(ArrayData::class, ['ID']));
+        $this->gridField->State->GridFieldFilterHeader->Columns = ['ID' => '2'];
+        $this->gridField->getManipulatedList();
+
+        $this->assertSame(31, $paginator->getTotalItems());
     }
 
     public function testGetFirstShown()
