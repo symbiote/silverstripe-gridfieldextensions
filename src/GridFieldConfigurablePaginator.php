@@ -45,6 +45,10 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
      */
     protected $pageSizes = array();
 
+    /**
+     * Used to make sure we only count the list once.
+     * Required because the parent class sets totalItems to 0 by default.
+     */
     private bool $haveCheckedCount = false;
 
     /**
@@ -262,6 +266,10 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
     {
         // Assign the GridField to the class so it can be used later in the request
         $this->setGridField($gridField);
+
+        // Update item count prior to limit. This ensures filtered lists have the correct count.
+        $this->totalItems = $dataList->count();
+        $this->haveCheckedCount = true;
 
         // Retain page sizes during actions provided by other components
         $state = $this->getGridPagerState();
