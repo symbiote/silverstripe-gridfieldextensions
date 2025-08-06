@@ -294,22 +294,25 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
         }
         $to = isset($move['parent']) ? (int)$move['parent'] : null;
         // should be possible either on parent or child grid field, or nested grid field from parent
-        $parent = $to ? $list->byID($to) : null;
-        if (!$parent
+        $hasParent = $to ? $list->filter('ID', $to)->exists() : false;
+        $parentID = $hasParent ? $to : 0;
+        if (!$hasParent
             && $to
             && $gridField->getForm()->getController() instanceof GridFieldNestedFormItemRequest
             && $gridField->getForm()->getController()->getRecord()->ID == $to
         ) {
-            $parent = $gridField->getForm()->getController()->getRecord();
+            $hasParent = true;
+            $parentID = $gridField->getForm()->getController()->getRecord()->ID;
         }
         $child = $list->byID($id);
         // we need either a parent or a child, or a move to top level at this stage
-        if (!($parent || $child || $to === 0)) {
+        if (!($hasParent || $child || $to === 0)) {
             throw new HTTPResponse_Exception('Invalid request', 400);
         }
         // parent or child might be from another grid field, so we need to search via DataList in some cases
-        if (!$parent && $to) {
-            $parent = DataList::create($gridField->getModelClass())->byID($to);
+        if (!$hasParent && $to && DataList::create($gridField->getModelClass())->filter('ID', $to)->exists()) {
+            $hasParent = true;
+            $parentID = $to;
         }
         if (!$child) {
             $child = DataList::create($gridField->getModelClass())->byID($id);
@@ -319,7 +322,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
                 throw new HTTPResponse_Exception('Not allowed', 403);
             }
             if ($child->hasExtension(Hierarchy::class)) {
-                $child->ParentID = $parent ? $parent->ID : 0;
+                $child->ParentID = $parentID;
             }
             // validate that the record is still valid
             $validationResult = $child->validate();
