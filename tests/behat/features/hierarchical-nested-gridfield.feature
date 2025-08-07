@@ -60,4 +60,5 @@ I want to see all children of hierarchical relational data in nested GridField
       And I should see "John" in the ".nested-gridfield.odd .ss-gridfield-item.last.even" element
       And I click on the ".nested-gridfield.odd .ss-gridfield-item.last.even button[aria-label='View actions']" element
       And I click on the ".nested-gridfield.odd .ss-gridfield-item.last.even button.action--delete" element, confirming the dialog
+      And I wait for 2 seconds
       And I should not see "John"
