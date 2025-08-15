@@ -367,7 +367,7 @@ class GridFieldNestedForm extends AbstractGridFieldComponent implements
             $record = $list->byID($recordID);
         }
         if (!$record) {
-            return '';
+            throw new HTTPResponse_Exception(statusCode: 404);
         }
         $relationName = $this->getRelationName();
         if (!$record->hasMethod($relationName)) {
