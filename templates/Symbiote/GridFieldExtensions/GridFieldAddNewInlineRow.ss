@@ -3,7 +3,9 @@
 		<% loop $Me %>
 			<% if $IsActions %>
 				<td$Attributes>
-					<button class="ss-gridfield-delete-inline gridfield-button-delete action gridfield-button-delete btn--icon-md font-icon-trash-bin btn--no-text grid-field__icon-action form-group--no-label"></button>
+					<button class="ss-gridfield-delete-inline gridfield-button-delete action gridfield-button-delete btn--icon-md btn--no-text grid-field__icon-action form-group--no-label">
+                        <span class="font-icon-trash-bin" aria-hidden="true"></span>
+                    </button>
 				</td>
 			<% else %>
 				<td$Attributes>$Content</td>
