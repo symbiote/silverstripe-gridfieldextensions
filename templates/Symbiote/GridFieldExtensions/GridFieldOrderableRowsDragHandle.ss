@@ -1,2 +1,2 @@
-<div class="handle"><i class="icon font-icon-drag-handle"></i></div>
+<div class="handle"><span class="icon font-icon-drag-handle" aria-hidden="true"></span></div>
 $SortField

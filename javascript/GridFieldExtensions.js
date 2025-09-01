@@ -523,7 +523,7 @@
 				let currState = gridField.getState();
 				let toggleState = false;
 				let pjaxTarget = $(this).attr('data-pjax-target');
-				if ($(this).hasClass('font-icon-right-dir')) {
+				if ($(this).attr('aria-expanded') === 'false') {
 					toggleState = true;
 				}
 				if (typeof currState['GridFieldNestedForm'] == 'undefined' || currState['GridFieldNestedForm'] == null) {
@@ -568,23 +568,25 @@
 						$(this).closest('tr').next('.nested-gridfield').show();
 						fetch($(this).attr('data-toggle')+'1');
 					}
-					$(this).removeClass('font-icon-right-dir');
-					$(this).addClass('font-icon-down-dir');
 					$(this).attr('aria-expanded', 'true');
+					const icon = $(this).find('.nested-gridfield__toggle-icon');
+					icon.removeClass('font-icon-right-dir');
+					icon.addClass('font-icon-down-dir');
 				}
 				else {
 					fetch($(this).attr('data-toggle')+'0');
 					$(this).closest('tr').next('.nested-gridfield').hide();
-					$(this).removeClass('font-icon-down-dir');
-					$(this).addClass('font-icon-right-dir');
 					$(this).attr('aria-expanded', 'false');
+					const icon = $(this).find('.nested-gridfield__toggle-icon');
+					icon.removeClass('font-icon-down-dir');
+					icon.addClass('font-icon-right-dir');
 				}
 				e.preventDefault();
 				e.stopPropagation();
 				return false;
 			}
 		});
-		
+
 		// move nested gridfields onto their own rows below this row, to make it look nicer
 		$('.col-listChildrenLink > .grid-field.nested').entwine({
 			onadd: function() {
