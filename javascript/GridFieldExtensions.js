@@ -344,7 +344,9 @@
                 self.addClass('show-filter').find('.grid-field__filter-header').show();
               } else {
                 const contentTitle = ss.i18n._t('GridFieldExtensions.OPEN_SEARCH_FILTER', 'Open search and filter');
-                content = `<button type="button" title="${contentTitle}" name="showFilter" class="btn btn-secondary font-icon-search btn--no-text btn--icon-large grid-field__filter-open"></button>`;
+                content = `<button type="button" title="${contentTitle}" name="showFilter" class="btn btn-secondary btn--no-text btn--icon-large grid-field__filter-open">
+                  <span class="font-icon-search" aria-hidden="true"></span>
+                </button>`;
                 self.removeClass('show-filter').find('.grid-field__filter-header').hide();
               }
 
