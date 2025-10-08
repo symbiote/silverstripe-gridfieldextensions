@@ -298,6 +298,74 @@
 		 */
 
 		$(".ss-gridfield-orderable tbody").entwine({
+      /**
+       * Update the edit form "Publish" button state to be dirty.
+       *
+       * We do not update the state of the "Save" button because reordering items includes
+       * saving the records.
+       *
+       * This is fairly hackish code that duplicates the behaviour in CMSMain.Editform.js
+       * for the onmatch handleronmatch handler of `.cms-edit-form.changed`, however there's
+       * no clean way to do this without duplicating code since the existing jQuery change
+       * tracker does not allow independently updating only the publish button.
+       */
+      handleUnpublishedVersionedState: function () {
+        const cssSelector = [
+          // CMS page edit form publish button
+          '.cms-edit-form button[data-text-alternate]#Form_EditForm_action_publish',
+          // GridField managed DataObject edit form publish button
+          '.cms-edit-form button[data-text-alternate]#Form_ItemEditForm_action_doPublish'
+        ].join(',');
+        const publishButtons = $(cssSelector);
+        if (!publishButtons.length) {
+          return;
+        }
+        publishButtons.each(function() {
+          const button = $(this);
+          const buttonTitle = button.find('.btn__title');
+
+          // Button needs to be updated only if it's in published state.
+          // If the "standard" text data has been set and the current text
+          // doesn't match it, that means the button is in its NON-published state
+          // and we can skip this.
+          const standardText = button.data('textStandard');
+          if (standardText && buttonTitle.text() !== standardText) {
+            return;
+          }
+
+          // Set alternate-text
+          const alternateText = button.data('textAlternate');
+          if (alternateText) {
+            button.data('textStandard', buttonTitle.text());
+            buttonTitle.text(alternateText);
+          }
+
+          // Extra classes can also be specified as add / remove
+          const alternateClassesAdd = button.data('btnAlternateAdd');
+          if (alternateClassesAdd) {
+            button.addClass(alternateClassesAdd);
+          }
+          const alternateClassesRemove = button.data('btnAlternateRemove');
+          if (alternateClassesRemove) {
+            button.removeClass(alternateClassesRemove);
+          }
+
+          // Icons in the child element can also be swapped out
+          const iconElement = button.find('.btn__icon');
+          if (iconElement.length === 0) {
+            return;
+          }
+          const alternateIcon = button.data('iconAlternate');
+          if (alternateIcon) {
+            iconElement.addClass(`font-icon-${alternateIcon}`);
+          }
+          const standardIcon = button.data('iconStandard');
+          if (standardIcon) {
+            iconElement.addClass(`font-icon-${standardIcon}`);
+          }
+        });
+      },
+
       // reload the gridfield without triggering the change event
       // this is because the change has already been saved by reorder action
       reload: function (ajaxOpts, successCallback) {
@@ -365,17 +433,8 @@
             }
             self.trigger('reload', self);
 
-            // update publish button if necessary
-            const publish = $('#Form_EditForm_action_publish');
-
-            // button needs to be updated only if it's in published state
-            if (publish.length > 0 && publish.hasClass('btn-outline-primary')) {
-              publish.removeClass('btn-outline-primary');
-              publish.removeClass('font-icon-tick');
-              publish.addClass('btn-primary');
-              publish.addClass('font-icon-rocket');
-              publish.find('.btn__title').html(ss.i18n._t('GridFieldExtensions.SAVE_PUBLISH', 'Save & publish'));
-            }
+            // Update publish button display state if appropriate.
+            self.handleUnpublishedVersionedState();
           },
           error: function (e) {
             alert(i18n._t('Admin.ERRORINTRANSACTION'));

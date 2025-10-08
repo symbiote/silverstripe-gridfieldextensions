@@ -96,7 +96,8 @@ class GridFieldAddExistingSearchButton extends AbstractGridFieldComponent implem
 
         $data = ArrayData::create([
             'Title' => $this->getTitle(),
-            'Classes' => 'action btn btn-primary font-icon-search add-existing-search',
+            'Classes' => 'action btn btn-primary add-existing-search',
+            'IconClass' => 'font-icon-search',
             'Link' => $grid->Link('add-existing-search'),
         ]);
 

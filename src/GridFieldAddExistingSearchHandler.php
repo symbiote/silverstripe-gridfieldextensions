@@ -81,8 +81,9 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
             $this->context->getFields(),
             FieldList::create(
                 FormAction::create('doSearch', _t('GridFieldExtensions.SEARCH', 'Search'))
+                    ->setIcon('search')
                     ->setUseButtonTag(true)
-                    ->addExtraClass('btn btn-primary font-icon-search')
+                    ->addExtraClass('btn btn-primary')
             )
         );
 
