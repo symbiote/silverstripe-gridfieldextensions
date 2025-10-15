@@ -308,31 +308,35 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
         // Define a list of the FormActions that should be generated for pager controls (see getPagerActions())
         $controls = array(
             'first' => array(
-                'title' => 'First',
+                'title' => _t(GridFieldPaginator::class . '.First', 'First'),
                 'args' => array('first-shown' => 1),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-left '
+                'extra-class' => 'btn btn-secondary btn--no-text btn-sm '
                     . 'ss-gridfield-pagination-action ss-gridfield-firstpage',
+                'icon' => 'angle-double-left',
                 'disable-previous' => ($this->getCurrentPage() == 1)
             ),
             'prev' => array(
-                'title' => 'Previous',
+                'title' => _t(GridFieldPaginator::class . '.Previous', 'Previous'),
                 'args' => array('first-shown' => $arguments['first-shown'] - $this->getItemsPerPage()),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-left '
+                'extra-class' => 'btn btn-secondary btn--no-text btn-sm '
                     . 'ss-gridfield-pagination-action ss-gridfield-previouspage',
+                'icon' => 'angle-left',
                 'disable-previous' => ($this->getCurrentPage() == 1)
             ),
             'next' => array(
-                'title' => 'Next',
+                'title' => _t(GridFieldPaginator::class . '.Next', 'Next'),
                 'args' => array('first-shown' => $arguments['first-shown'] + $this->getItemsPerPage()),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-right '
-                .'ss-gridfield-pagination-action  ss-gridfield-nextpage',
+                'extra-class' => 'btn btn-secondary btn--no-text btn-sm '
+                    .'ss-gridfield-pagination-action  ss-gridfield-nextpage',
+                'icon' => 'angle-right',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
             ),
             'last' => array(
-                'title' => 'Last',
+                'title' => _t(GridFieldPaginator::class . '.Last', 'Last'),
                 'args' => array('first-shown' => ($this->getTotalPages() - 1) * $this->getItemsPerPage() + 1),
-                'extra-class' => 'btn btn-secondary btn--hide-text btn-sm font-icon-angle-double-right '
+                'extra-class' => 'btn btn-secondary btn--no-text btn-sm '
                     . 'ss-gridfield-pagination-action ss-gridfield-lastpage',
+                'icon' => 'angle-double-right',
                 'disable-next' => ($this->getCurrentPage() == $arguments['total-pages'])
             ),
             'pagesize' => array(
@@ -414,10 +418,16 @@ class GridFieldConfigurablePaginator extends GridFieldPaginator
             $action = GridField_FormAction::create(
                 $gridField,
                 'pagination_' . $key,
-                $arguments['title'],
+                '',
                 'paginate',
                 $arguments['args']
-            );
+            )
+                ->setAttribute('title', $arguments['title'])
+                ->setAttribute('aria-label', $arguments['title']);
+
+            if (isset($arguments['icon'])) {
+                $action->setIcon($arguments['icon']);
+            }
 
             if (isset($arguments['extra-class'])) {
                 $action->addExtraClass($arguments['extra-class']);
