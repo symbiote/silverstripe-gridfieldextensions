@@ -404,23 +404,6 @@
             // multiple relationships via keyboard.
             if (focusedElName) self.find(':input[name="' + focusedElName + '"]').focus();
 
-            // Update filter
-            if (self.find('.grid-field__filter-header').length) {
-              var content;
-              if (ajaxOpts.data[0].filter == "show") {
-                content = '<span class="non-sortable"></span>';
-                self.addClass('show-filter').find('.grid-field__filter-header').show();
-              } else {
-                const contentTitle = ss.i18n._t('GridFieldExtensions.OPEN_SEARCH_FILTER', 'Open search and filter');
-                content = `<button type="button" title="${contentTitle}" name="showFilter" class="btn btn-secondary btn--no-text btn--icon-large grid-field__filter-open">
-                  <span class="font-icon-search" aria-hidden="true"></span>
-                </button>`;
-                self.removeClass('show-filter').find('.grid-field__filter-header').hide();
-              }
-
-              self.find('.sortable-header th:last').html(content);
-            }
-
             // update CMS preview
             var preview = $('.cms-preview');
             if (preview.length) {
