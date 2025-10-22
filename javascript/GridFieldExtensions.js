@@ -24,6 +24,8 @@
 					resizable: false,
 					width: 500,
 					height: 600,
+					draggable: false,
+					title: this.text(),
 					close: function() {
 						$(this).dialog("destroy").remove();
 					}
