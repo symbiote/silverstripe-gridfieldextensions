@@ -195,7 +195,7 @@
 
 				tmpl.cache[this[0].id + "ss-gridfield-add-inline-template"] = tmpl(row.html());
 
-				this.find("tbody:first").append(tmpl(this[0].id + "ss-gridfield-add-inline-template", { num: num }));
+				this.find("tbody:first").prepend(tmpl(this[0].id + "ss-gridfield-add-inline-template", { num: num }));
 				this.find("tbody:first").children(".ss-gridfield-no-items").hide();
 				this.data("add-inline-num", num + 1);
 
