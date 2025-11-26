@@ -47,7 +47,6 @@ class GridFieldAddNewMultiClassWithNamespacesTest extends SapphireTest
         $response = $component->handleAdd($grid, $request);
 
         $record = new \ReflectionProperty(GridFieldAddNewMultiClassHandler::class, 'record');
-        $record->setAccessible(true);
         $this->assertInstanceOf(NamespacedClass::class, $record->getValue($response));
     }
 }

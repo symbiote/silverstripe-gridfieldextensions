@@ -55,8 +55,6 @@ class OrderableRowsThroughVersionedTest extends SapphireTest
 
         $orderable = new GridFieldOrderableRows($sortName);
         $reflection = new ReflectionMethod($orderable, 'executeReorder');
-        $reflection->setAccessible(true);
-
         $config = new GridFieldConfig_RelationEditor();
         $config->addComponent($orderable);
 
