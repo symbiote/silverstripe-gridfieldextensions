@@ -81,8 +81,6 @@ class GridFieldOrderableRowsTest extends SapphireTest
     {
         $orderable = new GridFieldOrderableRows($sortName);
         $reflection = new ReflectionMethod($orderable, 'executeReorder');
-        $reflection->setAccessible(true);
-
         $config = new GridFieldConfig_RelationEditor();
         $config->addComponent($orderable);
 
@@ -185,8 +183,6 @@ class GridFieldOrderableRowsTest extends SapphireTest
     {
         $orderable = new GridFieldOrderableRows('Sort');
         $reflection = new ReflectionMethod($orderable, 'executeReorder');
-        $reflection->setAccessible(true);
-
         $parent = $this->objFromFixture(StubOrdered::class, 'nestedtest');
 
         $config = new GridFieldConfig_RelationEditor();
@@ -248,8 +244,6 @@ class GridFieldOrderableRowsTest extends SapphireTest
     {
         $orderable = new GridFieldOrderableRows('Sort');
         $reflection = new ReflectionMethod($orderable, 'executeReorder');
-        $reflection->setAccessible(true);
-
         $parent = $this->objFromFixture(StubParent::class, 'parent-subclass-ordered-versioned');
 
         // make sure all items are published
