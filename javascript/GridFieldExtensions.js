@@ -172,7 +172,7 @@
 				}
 			},
 			onkeyup: function(e) {
-				if (e.keyCode == 90 && e.ctrlKey)
+				if (e.ctrlKey && e.key.toLowerCase() === "z")
 				{
 					var target = $(e.target);
 					var elementsChanged = target.data("pasteManipulatedElements");
