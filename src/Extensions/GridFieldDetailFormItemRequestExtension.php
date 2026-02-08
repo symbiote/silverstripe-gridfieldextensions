@@ -28,9 +28,9 @@ class GridFieldDetailFormItemRequestExtension extends Extension
         $addMultiClassComponent = $gridFieldConfig->getComponentByType(GridFieldAddNewMultiClass::class);
         if ($addMultiClassComponent) {
             $newRecordField = static::get_new_record_field_from_actions($actions);
-            if ($newRecordField) {
-                $newRecordField->getContainerFieldList()->removeByName('new-record');
-                $newRecordField->getContainerFieldList()->push(
+            if ($newRecordField && ($container = $newRecordField->getContainerFieldList())) {
+                $container->removeByName('new-record');
+                $container->push(
                     LiteralField::create('new-record', $this->getHTMLFragment($addMultiClassComponent))
                 );
                 GridFieldExtensions::include_requirements();
