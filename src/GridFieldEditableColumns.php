@@ -52,6 +52,33 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
      */
     protected $forms = array();
 
+    /**
+     * @see DataObject::write
+     * @see DataObject::writeComponents
+     * @see DataObject::skipWriteComponents
+     *
+     * @var bool|array
+     */
+    private $skipWriteComponents = true;
+
+    /**
+     * @return bool|array
+     */
+    public function getComponentWriteConfig()
+    {
+        return $this->skipWriteComponents;
+    }
+
+    /**
+     * @param bool|array $skipConfig
+     * @return $this
+     */
+    public function setComponentWriteConfig($skipConfig)
+    {
+        $this->skipWriteComponents = $skipConfig;
+        return $this;
+    }
+
     public function getColumnContent($grid, $record, $col)
     {
         $fields = $this->getForm($grid, $record)->Fields();
@@ -169,7 +196,7 @@ class GridFieldEditableColumns extends GridFieldDataColumns implements
                 $extra = array_intersect_key($form->getData() ?? [], (array) $list->getExtraFields());
             }
 
-            $item->write(false, false, false, true);
+            $item->write(false, false, false, $this->getComponentWriteConfig());
             $list->add($item, $extra);
         }
     }
